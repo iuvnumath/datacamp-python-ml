@@ -10,3 +10,29 @@ chapters:
       - file: Supervised-Learning-with-scikit-learn-2.md
       - file: Supervised-Learning-with-scikit-learn-3.md
       - file: Supervised-Learning-with-scikit-learn-4.md
+  - file: Unsupervised-Learning-in-Python-0.md
+    sections:
+      - file: Unsupervised-Learning-in-Python-1.md
+      - file: Unsupervised-Learning-in-Python-2.md
+      - file: Unsupervised-Learning-in-Python-3.md
+      - file: Unsupervised-Learning-in-Python-4.md
+  - file: Linear-Classifiers-in-Python-0.md
+    sections:
+      - file: Linear-Classifiers-in-Python-1.md
+      - file: Linear-Classifiers-in-Python-2.md
+      - file: Linear-Classifiers-in-Python-3.md
+      - file: Linear-Classifiers-in-Python-4.md
+  - file: Machine-Learning-with-Tree-Based-Models-in-Python-0.md
+    sections:
+      - file: Machine-Learning-with-Tree-Based-Models-in-Python-1.md
+      - file: Machine-Learning-with-Tree-Based-Models-in-Python-2.md
+      - file: Machine-Learning-with-Tree-Based-Models-in-Python-3.md
+      - file: Machine-Learning-with-Tree-Based-Models-in-Python-4.md
+      - file: Machine-Learning-with-Tree-Based-Models-in-Python-5.md
+  - file: Extreme-Gradient-Boosting-with-XGBoost-0.md
+    sections:
+      - file: Extreme-Gradient-Boosting-with-XGBoost-1.md
+      - file: Extreme-Gradient-Boosting-with-XGBoost-2.md
+      - file: Extreme-Gradient-Boosting-with-XGBoost-3.md
+      - file: Extreme-Gradient-Boosting-with-XGBoost-4.md
+      

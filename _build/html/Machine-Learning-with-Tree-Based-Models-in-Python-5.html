@@ -1,0 +1,1122 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Model Tuning &#8212; Machine Learning Scientist with Python</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Extreme Gradient Boosting with XGBoost" href="Extreme-Gradient-Boosting-with-XGBoost-0.html" />
+    <link rel="prev" title="Boosting" href="Machine-Learning-with-Tree-Based-Models-in-Python-4.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning Scientist with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Supervised-Learning-with-scikit-learn-0.html">
+   Supervised Learning with scikit-learn
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-1.html">
+     Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-2.html">
+     Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-3.html">
+     Fine-Tuning Your Model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-4.html">
+     Preprocessing and Pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Unsupervised-Learning-in-Python-0.html">
+   Unsupervised Learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-1.html">
+     Clustering for dataset exploration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-2.html">
+     Visualization with hierarchical clustering and t-SNE
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-3.html">
+     Decorrelating your data and dimension reduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-4.html">
+     Discovering interpretable features
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Linear-Classifiers-in-Python-0.html">
+   Linear-Classifiers-in-Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-1.html">
+     Applying logistic regression and SVM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-2.html">
+     Loss functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-3.html">
+     Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-4.html">
+     Support Vector Machines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-0.html">
+   Machine Learning with Tree-Based Models in Python
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-1.html">
+     Classification and Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-2.html">
+     The Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-3.html">
+     Bagging and Random Forests
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-4.html">
+     Boosting
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Model Tuning
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-0.html">
+   Extreme Gradient Boosting with XGBoost
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-1.html">
+     Classification with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-2.html">
+     Regression with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-3.html">
+     Fine-tuning your XGBoost model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-4.html">
+     Using XGBoost in pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml/issues/new?title=Issue%20on%20page%20%2FMachine-Learning-with-Tree-Based-Models-in-Python-5.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Machine-Learning-with-Tree-Based-Models-in-Python-5.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tuning-a-carts-hyperparameters">
+   Tuning a CART’s Hyperparameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tree-hyperparameters">
+     Tree hyperparameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#set-the-trees-hyperparameter-grid">
+     Set the tree’s hyperparameter grid
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#search-for-the-optimal-tree">
+     Search for the optimal tree
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-optimal-tree">
+     Evaluate the optimal tree
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tuning-a-rfs-hyperparameters">
+   Tuning a RF’s Hyperparameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#random-forests-hyperparameters">
+     Random forests hyperparameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#set-the-hyperparameter-grid-of-rf">
+     Set the hyperparameter grid of RF
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#search-for-the-optimal-forest">
+     Search for the optimal forest
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-optimal-forest">
+     Evaluate the optimal forest
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#congratulations">
+   Congratulations!
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Congratulations!
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-far-you-have-come">
+     How far you have come
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#thank-you">
+     Thank you!
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Model Tuning</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tuning-a-carts-hyperparameters">
+   Tuning a CART’s Hyperparameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tree-hyperparameters">
+     Tree hyperparameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#set-the-trees-hyperparameter-grid">
+     Set the tree’s hyperparameter grid
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#search-for-the-optimal-tree">
+     Search for the optimal tree
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-optimal-tree">
+     Evaluate the optimal tree
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tuning-a-rfs-hyperparameters">
+   Tuning a RF’s Hyperparameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#random-forests-hyperparameters">
+     Random forests hyperparameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#set-the-hyperparameter-grid-of-rf">
+     Set the hyperparameter grid of RF
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#search-for-the-optimal-forest">
+     Search for the optimal forest
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-optimal-forest">
+     Evaluate the optimal forest
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#congratulations">
+   Congratulations!
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Congratulations!
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-far-you-have-come">
+     How far you have come
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#thank-you">
+     Thank you!
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="model-tuning">
+<h1>Model Tuning<a class="headerlink" href="#model-tuning" title="Permalink to this headline">#</a></h1>
+<p class="chapter__description">
+The hyperparameters of a machine learning model are parameters that are
+not learned from data. They should be set prior to fitting the model to
+the training set. In this chapter, you’ll learn how to tune the
+hyperparameters of a tree-based model using grid search cross
+validation.
+</p>
+<section id="tuning-a-carts-hyperparameters">
+<h2>Tuning a CART’s Hyperparameters<a class="headerlink" href="#tuning-a-carts-hyperparameters" title="Permalink to this headline">#</a></h2>
+<section id="tree-hyperparameters">
+<h3>Tree hyperparameters<a class="headerlink" href="#tree-hyperparameters" title="Permalink to this headline">#</a></h3>
+<p>
+In the following exercises you’ll revisit the
+<a href="https://www.kaggle.com/uciml/indian-liver-patient-records">Indian
+Liver Patient</a> dataset which was introduced in a previous chapter.
+</p>
+<p>
+Your task is to tune the hyperparameters of a classification tree. Given
+that this dataset is imbalanced, you’ll be using the ROC AUC score as a
+metric instead of accuracy.
+</p>
+<p>
+We have instantiated a <code>DecisionTreeClassifier</code> and assigned
+to <code>dt</code> with <code>sklearn</code>’s default hyperparameters.
+You can inspect the hyperparameters of <code>dt</code> in your console.
+</p>
+<p>
+Which of the following is not a hyperparameter of <code>dt</code>?
+</p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> <code>min_impurity_decrease</code></p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> <code>min_weight_fraction_leaf</code></p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> <code>min_features</code></p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> <code>splitter</code></p></li>
+</ul>
+<p class>
+Well done! There is no hyperparameter named <code>min_features</code>.
+</p>
+</section>
+<section id="set-the-trees-hyperparameter-grid">
+<h3>Set the tree’s hyperparameter grid<a class="headerlink" href="#set-the-trees-hyperparameter-grid" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you’ll manually set the grid of hyperparameters that
+will be used to tune the classification tree <code>dt</code> and find
+the optimal classifier in the next exercise.
+</p>
+<li>
+<p>Define a grid of hyperparameters corresponding to a Python dictionary
+called <code>params_dt</code> with:</p>
+<li>
+the key <code>‘max_depth’</code> set to a list of values 2, 3, and 4
+</li>
+<li>
+the key <code>‘min_samples_leaf’</code> set to a list of values 0.12,
+0.14, 0.16, 0.18
+</li>
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define params_dt</span>
+<span class="n">params_dt</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="s1">&#39;min_samples_leaf&#39;</span><span class="p">:[</span><span class="mf">0.12</span><span class="p">,</span><span class="mf">0.14</span><span class="p">,</span><span class="mf">0.16</span><span class="p">,</span><span class="mf">0.18</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p class>
+Great! Next comes performing the grid search.
+</p>
+</section>
+<section id="search-for-the-optimal-tree">
+<h3>Search for the optimal tree<a class="headerlink" href="#search-for-the-optimal-tree" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you’ll perform grid search using 5-fold cross
+validation to find <code>dt</code>’s optimal hyperparameters. Note that
+because grid search is an exhaustive process, it may take a lot time to
+train the model. Here you’ll only be instantiating the
+<code>GridSearchCV</code> object without fitting it to the training set.
+As discussed in the video, you can train such an object similar to any
+scikit-learn estimator by using the <code>.fit()</code> method:
+</p>
+<pre><code>grid_object.fit(X_train, y_train)
+</code></pre>
+<p>
+An untuned classification tree <code>dt</code> as well as the dictionary
+<code>params_dt</code> that you defined in the previous exercise are
+available in your workspace.
+</p>
+<li>
+Import <code>GridSearchCV</code> from
+<code>sklearn.model_selection</code>.
+</li>
+<li>
+<p>Instantiate a <code>GridSearchCV</code> object using 5-fold CV by
+setting the parameters:</p>
+<li>
+<code>estimator</code> to <code>dt</code>, <code>param_grid</code> to
+<code>params_dt</code> and
+</li>
+<li>
+<code>scoring</code> to <code>‘roc_auc’</code>.
+</li>
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+
+<span class="c1"># Import GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="c1"># Instantiate grid_dt</span>
+<span class="n">grid_dt</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span>
+                       <span class="n">param_grid</span><span class="o">=</span><span class="n">params_dt</span><span class="p">,</span>
+                       <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;roc_auc&#39;</span><span class="p">,</span>
+                       <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                       <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class>
+Awesome! As we said earlier, we will fit the model to the training data
+for you and in the next exercise you will compute the test set ROC AUC
+score.
+</p>
+</section>
+<section id="evaluate-the-optimal-tree">
+<h3>Evaluate the optimal tree<a class="headerlink" href="#evaluate-the-optimal-tree" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you’ll evaluate the test set ROC AUC score of
+<code>grid_dt</code>’s optimal model.
+</p>
+<p>
+In order to do so, you will first determine the probability of obtaining
+the positive label for each test set observation. You can use the
+method<code>predict_proba()</code> of an sklearn classifier to compute a
+2D array containing the probabilities of the negative and positive
+class-labels respectively along columns.
+</p>
+<p>
+The dataset is already loaded and processed for you (numerical features
+are standardized); it is split into 80% train and 20% test.
+<code>X_test</code>, <code>y_test</code> are available in your
+workspace. In addition, we have also loaded the trained
+<code>GridSearchCV</code> object <code>grid_dt</code> that you
+instantiated in the previous exercise. Note that <code>grid_dt</code>
+was trained as follows:
+</p>
+<pre><code>grid_dt.fit(X_train, y_train)
+</code></pre>
+<li>
+Import <code>roc_auc_score</code> from <code>sklearn.metrics</code>.
+</li>
+<li>
+Extract the <code>.best_estimator\_</code> attribute from
+<code>grid_dt</code> and assign it to <code>best_model</code>.
+</li>
+<li>
+Predict the test set probabilities of obtaining the positive class
+<code>y_pred_proba</code>.
+</li>
+<li>
+Compute the test set ROC AUC score <code>test_roc_auc</code> of
+<code>best_model</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">grid_dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Import roc_auc_score from sklearn.metrics</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## GridSearchCV(cv=5, estimator=DecisionTreeClassifier(), n_jobs=-1,
+##              param_grid={&#39;max_depth&#39;: [2, 3, 4],
+##                          &#39;min_samples_leaf&#39;: [0.12, 0.14, 0.16, 0.18]},
+##              scoring=&#39;roc_auc&#39;)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_auc_score</span>
+
+<span class="c1"># Extract the best estimator</span>
+<span class="n">best_model</span> <span class="o">=</span> <span class="n">grid_dt</span><span class="o">.</span><span class="n">best_estimator_</span>
+
+<span class="c1"># Predict the test set probabilities of the positive class</span>
+<span class="n">y_pred_proba</span> <span class="o">=</span> <span class="n">best_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span> <span class="p">)[:,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Compute test_roc_auc</span>
+<span class="n">test_roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_proba</span><span class="p">)</span>
+
+<span class="c1"># Print test_roc_auc</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test set ROC AUC score: </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">test_roc_auc</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Test set ROC AUC score: 0.700
+</pre></div>
+</div>
+<p class>
+Great work! An untuned classification-tree would achieve a ROC AUC score
+of <code>0.54</code>!
+</p>
+</section>
+</section>
+<section id="tuning-a-rfs-hyperparameters">
+<h2>Tuning a RF’s Hyperparameters<a class="headerlink" href="#tuning-a-rfs-hyperparameters" title="Permalink to this headline">#</a></h2>
+<section id="random-forests-hyperparameters">
+<h3>Random forests hyperparameters<a class="headerlink" href="#random-forests-hyperparameters" title="Permalink to this headline">#</a></h3>
+<p>
+In the following exercises, you’ll be revisiting the
+<a href="https://www.kaggle.com/c/bike-sharing-demand">Bike Sharing
+Demand</a> dataset that was introduced in a previous chapter. Recall
+that your task is to predict the bike rental demand using historical
+weather data from the Capital Bikeshare program in Washington, D.C.. For
+this purpose, you’ll be tuning the hyperparameters of a Random Forests
+regressor.
+</p>
+<p>
+We have instantiated a <code>RandomForestRegressor</code> called
+<code>rf</code> using <code>sklearn</code>’s default hyperparameters.
+You can inspect the hyperparameters of <code>rf</code> in your console.
+</p>
+<p>
+Which of the following is not a hyperparameter of <code>rf</code>?
+</p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> <code>min_weight_fraction_leaf</code></p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> <code>criterion</code></p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> <code>learning_rate</code></p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> <code>warm_start</code></p></li>
+</ul>
+<p class>
+Well done! There is no hyperparameter named <code>learning_rate</code>.
+</p>
+</section>
+<section id="set-the-hyperparameter-grid-of-rf">
+<h3>Set the hyperparameter grid of RF<a class="headerlink" href="#set-the-hyperparameter-grid-of-rf" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you’ll manually set the grid of hyperparameters that
+will be used to tune <code>rf</code>’s hyperparameters and find the
+optimal regressor. For this purpose, you will be constructing a grid of
+hyperparameters and tune the number of estimators, the maximum number of
+features used when splitting each node and the minimum number of samples
+(or fraction) per leaf.
+</p>
+<li>
+<p>Define a grid of hyperparameters corresponding to a Python dictionary
+called <code>params_rf</code> with:</p>
+<li>
+the key <code>‘n_estimators’</code> set to a list of values 100, 350,
+500
+</li>
+<li>
+the key <code>‘max_features’</code> set to a list of values ‘log2’,
+‘auto’, ‘sqrt’
+</li>
+<li>
+the key <code>‘min_samples_leaf’</code> set to a list of values 2, 10,
+30
+</li>
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the dictionary &#39;params_rf&#39;</span>
+<span class="n">params_rf</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;n_estimators&#39;</span><span class="p">:[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span>
+             <span class="s1">&#39;max_features&#39;</span><span class="p">:[</span><span class="s1">&#39;log2&#39;</span><span class="p">,</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span><span class="s1">&#39;sqrt&#39;</span><span class="p">],</span>
+             <span class="s1">&#39;min_samples_leaf&#39;</span><span class="p">:[</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">30</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p class>
+Great work! Time to perform the grid search.
+</p>
+</section>
+<section id="search-for-the-optimal-forest">
+<h3>Search for the optimal forest<a class="headerlink" href="#search-for-the-optimal-forest" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you’ll perform grid search using 3-fold cross
+validation to find <code>rf</code>’s optimal hyperparameters. To
+evaluate each model in the grid, you’ll be using the
+<a href="http://scikit-learn.org/stable/modules/model_evaluation.html">negative
+mean squared error</a> metric.
+</p>
+<p>
+Note that because grid search is an exhaustive search process, it may
+take a lot time to train the model. Here you’ll only be instantiating
+the <code>GridSearchCV</code> object without fitting it to the training
+set. As discussed in the video, you can train such an object similar to
+any scikit-learn estimator by using the <code>.fit()</code> method:
+</p>
+<pre><code>grid_object.fit(X_train, y_train)
+</code></pre>
+<p>
+The untuned random forests regressor model <code>rf</code> as well as
+the dictionary <code>params_rf</code> that you defined in the previous
+exercise are available in your workspace.
+</p>
+<li>
+Import <code>GridSearchCV</code> from
+<code>sklearn.model_selection</code>.
+</li>
+<li>
+Instantiate a <code>GridSearchCV</code> object using 3-fold CV by using
+negative mean squared error as the scoring metric.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="n">rf</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">ensemble</span><span class="o">.</span><span class="n">RandomForestRegressor</span><span class="p">()</span>
+
+<span class="c1"># Instantiate grid_rf</span>
+<span class="n">grid_rf</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">rf</span><span class="p">,</span>
+                       <span class="n">param_grid</span><span class="o">=</span><span class="n">params_rf</span><span class="p">,</span>
+                       <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">,</span>
+                       <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                       <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                       <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class>
+Awesome! Next comes evaluating the test set RMSE of the best model.
+</p>
+</section>
+<section id="evaluate-the-optimal-forest">
+<h3>Evaluate the optimal forest<a class="headerlink" href="#evaluate-the-optimal-forest" title="Permalink to this headline">#</a></h3>
+<p>
+In this last exercise of the course, you’ll evaluate the test set RMSE
+of <code>grid_rf</code>’s optimal model.
+</p>
+<p>
+The dataset is already loaded and processed for you and is split into
+80% train and 20% test. In your environment are available
+<code>X_test</code>, <code>y_test</code> and the function
+<code>mean_squared_error</code> from <code>sklearn.metrics</code> under
+the alias <code>MSE</code>. In addition, we have also loaded the trained
+<code>GridSearchCV</code> object <code>grid_rf</code> that you
+instantiated in the previous exercise. Note that <code>grid_rf</code>
+was trained as follows:
+</p>
+<pre><code>grid_rf.fit(X_train, y_train)
+</code></pre>
+<li>
+Import <code>mean_squared_error</code> as <code>MSE</code> from
+<code>sklearn.metrics</code>.
+</li>
+<li>
+Extract the best estimator from <code>grid_rf</code> and assign it to
+<code>best_model</code>.
+</li>
+<li>
+Predict <code>best_model</code>’s test set labels and assign the result
+to <code>y_pred</code>.
+</li>
+<li>
+Compute <code>best_model</code>’s test set RMSE.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">grid_rf</span> <span class="o">=</span> <span class="n">grid_rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Import mean_squared_error from sklearn.metrics as MSE </span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Fitting 3 folds for each of 27 candidates, totalling 81 fits
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span> <span class="k">as</span> <span class="n">MSE</span>
+
+<span class="c1"># Extract the best estimator</span>
+<span class="n">best_model</span> <span class="o">=</span> <span class="n">grid_rf</span><span class="o">.</span><span class="n">best_estimator_</span>
+
+<span class="c1"># Predict test set labels</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">best_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Compute rmse_test</span>
+<span class="n">rmse_test</span> <span class="o">=</span> <span class="n">MSE</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+
+<span class="c1"># Print rmse_test</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test RMSE of best model: </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rmse_test</span><span class="p">))</span> 
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Test RMSE of best model: 0.405
+</pre></div>
+</div>
+<p class>
+Magnificent work!
+</p>
+</section>
+</section>
+<section id="congratulations">
+<h2>Congratulations!<a class="headerlink" href="#congratulations" title="Permalink to this headline">#</a></h2>
+<section id="id1">
+<h3>Congratulations!<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
+<p>Congratulations on completing this course!</p>
+</section>
+<section id="how-far-you-have-come">
+<h3>How far you have come<a class="headerlink" href="#how-far-you-have-come" title="Permalink to this headline">#</a></h3>
+<p>Take a moment to take a look at how far you have come! In chapter 1, you
+started off by understanding and applying the CART algorithm to train
+decision trees or CARTs for problems involving classification and
+regression. In chapter 2, you understood what the generalization error
+of a supervised learning model is. In addition, you also learned how
+underfitting and overfitting can be diagnosed with cross-validation.
+Furthermore, you learned how model ensembling can produce results that
+are more robust than individual decision trees. In chapter 3, you
+applied randomization through bootstrapping and constructed a diverse
+set of trees in an ensemble through bagging. You also explored how
+random forests introduces further randomization by sampling features at
+the level of each node in each tree forming the ensemble. Chapter 4
+introduced you to boosting, an ensemble method in which predictors are
+trained sequentially and where each predictor tries to correct the
+errors made by its predecessor. Specifically, you saw how AdaBoost
+involved tweaking the weights of the training samples while gradient
+boosting involved fitting each tree using the residuals of its
+predecessor as labels. You also learned how subsampling instances and
+features can lead to a better performance through Stochastic Gradient
+Boosting. Finally, in chapter 5, you explored hyperparameter tuning
+through Grid Search cross-validation and you learned how important it is
+to get the most out of your models.</p>
+</section>
+<section id="thank-you">
+<h3>Thank you!<a class="headerlink" href="#thank-you" title="Permalink to this headline">#</a></h3>
+<p>I hope you enjoyed taking this course as much as I enjoyed developing
+it. Finally, I encourage you to apply the skills you learned by
+practicing on real-world datasets.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Machine-Learning-with-Tree-Based-Models-in-Python-4.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Boosting</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Extreme-Gradient-Boosting-with-XGBoost-0.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Extreme Gradient Boosting with XGBoost</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

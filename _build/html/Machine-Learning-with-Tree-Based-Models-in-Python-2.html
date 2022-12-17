@@ -1,0 +1,1201 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>The Bias-Variance Tradeoff &#8212; Machine Learning Scientist with Python</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Bagging and Random Forests" href="Machine-Learning-with-Tree-Based-Models-in-Python-3.html" />
+    <link rel="prev" title="Classification and Regression" href="Machine-Learning-with-Tree-Based-Models-in-Python-1.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning Scientist with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Supervised-Learning-with-scikit-learn-0.html">
+   Supervised Learning with scikit-learn
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-1.html">
+     Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-2.html">
+     Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-3.html">
+     Fine-Tuning Your Model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-4.html">
+     Preprocessing and Pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Unsupervised-Learning-in-Python-0.html">
+   Unsupervised Learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-1.html">
+     Clustering for dataset exploration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-2.html">
+     Visualization with hierarchical clustering and t-SNE
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-3.html">
+     Decorrelating your data and dimension reduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-4.html">
+     Discovering interpretable features
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Linear-Classifiers-in-Python-0.html">
+   Linear-Classifiers-in-Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-1.html">
+     Applying logistic regression and SVM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-2.html">
+     Loss functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-3.html">
+     Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-4.html">
+     Support Vector Machines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-0.html">
+   Machine Learning with Tree-Based Models in Python
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-1.html">
+     Classification and Regression
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     The Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-3.html">
+     Bagging and Random Forests
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-4.html">
+     Boosting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-5.html">
+     Model Tuning
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-0.html">
+   Extreme Gradient Boosting with XGBoost
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-1.html">
+     Classification with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-2.html">
+     Regression with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-3.html">
+     Fine-tuning your XGBoost model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-4.html">
+     Using XGBoost in pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml/issues/new?title=Issue%20on%20page%20%2FMachine-Learning-with-Tree-Based-Models-in-Python-2.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Machine-Learning-with-Tree-Based-Models-in-Python-2.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generalization-error">
+   Generalization Error
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#complexity-bias-and-variance">
+     Complexity, bias and variance
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#overfitting-and-underfitting">
+     Overfitting and underfitting
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#diagnose-bias-and-variance-problems">
+   Diagnose bias and variance problems
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#instantiate-the-model">
+     Instantiate the model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-10-fold-cv-error">
+     Evaluate the 10-fold CV error
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-training-error">
+     Evaluate the training error
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#high-bias-or-high-variance">
+     High bias or high variance?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ensemble-learning">
+   Ensemble Learning
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#define-the-ensemble">
+     Define the ensemble
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-individual-classifiers">
+     Evaluate individual classifiers
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#better-performance-with-a-voting-classifier">
+     Better performance with a Voting Classifier
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>The Bias-Variance Tradeoff</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generalization-error">
+   Generalization Error
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#complexity-bias-and-variance">
+     Complexity, bias and variance
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#overfitting-and-underfitting">
+     Overfitting and underfitting
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#diagnose-bias-and-variance-problems">
+   Diagnose bias and variance problems
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#instantiate-the-model">
+     Instantiate the model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-10-fold-cv-error">
+     Evaluate the 10-fold CV error
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-training-error">
+     Evaluate the training error
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#high-bias-or-high-variance">
+     High bias or high variance?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ensemble-learning">
+   Ensemble Learning
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#define-the-ensemble">
+     Define the ensemble
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-individual-classifiers">
+     Evaluate individual classifiers
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#better-performance-with-a-voting-classifier">
+     Better performance with a Voting Classifier
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="the-bias-variance-tradeoff">
+<h1>The Bias-Variance Tradeoff<a class="headerlink" href="#the-bias-variance-tradeoff" title="Permalink to this headline">#</a></h1>
+<p class="chapter__description">
+The bias-variance tradeoff is one of the fundamental concepts in
+supervised machine learning. In this chapter, you’ll understand how to
+diagnose the problems of overfitting and underfitting. You’ll also be
+introduced to the concept of ensembling where the predictions of several
+models are aggregated to produce predictions that are more robust.
+</p>
+<section id="generalization-error">
+<h2>Generalization Error<a class="headerlink" href="#generalization-error" title="Permalink to this headline">#</a></h2>
+<section id="complexity-bias-and-variance">
+<h3>Complexity, bias and variance<a class="headerlink" href="#complexity-bias-and-variance" title="Permalink to this headline">#</a></h3>
+<p>
+In the video, you saw how the complexity of a model labeled
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="0" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-texatom texclass="ORD"><mjx-mover><mjx-over style="padding-bottom: 0.06em; padding-left: 0.237em; margin-bottom: -0.531em;"><mjx-mo class="mjx-n"><mjx-c class="mjx-c5E"></mjx-c></mjx-mo></mjx-over><mjx-base><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D453 TEX-I"></mjx-c></mjx-mi></mjx-base></mjx-mover></mjx-texatom></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mover><mi>f</mi><mo stretchy="false">^</mo></mover></mrow></math></mjx-assistive-mml></mjx-container>
+influences the bias and variance terms of its generalization error.<br>
+Which of the following correctly describes the relationship between
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="1" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-texatom texclass="ORD"><mjx-mover><mjx-over style="padding-bottom: 0.06em; padding-left: 0.237em; margin-bottom: -0.531em;"><mjx-mo class="mjx-n"><mjx-c class="mjx-c5E"></mjx-c></mjx-mo></mjx-over><mjx-base><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D453 TEX-I"></mjx-c></mjx-mi></mjx-base></mjx-mover></mjx-texatom></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mover><mi>f</mi><mo stretchy="false">^</mo></mover></mrow></math></mjx-assistive-mml></mjx-container>’s
+complexity and
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="2" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-texatom texclass="ORD"><mjx-mover><mjx-over style="padding-bottom: 0.06em; padding-left: 0.237em; margin-bottom: -0.531em;"><mjx-mo class="mjx-n"><mjx-c class="mjx-c5E"></mjx-c></mjx-mo></mjx-over><mjx-base><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D453 TEX-I"></mjx-c></mjx-mi></mjx-base></mjx-mover></mjx-texatom></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mover><mi>f</mi><mo stretchy="false">^</mo></mover></mrow></math></mjx-assistive-mml></mjx-container>’s
+bias and variance terms?
+</p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> As the complexity of
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="3" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-texatom texclass="ORD"><mjx-mover><mjx-over style="padding-bottom: 0.06em; padding-left: 0.237em; margin-bottom: -0.531em;"><mjx-mo class="mjx-n"><mjx-c class="mjx-c5E"></mjx-c></mjx-mo></mjx-over><mjx-base><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D453 TEX-I"></mjx-c></mjx-mi></mjx-base></mjx-mover></mjx-texatom></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mover><mi>f</mi><mo stretchy="false">^</mo></mover></mrow></math></mjx-assistive-mml></mjx-container>
+decreases, the bias term decreases while the variance term
+increases.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> As the complexity of
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="4" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-texatom texclass="ORD"><mjx-mover><mjx-over style="padding-bottom: 0.06em; padding-left: 0.237em; margin-bottom: -0.531em;"><mjx-mo class="mjx-n"><mjx-c class="mjx-c5E"></mjx-c></mjx-mo></mjx-over><mjx-base><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D453 TEX-I"></mjx-c></mjx-mi></mjx-base></mjx-mover></mjx-texatom></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mover><mi>f</mi><mo stretchy="false">^</mo></mover></mrow></math></mjx-assistive-mml></mjx-container>
+decreases, both the bias and the variance terms increase.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> As the complexity of
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="5" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-texatom texclass="ORD"><mjx-mover><mjx-over style="padding-bottom: 0.06em; padding-left: 0.237em; margin-bottom: -0.531em;"><mjx-mo class="mjx-n"><mjx-c class="mjx-c5E"></mjx-c></mjx-mo></mjx-over><mjx-base><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D453 TEX-I"></mjx-c></mjx-mi></mjx-base></mjx-mover></mjx-texatom></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mover><mi>f</mi><mo stretchy="false">^</mo></mover></mrow></math></mjx-assistive-mml></mjx-container>
+increases, the bias term increases while the variance term
+decreases.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> As the complexity of
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="6" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-texatom texclass="ORD"><mjx-mover><mjx-over style="padding-bottom: 0.06em; padding-left: 0.237em; margin-bottom: -0.531em;"><mjx-mo class="mjx-n"><mjx-c class="mjx-c5E"></mjx-c></mjx-mo></mjx-over><mjx-base><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D453 TEX-I"></mjx-c></mjx-mi></mjx-base></mjx-mover></mjx-texatom></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mover><mi>f</mi><mo stretchy="false">^</mo></mover></mrow></math></mjx-assistive-mml></mjx-container>
+increases, the bias term decreases while the variance term
+increases.</p></li>
+</ul>
+<p class="dc-completion-pane__message dc-u-maxw-100pc">
+Great work! You’re now able to relate model complexity to bias and
+variance!
+</p>
+</section>
+<section id="overfitting-and-underfitting">
+<h3>Overfitting and underfitting<a class="headerlink" href="#overfitting-and-underfitting" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you’ll visually diagnose whether a model is
+overfitting or underfitting the training set.
+</p>
+<p>
+For this purpose, we have trained two different models
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="8" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D434 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>A</mi></math></mjx-assistive-mml></mjx-container>
+and
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="9" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D435 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>B</mi></math></mjx-assistive-mml></mjx-container>
+on the auto dataset to predict the <code>mpg</code> consumption of a car
+using only the car’s displacement (<code>displ</code>) as a feature.
+</p>
+<p>
+The following figure shows you scatterplots of <code>mpg</code> versus
+<code>displ</code> along with lines corresponding to the training set
+predictions of models
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="10" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D434 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>A</mi></math></mjx-assistive-mml></mjx-container>
+and
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="11" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D435 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>B</mi></math></mjx-assistive-mml></mjx-container>
+in red.
+</p>
+<p>
+<img src="https://assets.datacamp.com/production/repositories/1796/datasets/f905399bc06da86c2a3af27b20717de5a777e6e1/diagnose-problems.jpg" alt="diagnose">
+</p>
+<p>
+Which of the following statements is true?
+</p>
+<ul class="simple">
+<li><p>[ ]
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="12" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D434 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>A</mi></math></mjx-assistive-mml></mjx-container>
+suffers from high bias and overfits the training set.</p></li>
+<li><p>[ ]
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="13" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D434 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>A</mi></math></mjx-assistive-mml></mjx-container>
+suffers from high variance and underfits the training set.</p></li>
+<li><p>[x]
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="14" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D435 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>B</mi></math></mjx-assistive-mml></mjx-container>
+suffers from high bias and underfits the training set.</p></li>
+<li><p>[ ]
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="15" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D435 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>B</mi></math></mjx-assistive-mml></mjx-container>
+suffers from high variance and underfits the training set.</p></li>
+</ul>
+<p class="dc-completion-pane__message dc-u-maxw-100pc">
+Absolutely! Model B is not able to capture the nonlinear dependence of
+<code>mpg</code> on <code>displ</code>.
+</p>
+</section>
+</section>
+<section id="diagnose-bias-and-variance-problems">
+<h2>Diagnose bias and variance problems<a class="headerlink" href="#diagnose-bias-and-variance-problems" title="Permalink to this headline">#</a></h2>
+<section id="instantiate-the-model">
+<h3>Instantiate the model<a class="headerlink" href="#instantiate-the-model" title="Permalink to this headline">#</a></h3>
+<p>
+In the following set of exercises, you’ll diagnose the bias and variance
+problems of a regression tree. The regression tree you’ll define in this
+exercise will be used to predict the mpg consumption of cars from the
+auto dataset using all available features.
+</p>
+<p>
+We have already processed the data and loaded the features matrix
+<code>X</code> and the array <code>y</code> in your workspace. In
+addition, the <code>DecisionTreeRegressor</code> class was imported from
+<code>sklearn.tree</code>.
+</p>
+<li>
+Import <code>train_test_split</code> from
+<code>sklearn.model_selection</code>.
+</li>
+<li>
+Split the data into 70% train and 30% test.
+</li>
+<li>
+Instantiate a <code>DecisionTreeRegressor</code> with max depth 4 and
+<code>min_samples_leaf</code> set to 0.26.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import train_test_split from sklearn.model_selection</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="c1"># Set SEED for reproducibility</span>
+<span class="n">SEED</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># Split the data into 70% train and 30% test</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.30</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
+
+<span class="c1"># Instantiate a DecisionTreeRegressor dt</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mf">0.26</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class>
+Great work! In the next exercise, you’ll evaluate <code>dt</code>’s CV
+error.
+</p>
+</section>
+<section id="evaluate-the-10-fold-cv-error">
+<h3>Evaluate the 10-fold CV error<a class="headerlink" href="#evaluate-the-10-fold-cv-error" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you’ll evaluate the 10-fold CV Root Mean Squared Error
+(RMSE) achieved by the regression tree <code>dt</code> that you
+instantiated in the previous exercise.
+</p>
+<p>
+In addition to <code>dt</code>, the training data including
+<code>X_train</code> and <code>y_train</code> are available in your
+workspace. We also imported <code>cross_val_score</code> from
+<code>sklearn.model_selection</code>.
+</p>
+<p>
+Note that since <code>cross_val_score</code> has only the option of
+evaluating the negative MSEs, its output should be multiplied by
+negative one to obtain the MSEs. The CV RMSE can then be obtained by
+computing the square root of the average MSE.
+</p>
+<li>
+Compute <code>dt</code>‘s 10-fold cross-validated MSE by setting the
+<code>scoring</code> argument to <code>’neg_mean_squared_error’</code>.
+</li>
+<li>
+Compute RMSE from the obtained MSE scores.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+
+<span class="c1"># Compute the array containing the 10-folds CV MSEs</span>
+<span class="n">MSE_CV_scores</span> <span class="o">=</span> <span class="o">-</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> 
+                                  <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">,</span> 
+                                  <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> 
+                                  
+<span class="c1"># Compute the 10-folds CV RMSE</span>
+<span class="n">RMSE_CV</span> <span class="o">=</span> <span class="p">(</span><span class="n">MSE_CV_scores</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Print RMSE_CV</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CV RMSE: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">RMSE_CV</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## CV RMSE: 5.14
+</pre></div>
+</div>
+<p class>
+Great work! A very good practice is to keep the test set untouched until
+you are confident about your model’s performance. CV is a great
+technique to get an estimate of a model’s performance without affecting
+the test set.
+</p>
+</section>
+<section id="evaluate-the-training-error">
+<h3>Evaluate the training error<a class="headerlink" href="#evaluate-the-training-error" title="Permalink to this headline">#</a></h3>
+<p>
+You’ll now evaluate the training set RMSE achieved by the regression
+tree <code>dt</code> that you instantiated in a previous exercise.
+</p>
+<p>
+In addition to <code>dt</code>, <code>X_train</code> and
+<code>y_train</code> are available in your workspace.
+</p>
+<p>
+Note that in scikit-learn, the MSE of a model can be computed as
+follows:
+</p>
+<pre><code>MSE_model = mean_squared_error(y_true, y_predicted)
+</code></pre>
+<p>
+where we use the function <code>mean_squared_error</code> from the
+<code>metrics</code> module and pass it the true labels
+<code>y_true</code> as a first argument, and the predicted labels from
+the model <code>y_predicted</code> as a second argument.
+</p>
+<li>
+Import <code>mean_squared_error</code> as <code>MSE</code> from
+<code>sklearn.metrics</code>.
+</li>
+<li>
+Fit <code>dt</code> to the training set.
+</li>
+<li>
+Predict <code>dt</code>’s training set labels and assign the result to
+<code>y_pred_train</code>.
+</li>
+<li>
+Evaluate <code>dt</code>’s training set RMSE and assign it to
+<code>RMSE_train</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import mean_squared_error from sklearn.metrics as MSE</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span> <span class="k">as</span> <span class="n">MSE</span>
+
+<span class="c1"># Fit dt to the training set</span>
+<span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Predict the labels of the training set</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## DecisionTreeRegressor(max_depth=4, min_samples_leaf=0.26, random_state=1)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred_train</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="c1"># Evaluate the training set RMSE of dt</span>
+<span class="n">RMSE_train</span> <span class="o">=</span> <span class="p">(</span><span class="n">MSE</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred_train</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Print RMSE_train</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Train RMSE: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">RMSE_train</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Train RMSE: 5.15
+</pre></div>
+</div>
+<p class>
+Awesome! Notice how the training error is roughly equal to the 10-folds
+CV error you obtained in the previous exercise.
+</p>
+</section>
+<section id="high-bias-or-high-variance">
+<h3>High bias or high variance?<a class="headerlink" href="#high-bias-or-high-variance" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise you’ll diagnose whether the regression tree
+<code>dt</code> you trained in the previous exercise suffers from a bias
+or a variance problem.
+</p>
+<p>
+The training set RMSE (<code>RMSE_train</code>) and the CV RMSE
+(<code>RMSE_CV</code>) achieved by <code>dt</code> are available in your
+workspace. In addition, we have also loaded a variable called
+<code>baseline_RMSE</code> which corresponds to the root mean-squared
+error achieved by the regression-tree trained with the <code>disp</code>
+feature only (it is the RMSE achieved by the regression tree trained in
+chapter 1, lesson 3). Here <code>baseline_RMSE</code> serves as the
+baseline RMSE above which a model is considered to be underfitting and
+below which the model is considered ‘good enough’.
+</p>
+<p>
+Does <code>dt</code> suffer from a high bias or a high variance problem?
+</p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> <code>dt</code> suffers from high variance because
+<code>RMSE_CV</code> is far less than <code>RMSE_train</code>.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> <code>dt</code> suffers from high bias because
+<code>RMSE_CV</code>
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="16" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mo class="mjx-n"><mjx-c class="mjx-c2248"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo>≈</mo></math></mjx-assistive-mml></mjx-container>
+<code>RMSE_train</code> and both scores are greater than
+<code>baseline_RMSE</code>.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> <code>dt</code> is a good fit because <code>RMSE_CV</code>
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" role="presentation" tabindex="0" ctxtmenu_counter="17" style="font-size: 116.7%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mo class="mjx-n"><mjx-c class="mjx-c2248"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml role="presentation" unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo>≈</mo></math></mjx-assistive-mml></mjx-container>
+<code>RMSE_train</code> and both scores are smaller than
+<code>baseline_RMSE</code>.</p></li>
+</ul>
+<p class>
+Correct! <code>dt</code> is indeed underfitting the training set as the
+model is too constrained to capture the nonlinear dependencies between
+features and labels.
+</p>
+</section>
+</section>
+<section id="ensemble-learning">
+<h2>Ensemble Learning<a class="headerlink" href="#ensemble-learning" title="Permalink to this headline">#</a></h2>
+<section id="define-the-ensemble">
+<h3>Define the ensemble<a class="headerlink" href="#define-the-ensemble" title="Permalink to this headline">#</a></h3>
+<p>
+In the following set of exercises, you’ll work with the
+<a href="https://www.kaggle.com/jeevannagaraj/indian-liver-patient-dataset">Indian
+Liver Patient Dataset</a> from the UCI Machine learning repository.
+</p>
+<p>
+In this exercise, you’ll instantiate three classifiers to predict
+whether a patient suffers from a liver disease using all the features
+present in the dataset.
+</p>
+<p>
+The classes <code>LogisticRegression</code>,
+<code>DecisionTreeClassifier</code>, and
+<code>KNeighborsClassifier</code> under the alias <code>KNN</code> are
+available in your workspace.
+</p>
+<li>
+Instantiate a Logistic Regression classifier and assign it to
+<code>lr</code>.
+</li>
+<li>
+Instantiate a KNN classifier that considers 27 nearest neighbors and
+assign it to <code>knn</code>.
+</li>
+<li>
+Instantiate a Decision Tree Classifier with the parameter
+<code>min_samples_leaf</code> set to 0.13 and assign it to
+<code>dt</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;archive/Machine-Learning-with-Tree-Based-Models-in-Python/datasets/indian_liver_patient_preprocessed.csv&quot;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Liver_disease&#39;</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Liver_disease&#39;</span><span class="p">]</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span>  <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">model_selection</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+
+<span class="c1"># Set seed for reproducibility</span>
+<span class="n">SEED</span><span class="o">=</span><span class="mi">1</span>
+
+<span class="c1"># Instantiate lr</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
+
+<span class="c1"># Instantiate knn</span>
+<span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">27</span><span class="p">)</span>
+
+<span class="c1"># Instantiate dt</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">min_samples_leaf</span><span class="o">=</span><span class="mf">.13</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
+
+<span class="c1"># Define the list classifiers</span>
+<span class="n">classifiers</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;Logistic Regression&#39;</span><span class="p">,</span> <span class="n">lr</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;K Nearest Neighbours&#39;</span><span class="p">,</span> <span class="n">knn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Classification Tree&#39;</span><span class="p">,</span> <span class="n">dt</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p class>
+Great! In the next exercise, you will train these classifiers and
+evaluate their test set accuracy.
+</p>
+</section>
+<section id="evaluate-individual-classifiers">
+<h3>Evaluate individual classifiers<a class="headerlink" href="#evaluate-individual-classifiers" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise you’ll evaluate the performance of the models in the
+list <code>classifiers</code> that we defined in the previous exercise.
+You’ll do so by fitting each classifier on the training set and
+evaluating its test set accuracy.
+</p>
+<p>
+The dataset is already loaded and preprocessed for you (numerical
+features are standardized) and it is split into 70% train and 30% test.
+The features matrices <code>X_train</code> and <code>X_test</code>, as
+well as the arrays of labels <code>y_train</code> and
+<code>y_test</code> are available in your workspace. In addition, we
+have loaded the list <code>classifiers</code> from the previous
+exercise, as well as the function <code>accuracy_score()</code> from
+<code>sklearn.metrics</code>.
+</p>
+<li>
+Iterate over the tuples in <code>classifiers</code>. Use
+<code>clf_name</code> and <code>clf</code> as the <code>for</code> loop
+variables:
+<li>
+Fit <code>clf</code> to the training set.
+</li>
+<li>
+Predict <code>clf</code>’s test set labels and assign the results to
+<code>y_pred</code>.
+</li>
+<li>
+Evaluate the test set accuracy of <code>clf</code> and print the result.
+</li>
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># Iterate over the pre-defined list of classifiers</span>
+<span class="k">for</span> <span class="n">clf_name</span><span class="p">,</span> <span class="n">clf</span> <span class="ow">in</span> <span class="n">classifiers</span><span class="p">:</span>    
+ 
+    <span class="c1"># Fit clf to the training set</span>
+    <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>    
+   
+    <span class="c1"># Predict y_pred</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    
+    <span class="c1"># Calculate accuracy</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span> 
+   
+    <span class="c1"># Evaluate clf&#39;s accuracy on the test set</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:s}</span><span class="s1"> : </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">clf_name</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## LogisticRegression(random_state=1)
+## Logistic Regression : 0.697
+## KNeighborsClassifier(n_neighbors=27)
+## K Nearest Neighbours : 0.676
+## DecisionTreeClassifier(min_samples_leaf=0.13, random_state=1)
+## Classification Tree : 0.703
+## 
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:814: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/base.py:441: UserWarning: X does not have valid feature names, but KNeighborsClassifier was fitted with feature names
+##   warnings.warn(
+</pre></div>
+</div>
+<p class>
+Great work! Notice how Logistic Regression achieved the highest accuracy
+of 74.1%.
+</p>
+</section>
+<section id="better-performance-with-a-voting-classifier">
+<h3>Better performance with a Voting Classifier<a class="headerlink" href="#better-performance-with-a-voting-classifier" title="Permalink to this headline">#</a></h3>
+<p>
+Finally, you’ll evaluate the performance of a voting classifier that
+takes the outputs of the models defined in the list
+<code>classifiers</code> and assigns labels by majority voting.
+</p>
+<p>
+<code>X_train</code>, <code>X_test</code>,<code>y_train</code>,
+<code>y_test</code>, the list <code>classifiers</code> defined in a
+previous exercise, as well as the function <code>accuracy_score</code>
+from <code>sklearn.metrics</code> are available in your workspace.
+</p>
+<li>
+Import <code>VotingClassifier</code> from <code>sklearn.ensemble</code>.
+</li>
+<li>
+Instantiate a <code>VotingClassifier</code> by setting the parameter
+<code>estimators</code> to <code>classifiers</code> and assign it to
+<code>vc</code>.
+</li>
+<li>
+Fit <code>vc</code> to the training set.
+</li>
+<li>
+Evaluate <code>vc</code>’s test set accuracy using the test set
+predictions <code>y_pred</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import VotingClassifier from sklearn.ensemble</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">VotingClassifier</span>
+
+<span class="c1"># Instantiate a VotingClassifier vc</span>
+<span class="n">vc</span> <span class="o">=</span> <span class="n">VotingClassifier</span><span class="p">(</span><span class="n">estimators</span><span class="o">=</span><span class="n">classifiers</span><span class="p">)</span>
+
+<span class="c1"># Fit vc to the training set</span>
+<span class="n">vc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Evaluate the test set predictions</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## VotingClassifier(estimators=[(&#39;Logistic Regression&#39;,
+##                               LogisticRegression(random_state=1)),
+##                              (&#39;K Nearest Neighbours&#39;,
+##                               KNeighborsClassifier(n_neighbors=27)),
+##                              (&#39;Classification Tree&#39;,
+##                               DecisionTreeClassifier(min_samples_leaf=0.13,
+##                                                      random_state=1))])
+## 
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:814: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">vc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Calculate accuracy score</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/base.py:441: UserWarning: X does not have valid feature names, but KNeighborsClassifier was fitted with feature names
+##   warnings.warn(
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Voting Classifier: </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">accuracy</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Voting Classifier: 0.690
+</pre></div>
+</div>
+<p class>
+Great work! Notice how the voting classifier achieves a test set
+accuracy of 76.4%. This value is greater than that achieved by
+<code>LogisticRegression</code>.
+</p></section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Machine-Learning-with-Tree-Based-Models-in-Python-1.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Classification and Regression</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Machine-Learning-with-Tree-Based-Models-in-Python-3.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Bagging and Random Forests</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

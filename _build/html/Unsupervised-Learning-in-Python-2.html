@@ -1,0 +1,1192 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Visualization with hierarchical clustering and t-SNE &#8212; Machine Learning Scientist with Python</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Decorrelating your data and dimension reduction" href="Unsupervised-Learning-in-Python-3.html" />
+    <link rel="prev" title="Clustering for dataset exploration" href="Unsupervised-Learning-in-Python-1.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning Scientist with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Supervised-Learning-with-scikit-learn-0.html">
+   Supervised Learning with scikit-learn
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-1.html">
+     Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-2.html">
+     Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-3.html">
+     Fine-Tuning Your Model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-4.html">
+     Preprocessing and Pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="Unsupervised-Learning-in-Python-0.html">
+   Unsupervised Learning
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-1.html">
+     Clustering for dataset exploration
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Visualization with hierarchical clustering and t-SNE
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-3.html">
+     Decorrelating your data and dimension reduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-4.html">
+     Discovering interpretable features
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Linear-Classifiers-in-Python-0.html">
+   Linear-Classifiers-in-Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-1.html">
+     Applying logistic regression and SVM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-2.html">
+     Loss functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-3.html">
+     Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-4.html">
+     Support Vector Machines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-0.html">
+   Machine Learning with Tree-Based Models in Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-1.html">
+     Classification and Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-2.html">
+     The Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-3.html">
+     Bagging and Random Forests
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-4.html">
+     Boosting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-5.html">
+     Model Tuning
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-0.html">
+   Extreme Gradient Boosting with XGBoost
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-1.html">
+     Classification with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-2.html">
+     Regression with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-3.html">
+     Fine-tuning your XGBoost model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-4.html">
+     Using XGBoost in pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml/issues/new?title=Issue%20on%20page%20%2FUnsupervised-Learning-in-Python-2.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Unsupervised-Learning-in-Python-2.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualizing-hierarchies">
+   Visualizing hierarchies
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-many-merges">
+     How many merges?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hierarchical-clustering-of-the-grain-data">
+     Hierarchical clustering of the grain data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hierarchies-of-stocks">
+     Hierarchies of stocks
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cluster-labels-in-hierarchical-clustering">
+   Cluster labels in hierarchical clustering
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#which-clusters-are-closest">
+     Which clusters are closest?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#different-linkage-different-hierarchical-clustering">
+     Different linkage, different hierarchical clustering!
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#intermediate-clusterings">
+     Intermediate clusterings
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#extracting-the-cluster-labels">
+     Extracting the cluster labels
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#t-sne-for-2-dimensional-maps">
+   t-SNE for 2-dimensional maps
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#t-sne-visualization-of-grain-dataset">
+     t-SNE visualization of grain dataset
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-t-sne-map-of-the-stock-market">
+     A t-SNE map of the stock market
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Visualization with hierarchical clustering and t-SNE</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualizing-hierarchies">
+   Visualizing hierarchies
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-many-merges">
+     How many merges?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hierarchical-clustering-of-the-grain-data">
+     Hierarchical clustering of the grain data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hierarchies-of-stocks">
+     Hierarchies of stocks
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cluster-labels-in-hierarchical-clustering">
+   Cluster labels in hierarchical clustering
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#which-clusters-are-closest">
+     Which clusters are closest?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#different-linkage-different-hierarchical-clustering">
+     Different linkage, different hierarchical clustering!
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#intermediate-clusterings">
+     Intermediate clusterings
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#extracting-the-cluster-labels">
+     Extracting the cluster labels
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#t-sne-for-2-dimensional-maps">
+   t-SNE for 2-dimensional maps
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#t-sne-visualization-of-grain-dataset">
+     t-SNE visualization of grain dataset
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-t-sne-map-of-the-stock-market">
+     A t-SNE map of the stock market
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="visualization-with-hierarchical-clustering-and-t-sne">
+<h1>Visualization with hierarchical clustering and t-SNE<a class="headerlink" href="#visualization-with-hierarchical-clustering-and-t-sne" title="Permalink to this headline">#</a></h1>
+<p class="chapter__description">
+In this chapter, you’ll learn about two unsupervised learning techniques
+for data visualization, hierarchical clustering and t-SNE. Hierarchical
+clustering merges the data samples into ever-coarser clusters, yielding
+a tree visualization of the resulting cluster hierarchy. t-SNE maps the
+data samples into 2d space so that the proximity of the samples to one
+another can be visualized.
+</p>
+<section id="visualizing-hierarchies">
+<h2>Visualizing hierarchies<a class="headerlink" href="#visualizing-hierarchies" title="Permalink to this headline">#</a></h2>
+<section id="how-many-merges">
+<h3>How many merges?<a class="headerlink" href="#how-many-merges" title="Permalink to this headline">#</a></h3>
+<p>
+If there are 5 data samples, how many merge operations will occur in a
+hierarchical clustering? (To help answer this question, think back to
+the video, in which Ben walked through an example of hierarchical
+clustering using 6 countries.)
+</p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> 4 merges.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 3 merges.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> This can’t be known in advance.</p></li>
+</ul>
+<p class="dc-completion-pane__message dc-u-maxw-100pc">
+Well done! With 5 data samples, there would be 4 merge operations, and
+with 6 data samples, there would be 5 merges, and so on.
+</p>
+</section>
+<section id="hierarchical-clustering-of-the-grain-data">
+<h3>Hierarchical clustering of the grain data<a class="headerlink" href="#hierarchical-clustering-of-the-grain-data" title="Permalink to this headline">#</a></h3>
+<p>
+In the video, you learned that the SciPy <code>linkage()</code> function
+performs hierarchical clustering on an array of samples. Use the
+<code>linkage()</code> function to obtain a hierarchical clustering of
+the grain samples, and use <code>dendrogram()</code> to visualize the
+result. A sample of the grain measurements is provided in the array
+<code>samples</code>, while the variety of each grain sample is given by
+the list <code>varieties</code>.
+</p>
+<li>
+Import:
+<li>
+<code>linkage</code> and <code>dendrogram</code> from
+<code>scipy.cluster.hierarchy</code>.
+</li>
+<li>
+<code>matplotlib.pyplot</code> as <code>plt</code>.
+</li>
+</li>
+<li>
+Perform hierarchical clustering on <code>samples</code> using the
+<code>linkage()</code> function with the <code>method=‘complete’</code>
+keyword argument. Assign the result to <code>mergings</code>.
+</li>
+<li>
+Plot a dendrogram using the <code>dendrogram()</code> function on
+<code>mergings</code>. Specify the keyword arguments
+<code>labels=varieties</code>, <code>leaf_rotation=90</code>, and
+<code>leaf_font_size=6</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grains</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">42</span><span class="p">))[:,:</span><span class="mi">7</span><span class="p">]</span>
+<span class="n">varieties</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grains</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">42</span><span class="p">))[:,</span><span class="mi">8</span><span class="p">])</span>
+
+<span class="c1"># Perform the necessary imports</span>
+<span class="kn">from</span> <span class="nn">scipy.cluster.hierarchy</span> <span class="kn">import</span> <span class="n">linkage</span><span class="p">,</span> <span class="n">dendrogram</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Calculate the linkage: mergings</span>
+<span class="n">mergings</span> <span class="o">=</span> <span class="n">linkage</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot the dendrogram, using varieties as labels</span>
+<span class="n">dendrogram</span><span class="p">(</span><span class="n">mergings</span><span class="p">,</span>
+           <span class="n">labels</span><span class="o">=</span><span class="n">varieties</span><span class="p">,</span>
+           <span class="n">leaf_rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+           <span class="n">leaf_font_size</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## {&#39;icoord&#39;: [[25.0, 25.0, 35.0, 35.0], [15.0, 15.0, 30.0, 30.0], [55.0, 55.0, 65.0, 65.0], [45.0, 45.0, 60.0, 60.0], [22.5, 22.5, 52.5, 52.5], [5.0, 5.0, 37.5, 37.5], [85.0, 85.0, 95.0, 95.0], [105.0, 105.0, 115.0, 115.0], [125.0, 125.0, 135.0, 135.0], [110.0, 110.0, 130.0, 130.0], [145.0, 145.0, 155.0, 155.0], [165.0, 165.0, 175.0, 175.0], [150.0, 150.0, 170.0, 170.0], [120.0, 120.0, 160.0, 160.0], [90.0, 90.0, 140.0, 140.0], [75.0, 75.0, 115.0, 115.0], [185.0, 185.0, 195.0, 195.0], [205.0, 205.0, 215.0, 215.0], [225.0, 225.0, 235.0, 235.0], [255.0, 255.0, 265.0, 265.0], [245.0, 245.0, 260.0, 260.0], [230.0, 230.0, 252.5, 252.5], [210.0, 210.0, 241.25, 241.25], [190.0, 190.0, 225.625, 225.625], [275.0, 275.0, 285.0, 285.0], [305.0, 305.0, 315.0, 315.0], [295.0, 295.0, 310.0, 310.0], [280.0, 280.0, 302.5, 302.5], [207.8125, 207.8125, 291.25, 291.25], [345.0, 345.0, 355.0, 355.0], [335.0, 335.0, 350.0, 350.0], [325.0, 325.0, 342.5, 342.5], [375.0, 375.0, 385.0, 385.0], [405.0, 405.0, 415.0, 415.0], [395.0, 395.0, 410.0, 410.0], [380.0, 380.0, 402.5, 402.5], [365.0, 365.0, 391.25, 391.25], [333.75, 333.75, 378.125, 378.125], [249.53125, 249.53125, 355.9375, 355.9375], [95.0, 95.0, 302.734375, 302.734375], [21.25, 21.25, 198.8671875, 198.8671875]], &#39;dcoord&#39;: [[0.0, 0.35892177420713867, 0.35892177420713867, 0.0], [0.0, 0.6444799531405162, 0.6444799531405162, 0.35892177420713867], [0.0, 0.6327327160816018, 0.6327327160816018, 0.0], [0.0, 1.57472866234155, 1.57472866234155, 0.6327327160816018], [0.6444799531405162, 2.1906390300549288, 2.1906390300549288, 1.57472866234155], [0.0, 3.8753454671809577, 3.8753454671809577, 2.1906390300549288], [0.0, 0.7207984184222385, 0.7207984184222385, 0.0], [0.0, 0.3449266008877837, 0.3449266008877837, 0.0], [0.0, 0.5373874300725677, 0.5373874300725677, 0.0], [0.3449266008877837, 1.0132117251591595, 1.0132117251591595, 0.5373874300725677], [0.0, 0.4019535296523724, 0.4019535296523724, 0.0], [0.0, 0.74000216891574, 0.74000216891574, 0.0], [0.4019535296523724, 1.1923667892054022, 1.1923667892054022, 0.74000216891574], [1.0132117251591595, 1.7057229229860276, 1.7057229229860276, 1.1923667892054022], [0.7207984184222385, 2.76135637142329, 2.76135637142329, 1.7057229229860276], [0.0, 4.8292916664869185, 4.8292916664869185, 2.76135637142329], [0.0, 0.8213969137998998, 0.8213969137998998, 0.0], [0.0, 0.7680247456950849, 0.7680247456950849, 0.0], [0.0, 0.39210953826705036, 0.39210953826705036, 0.0], [0.0, 0.44020218082149526, 0.44020218082149526, 0.0], [0.0, 0.6878648122996261, 0.6878648122996261, 0.44020218082149526], [0.39210953826705036, 0.8667876095099653, 0.8667876095099653, 0.6878648122996261], [0.7680247456950849, 1.6315417279371072, 1.6315417279371072, 0.8667876095099653], [0.8213969137998998, 2.0021865947009037, 2.0021865947009037, 1.6315417279371072], [0.0, 0.7600501365041651, 0.7600501365041651, 0.0], [0.0, 0.4355730593138186, 0.4355730593138186, 0.0], [0.0, 0.8899149172814218, 0.8899149172814218, 0.4355730593138186], [0.7600501365041651, 2.2825246898993226, 2.2825246898993226, 0.8899149172814218], [2.0021865947009037, 3.108696229933058, 3.108696229933058, 2.2825246898993226], [0.0, 0.28514601522728705, 0.28514601522728705, 0.0], [0.0, 1.0559243533511296, 1.0559243533511296, 0.28514601522728705], [0.0, 2.196101828240212, 2.196101828240212, 1.0559243533511296], [0.0, 0.5513404120867617, 0.5513404120867617, 0.0], [0.0, 0.5540343761897811, 0.5540343761897811, 0.0], [0.0, 0.8413507235392381, 0.8413507235392381, 0.5540343761897811], [0.5513404120867617, 1.6519585981494824, 1.6519585981494824, 0.8413507235392381], [0.0, 2.6224088640027143, 2.6224088640027143, 1.6519585981494824], [2.196101828240212, 4.713556156449182, 4.713556156449182, 2.6224088640027143], [3.108696229933058, 5.923029677453931, 5.923029677453931, 4.713556156449182], [4.8292916664869185, 8.159839861173747, 8.159839861173747, 5.923029677453931], [3.8753454671809577, 10.666543593873321, 10.666543593873321, 8.159839861173747]], &#39;ivl&#39;: [&#39;Kama wheat&#39;, &#39;Kama wheat&#39;, &#39;Rosa wheat&#39;, &#39;Kama wheat&#39;, &#39;Rosa wheat&#39;, &#39;Rosa wheat&#39;, &#39;Rosa wheat&#39;, &#39;Kama wheat&#39;, &#39;Canadian wheat&#39;, &#39;Canadian wheat&#39;, &#39;Canadian wheat&#39;, &#39;Rosa wheat&#39;, &#39;Canadian wheat&#39;, &#39;Rosa wheat&#39;, &#39;Rosa wheat&#39;, &#39;Kama wheat&#39;, &#39;Canadian wheat&#39;, &#39;Rosa wheat&#39;, &#39;Kama wheat&#39;, &#39;Canadian wheat&#39;, &#39;Kama wheat&#39;, &#39;Canadian wheat&#39;, &#39;Rosa wheat&#39;, &#39;Canadian wheat&#39;, &#39;Canadian wheat&#39;, &#39;Rosa wheat&#39;, &#39;Canadian wheat&#39;, &#39;Rosa wheat&#39;, &#39;Rosa wheat&#39;, &#39;Rosa wheat&#39;, &#39;Canadian wheat&#39;, &#39;Kama wheat&#39;, &#39;Kama wheat&#39;, &#39;Canadian wheat&#39;, &#39;Kama wheat&#39;, &#39;Rosa wheat&#39;, &#39;Rosa wheat&#39;, &#39;Canadian wheat&#39;, &#39;Rosa wheat&#39;, &#39;Rosa wheat&#39;, &#39;Kama wheat&#39;, &#39;Canadian wheat&#39;], &#39;leaves&#39;: [32, 8, 6, 16, 39, 1, 34, 10, 9, 29, 14, 26, 5, 18, 3, 22, 7, 11, 13, 21, 15, 31, 28, 38, 20, 19, 30, 0, 33, 4, 2, 41, 40, 17, 27, 37, 36, 24, 35, 25, 12, 23], &#39;color_list&#39;: [&#39;C1&#39;, &#39;C1&#39;, &#39;C1&#39;, &#39;C1&#39;, &#39;C1&#39;, &#39;C1&#39;, &#39;C2&#39;, &#39;C2&#39;, &#39;C2&#39;, &#39;C2&#39;, &#39;C2&#39;, &#39;C2&#39;, &#39;C2&#39;, &#39;C2&#39;, &#39;C2&#39;, &#39;C2&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C0&#39;, &#39;C0&#39;]}
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="Unsupervised-Learning-in-Python_files/figure-markdown_github/unnamed-chunk-10-7.png" width="672" />
+<p class>
+Superb! Dendrograms are a great way to illustrate the arrangement of the
+clusters produced by hierarchical clustering.
+</p>
+</section>
+<section id="hierarchies-of-stocks">
+<h3>Hierarchies of stocks<a class="headerlink" href="#hierarchies-of-stocks" title="Permalink to this headline">#</a></h3>
+<p>
+In chapter 1, you used k-means clustering to cluster companies according
+to their stock price movements. Now, you’ll perform hierarchical
+clustering of the companies. You are given a NumPy array of price
+movements <code>movements</code>, where the rows correspond to
+companies, and a list of the company names <code>companies</code>. SciPy
+hierarchical clustering doesn’t fit into a sklearn pipeline, so you’ll
+need to use the <code>normalize()</code> function from
+<code>sklearn.preprocessing</code> instead of <code>Normalizer</code>.
+</p>
+<p>
+<code>linkage</code> and <code>dendrogram</code> have already been
+imported from <code>scipy.cluster.hierarchy</code>, and PyPlot has been
+imported as <code>plt</code>.
+</p>
+<li>
+Import <code>normalize</code> from <code>sklearn.preprocessing</code>.
+</li>
+<li>
+Rescale the price movements for each stock by using the
+<code>normalize()</code> function on <code>movements</code>.
+</li>
+<li>
+Apply the <code>linkage()</code> function to
+<code>normalized_movements</code>, using <code>‘complete’</code>
+linkage, to calculate the hierarchical clustering. Assign the result to
+<code>mergings</code>.
+</li>
+<li>
+Plot a dendrogram of the hierarchical clustering, using the list
+<code>companies</code> of company names as the <code>labels</code>. In
+addition, specify the <code>leaf_rotation=90</code>, and
+<code>leaf_font_size=6</code> keyword arguments as you did in the
+previous exercise.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import normalize</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">normalize</span>
+
+<span class="c1"># Normalize the movements: normalized_movements</span>
+<span class="n">normalized_movements</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">movements</span><span class="p">)</span>
+
+<span class="c1"># Calculate the linkage: mergings</span>
+<span class="n">mergings</span> <span class="o">=</span> <span class="n">linkage</span><span class="p">(</span><span class="n">normalized_movements</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot the dendrogram</span>
+<span class="n">dendrogram</span><span class="p">(</span>
+    <span class="n">mergings</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">companies</span><span class="p">,</span>
+    <span class="n">leaf_rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+    <span class="n">leaf_font_size</span><span class="o">=</span><span class="mi">6</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## {&#39;icoord&#39;: [[25.0, 25.0, 35.0, 35.0], [15.0, 15.0, 30.0, 30.0], [45.0, 45.0, 55.0, 55.0], [75.0, 75.0, 85.0, 85.0], [65.0, 65.0, 80.0, 80.0], [50.0, 50.0, 72.5, 72.5], [22.5, 22.5, 61.25, 61.25], [5.0, 5.0, 41.875, 41.875], [105.0, 105.0, 115.0, 115.0], [95.0, 95.0, 110.0, 110.0], [175.0, 175.0, 185.0, 185.0], [165.0, 165.0, 180.0, 180.0], [155.0, 155.0, 172.5, 172.5], [145.0, 145.0, 163.75, 163.75], [205.0, 205.0, 215.0, 215.0], [235.0, 235.0, 245.0, 245.0], [225.0, 225.0, 240.0, 240.0], [210.0, 210.0, 232.5, 232.5], [195.0, 195.0, 221.25, 221.25], [154.375, 154.375, 208.125, 208.125], [295.0, 295.0, 305.0, 305.0], [285.0, 285.0, 300.0, 300.0], [275.0, 275.0, 292.5, 292.5], [265.0, 265.0, 283.75, 283.75], [345.0, 345.0, 355.0, 355.0], [335.0, 335.0, 350.0, 350.0], [325.0, 325.0, 342.5, 342.5], [315.0, 315.0, 333.75, 333.75], [274.375, 274.375, 324.375, 324.375], [255.0, 255.0, 299.375, 299.375], [181.25, 181.25, 277.1875, 277.1875], [135.0, 135.0, 229.21875, 229.21875], [125.0, 125.0, 182.109375, 182.109375], [102.5, 102.5, 153.5546875, 153.5546875], [23.4375, 23.4375, 128.02734375, 128.02734375], [365.0, 365.0, 375.0, 375.0], [395.0, 395.0, 405.0, 405.0], [425.0, 425.0, 435.0, 435.0], [415.0, 415.0, 430.0, 430.0], [400.0, 400.0, 422.5, 422.5], [385.0, 385.0, 411.25, 411.25], [370.0, 370.0, 398.125, 398.125], [465.0, 465.0, 475.0, 475.0], [455.0, 455.0, 470.0, 470.0], [445.0, 445.0, 462.5, 462.5], [485.0, 485.0, 495.0, 495.0], [535.0, 535.0, 545.0, 545.0], [525.0, 525.0, 540.0, 540.0], [515.0, 515.0, 532.5, 532.5], [505.0, 505.0, 523.75, 523.75], [565.0, 565.0, 575.0, 575.0], [555.0, 555.0, 570.0, 570.0], [514.375, 514.375, 562.5, 562.5], [490.0, 490.0, 538.4375, 538.4375], [585.0, 585.0, 595.0, 595.0], [514.21875, 514.21875, 590.0, 590.0], [453.75, 453.75, 552.109375, 552.109375], [384.0625, 384.0625, 502.9296875, 502.9296875], [75.732421875, 75.732421875, 443.49609375, 443.49609375]], &#39;dcoord&#39;: [[0.0, 0.8766150964619032, 0.8766150964619032, 0.0], [0.0, 1.0052496265150068, 1.0052496265150068, 0.8766150964619032], [0.0, 1.0405854841254667, 1.0405854841254667, 0.0], [0.0, 0.9756642737984944, 0.9756642737984944, 0.0], [0.0, 1.0443532462900014, 1.0443532462900014, 0.9756642737984944], [1.0405854841254667, 1.1087706867538036, 1.1087706867538036, 1.0443532462900014], [1.0052496265150068, 1.1539599583553475, 1.1539599583553475, 1.1087706867538036], [0.0, 1.1953921911777048, 1.1953921911777048, 1.1539599583553475], [0.0, 1.0675113301764332, 1.0675113301764332, 0.0], [0.0, 1.162102133265849, 1.162102133265849, 1.0675113301764332], [0.0, 0.6937115853632807, 0.6937115853632807, 0.0], [0.0, 0.7897669950447856, 0.7897669950447856, 0.6937115853632807], [0.0, 0.9060804298422901, 0.9060804298422901, 0.7897669950447856], [0.0, 0.9978691096150067, 0.9978691096150067, 0.9060804298422901], [0.0, 0.850608403749446, 0.850608403749446, 0.0], [0.0, 0.7506255354591677, 0.7506255354591677, 0.0], [0.0, 0.8894957237528659, 0.8894957237528659, 0.7506255354591677], [0.850608403749446, 0.9615815807943434, 0.9615815807943434, 0.8894957237528659], [0.0, 1.0334597062675297, 1.0334597062675297, 0.9615815807943434], [0.9978691096150067, 1.05365593648412, 1.05365593648412, 1.0334597062675297], [0.0, 0.8528392636699416, 0.8528392636699416, 0.0], [0.0, 0.8730000088242031, 0.8730000088242031, 0.8528392636699416], [0.0, 0.9595547992508179, 0.9595547992508179, 0.8730000088242031], [0.0, 0.9933139902556245, 0.9933139902556245, 0.9595547992508179], [0.0, 0.6735509755390415, 0.6735509755390415, 0.0], [0.0, 0.7984090019882444, 0.7984090019882444, 0.6735509755390415], [0.0, 0.8794722330700889, 0.8794722330700889, 0.7984090019882444], [0.0, 1.0410874279228417, 1.0410874279228417, 0.8794722330700889], [0.9933139902556245, 1.0581735997075004, 1.0581735997075004, 1.0410874279228417], [0.0, 1.115596724887607, 1.115596724887607, 1.0581735997075004], [1.05365593648412, 1.1659596038210138, 1.1659596038210138, 1.115596724887607], [0.0, 1.1700635570314206, 1.1700635570314206, 1.1659596038210138], [0.0, 1.1909309430336361, 1.1909309430336361, 1.1700635570314206], [1.162102133265849, 1.236510636000957, 1.236510636000957, 1.1909309430336361], [1.1953921911777048, 1.2467384602108724, 1.2467384602108724, 1.236510636000957], [0.0, 1.1224902285374243, 1.1224902285374243, 0.0], [0.0, 0.9516416111189119, 0.9516416111189119, 0.0], [0.0, 0.9263737672939854, 0.9263737672939854, 0.0], [0.0, 0.9774020092313027, 0.9774020092313027, 0.9263737672939854], [0.9516416111189119, 1.0825651898927742, 1.0825651898927742, 0.9774020092313027], [0.0, 1.1436387132254562, 1.1436387132254562, 1.0825651898927742], [1.1224902285374243, 1.1617351684882877, 1.1617351684882877, 1.1436387132254562], [0.0, 0.804091365214309, 0.804091365214309, 0.0], [0.0, 0.9529466260111008, 0.9529466260111008, 0.804091365214309], [0.0, 1.1381811890921898, 1.1381811890921898, 0.9529466260111008], [0.0, 1.0014106416309905, 1.0014106416309905, 0.0], [0.0, 0.58499795491215, 0.58499795491215, 0.0], [0.0, 0.78536856335178, 0.78536856335178, 0.58499795491215], [0.0, 0.8427599656210099, 0.8427599656210099, 0.78536856335178], [0.0, 0.88159190249364, 0.88159190249364, 0.8427599656210099], [0.0, 0.8547176535466976, 0.8547176535466976, 0.0], [0.0, 0.917129270573618, 0.917129270573618, 0.8547176535466976], [0.88159190249364, 1.0113079675726626, 1.0113079675726626, 0.917129270573618], [1.0014106416309905, 1.0903568915580981, 1.0903568915580981, 1.0113079675726626], [0.0, 1.1116148749505466, 1.1116148749505466, 0.0], [1.0903568915580981, 1.1665446301937066, 1.1665446301937066, 1.1116148749505466], [1.1381811890921898, 1.203388148166268, 1.203388148166268, 1.1665446301937066], [1.1617351684882877, 1.2625272906988811, 1.2625272906988811, 1.203388148166268], [1.2467384602108724, 1.3161900463070635, 1.3161900463070635, 1.2625272906988811]], &#39;ivl&#39;: [&#39;Apple&#39;, &#39;Taiwan Semiconductor Manufacturing&#39;, &#39;Intel&#39;, &#39;Texas instruments&#39;, &#39;Dell&#39;, &#39;HP&#39;, &#39;Symantec&#39;, &#39;Cisco&#39;, &#39;Microsoft&#39;, &#39;Yahoo&#39;, &#39;Amazon&#39;, &#39;Google/Alphabet&#39;, &#39;AIG&#39;, &#39;Valero Energy&#39;, &#39;American express&#39;, &#39;Goldman Sachs&#39;, &#39;Wells Fargo&#39;, &#39;Bank of America&#39;, &#39;JPMorgan Chase&#39;, &#39;Ford&#39;, &#39;Canon&#39;, &#39;Sony&#39;, &#39;Mitsubishi&#39;, &#39;Honda&#39;, &#39;Toyota&#39;, &#39;Navistar&#39;, &#39;IBM&#39;, &#39;General Electrics&#39;, &#39;3M&#39;, &#39;Caterpillar&#39;, &#39;DuPont de Nemours&#39;, &#39;Xerox&#39;, &#39;Schlumberger&#39;, &#39;ConocoPhillips&#39;, &#39;Chevron&#39;, &#39;Exxon&#39;, &#39;Home Depot&#39;, &#39;Wal-Mart&#39;, &#39;Philip Morris&#39;, &#39;Coca Cola&#39;, &#39;Pepsi&#39;, &#39;Kimberly-Clark&#39;, &#39;Colgate-Palmolive&#39;, &#39;Procter Gamble&#39;, &#39;Walgreen&#39;, &#39;Boeing&#39;, &#39;Lookheed Martin&#39;, &#39;Northrop Grumman&#39;, &#39;Johnson &amp; Johnson&#39;, &#39;Pfizer&#39;, &#39;SAP&#39;, &#39;Sanofi-Aventis&#39;, &#39;Unilever&#39;, &#39;Royal Dutch Shell&#39;, &#39;Total&#39;, &#39;British American Tobacco&#39;, &#39;GlaxoSmithKline&#39;, &#39;Novartis&#39;, &#39;MasterCard&#39;, &#39;McDonalds&#39;], &#39;leaves&#39;: [0, 50, 24, 51, 14, 22, 47, 11, 33, 59, 2, 17, 1, 53, 3, 18, 55, 5, 26, 15, 7, 45, 34, 21, 48, 35, 23, 16, 32, 8, 13, 58, 44, 10, 12, 57, 20, 56, 41, 28, 38, 27, 9, 40, 54, 4, 29, 36, 25, 39, 43, 46, 52, 42, 49, 6, 19, 37, 30, 31], &#39;color_list&#39;: [&#39;C1&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C2&#39;, &#39;C2&#39;, &#39;C2&#39;, &#39;C0&#39;, &#39;C3&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C5&#39;, &#39;C5&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C6&#39;, &#39;C6&#39;, &#39;C6&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C7&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C8&#39;, &#39;C8&#39;, &#39;C8&#39;, &#39;C8&#39;, &#39;C9&#39;, &#39;C9&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;]}
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="Unsupervised-Learning-in-Python_files/figure-markdown_github/unnamed-chunk-11-9.png" width="672" />
+<p class>
+Great work! You can produce great visualizations such as this with
+hierarchical clustering, but it can be used for more than just
+visualizations. You’ll find out more about this in the next video!
+</p>
+</section>
+</section>
+<section id="cluster-labels-in-hierarchical-clustering">
+<h2>Cluster labels in hierarchical clustering<a class="headerlink" href="#cluster-labels-in-hierarchical-clustering" title="Permalink to this headline">#</a></h2>
+<section id="which-clusters-are-closest">
+<h3>Which clusters are closest?<a class="headerlink" href="#which-clusters-are-closest" title="Permalink to this headline">#</a></h3>
+<p>
+In the video, you learned that the linkage method defines how the
+distance between clusters is measured. In <em>complete</em> linkage, the
+distance between clusters is the distance between the <em>furthest</em>
+points of the clusters. In <em>single</em> linkage, the distance between
+clusters is the distance between the <em>closest</em> points of the
+clusters.
+</p>
+<p>
+Consider the three clusters in the diagram. Which of the following
+statements are true?
+</p>
+<p>
+<img src="archive/Unsupervised-Learning-in-Python/datasets/cluster_linkage_riddle.png">
+</p>
+<p>
+<strong>A.</strong> In single linkage, Cluster 3 is the closest cluster
+to Cluster 2.
+</p>
+<p>
+<strong>B.</strong> In complete linkage, Cluster 1 is the closest
+cluster to Cluster 2.
+</p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Neither A nor B.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> A only.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> Both A and B.</p></li>
+</ul>
+<p class="dc-completion-pane__message dc-u-maxw-100pc">
+Well done!
+</p>
+</section>
+<section id="different-linkage-different-hierarchical-clustering">
+<h3>Different linkage, different hierarchical clustering!<a class="headerlink" href="#different-linkage-different-hierarchical-clustering" title="Permalink to this headline">#</a></h3>
+<p>
+In the video, you saw a hierarchical clustering of the voting countries
+at the Eurovision song contest using <code>‘complete’</code> linkage.
+Now, perform a hierarchical clustering of the voting countries with
+<code>‘single’</code> linkage, and compare the resulting dendrogram with
+the one in the video. Different linkage, different hierarchical
+clustering!
+</p>
+<p>
+You are given an array <code>samples</code>. Each row corresponds to a
+voting country, and each column corresponds to a performance that was
+voted for. The list <code>country_names</code> gives the name of each
+voting country. This dataset was obtained from
+<a href="https://www.eurovision.tv/page/results">Eurovision</a>.
+</p>
+<li>
+Import <code>linkage</code> and <code>dendrogram</code> from
+<code>scipy.cluster.hierarchy</code>.
+</li>
+<li>
+Perform hierarchical clustering on <code>samples</code> using the
+<code>linkage()</code> function with the <code>method=‘single’</code>
+keyword argument. Assign the result to <code>mergings</code>.
+</li>
+<li>
+Plot a dendrogram of the hierarchical clustering, using the list
+<code>country_names</code> as the <code>labels</code>. In addition,
+specify the <code>leaf_rotation=90</code>, and
+<code>leaf_font_size=6</code> keyword arguments as you have done
+earlier.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">eurovision</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;archive/Unsupervised-Learning-in-Python/datasets/eurovision-2016.csv&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">eurovision</span><span class="p">[</span><span class="s1">&#39;From country&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">eurovision</span><span class="p">[</span><span class="s1">&#39;To country&#39;</span><span class="p">],</span> <span class="n">values</span><span class="o">=</span><span class="n">eurovision</span><span class="p">[</span><span class="s1">&#39;Televote Points&#39;</span><span class="p">],</span> <span class="n">aggfunc</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">scores</span><span class="o">.</span><span class="n">values</span>
+<span class="n">country_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+<span class="c1"># Perform the necessary imports</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.cluster.hierarchy</span> <span class="kn">import</span> <span class="n">linkage</span><span class="p">,</span> <span class="n">dendrogram</span>
+
+<span class="c1"># Calculate the linkage: mergings</span>
+<span class="n">mergings</span> <span class="o">=</span> <span class="n">linkage</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;single&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot the dendrogram</span>
+<span class="n">dendrogram</span><span class="p">(</span><span class="n">mergings</span><span class="p">,</span>
+           <span class="n">labels</span><span class="o">=</span><span class="n">country_names</span><span class="p">,</span>
+           <span class="n">leaf_rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+           <span class="n">leaf_font_size</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## {&#39;icoord&#39;: [[15.0, 15.0, 25.0, 25.0], [65.0, 65.0, 75.0, 75.0], [85.0, 85.0, 95.0, 95.0], [70.0, 70.0, 90.0, 90.0], [105.0, 105.0, 115.0, 115.0], [80.0, 80.0, 110.0, 110.0], [55.0, 55.0, 95.0, 95.0], [135.0, 135.0, 145.0, 145.0], [185.0, 185.0, 195.0, 195.0], [175.0, 175.0, 190.0, 190.0], [265.0, 265.0, 275.0, 275.0], [255.0, 255.0, 270.0, 270.0], [245.0, 245.0, 262.5, 262.5], [235.0, 235.0, 253.75, 253.75], [315.0, 315.0, 325.0, 325.0], [355.0, 355.0, 365.0, 365.0], [345.0, 345.0, 360.0, 360.0], [335.0, 335.0, 352.5, 352.5], [320.0, 320.0, 343.75, 343.75], [375.0, 375.0, 385.0, 385.0], [405.0, 405.0, 415.0, 415.0], [395.0, 395.0, 410.0, 410.0], [380.0, 380.0, 402.5, 402.5], [331.875, 331.875, 391.25, 391.25], [305.0, 305.0, 361.5625, 361.5625], [295.0, 295.0, 333.28125, 333.28125], [285.0, 285.0, 314.140625, 314.140625], [244.375, 244.375, 299.5703125, 299.5703125], [225.0, 225.0, 271.97265625, 271.97265625], [215.0, 215.0, 248.486328125, 248.486328125], [205.0, 205.0, 231.7431640625, 231.7431640625], [182.5, 182.5, 218.37158203125, 218.37158203125], [165.0, 165.0, 200.435791015625, 200.435791015625], [155.0, 155.0, 182.7178955078125, 182.7178955078125], [140.0, 140.0, 168.85894775390625, 168.85894775390625], [125.0, 125.0, 154.42947387695312, 154.42947387695312], [75.0, 75.0, 139.71473693847656, 139.71473693847656], [45.0, 45.0, 107.35736846923828, 107.35736846923828], [35.0, 35.0, 76.17868423461914, 76.17868423461914], [20.0, 20.0, 55.58934211730957, 55.58934211730957], [5.0, 5.0, 37.794671058654785, 37.794671058654785]], &#39;dcoord&#39;: [[0.0, 9.273618495495704, 9.273618495495704, 0.0], [0.0, 7.211102550927978, 7.211102550927978, 0.0], [0.0, 10.488088481701515, 10.488088481701515, 0.0], [7.211102550927978, 12.0, 12.0, 10.488088481701515], [0.0, 13.114877048604, 13.114877048604, 0.0], [12.0, 13.564659966250536, 13.564659966250536, 13.114877048604], [0.0, 15.874507866387544, 15.874507866387544, 13.564659966250536], [0.0, 14.7648230602334, 14.7648230602334, 0.0], [0.0, 6.782329983125268, 6.782329983125268, 0.0], [0.0, 11.045361017187261, 11.045361017187261, 6.782329983125268], [0.0, 8.94427190999916, 8.94427190999916, 0.0], [0.0, 11.224972160321824, 11.224972160321824, 8.94427190999916], [0.0, 12.083045973594572, 12.083045973594572, 11.224972160321824], [0.0, 12.083045973594572, 12.083045973594572, 12.083045973594572], [0.0, 8.0, 8.0, 0.0], [0.0, 8.366600265340756, 8.366600265340756, 0.0], [0.0, 9.797958971132712, 9.797958971132712, 8.366600265340756], [0.0, 9.899494936611665, 9.899494936611665, 9.797958971132712], [8.0, 10.862780491200215, 10.862780491200215, 9.899494936611665], [0.0, 9.38083151964686, 9.38083151964686, 0.0], [0.0, 10.583005244258363, 10.583005244258363, 0.0], [0.0, 11.224972160321824, 11.224972160321824, 10.583005244258363], [9.38083151964686, 11.224972160321824, 11.224972160321824, 11.224972160321824], [10.862780491200215, 11.313708498984761, 11.313708498984761, 11.224972160321824], [0.0, 11.40175425099138, 11.40175425099138, 11.313708498984761], [0.0, 11.661903789690601, 11.661903789690601, 11.40175425099138], [0.0, 13.416407864998739, 13.416407864998739, 11.661903789690601], [12.083045973594572, 13.711309200802088, 13.711309200802088, 13.416407864998739], [0.0, 14.071247279470288, 14.071247279470288, 13.711309200802088], [0.0, 14.142135623730951, 14.142135623730951, 14.071247279470288], [0.0, 14.142135623730951, 14.142135623730951, 14.142135623730951], [11.045361017187261, 14.491376746189438, 14.491376746189438, 14.142135623730951], [0.0, 14.628738838327793, 14.628738838327793, 14.491376746189438], [0.0, 15.937377450509228, 15.937377450509228, 14.628738838327793], [14.7648230602334, 16.55294535724685, 16.55294535724685, 15.937377450509228], [0.0, 16.911534525287763, 16.911534525287763, 16.55294535724685], [15.874507866387544, 17.204650534085253, 17.204650534085253, 16.911534525287763], [0.0, 17.663521732655695, 17.663521732655695, 17.204650534085253], [0.0, 17.72004514666935, 17.72004514666935, 17.663521732655695], [9.273618495495704, 18.384776310850235, 18.384776310850235, 17.72004514666935], [0.0, 19.79898987322333, 19.79898987322333, 18.384776310850235]], &#39;ivl&#39;: [&#39;Australia&#39;, &#39;Belgium&#39;, &#39;The Netherlands&#39;, &#39;Spain&#39;, &#39;Italy&#39;, &#39;Switzerland&#39;, &#39;Croatia&#39;, &#39;Slovenia&#39;, &#39;Bosnia &amp; Herzegovina&#39;, &#39;Montenegro&#39;, &#39;F.Y.R. Macedonia&#39;, &#39;Serbia&#39;, &#39;Malta&#39;, &#39;France&#39;, &#39;Israel&#39;, &#39;Albania&#39;, &#39;Azerbaijan&#39;, &#39;Bulgaria&#39;, &#39;Cyprus&#39;, &#39;Greece&#39;, &#39;Czech Republic&#39;, &#39;Armenia&#39;, &#39;Germany&#39;, &#39;Russia&#39;, &#39;Moldova&#39;, &#39;Georgia&#39;, &#39;Belarus&#39;, &#39;Ukraine&#39;, &#39;Austria&#39;, &#39;Hungary&#39;, &#39;United Kingdom&#39;, &#39;Ireland&#39;, &#39;Norway&#39;, &#39;Estonia&#39;, &#39;San Marino&#39;, &#39;Latvia&#39;, &#39;Lithuania&#39;, &#39;Denmark&#39;, &#39;Iceland&#39;, &#39;Sweden&#39;, &#39;Finland&#39;, &#39;Poland&#39;], &#39;leaves&#39;: [2, 6, 39, 36, 24, 38, 9, 35, 7, 29, 14, 34, 27, 16, 23, 0, 4, 8, 10, 19, 11, 1, 18, 32, 28, 17, 5, 40, 3, 20, 41, 22, 30, 13, 33, 25, 26, 12, 21, 37, 15, 31], &#39;color_list&#39;: [&#39;C1&#39;, &#39;C2&#39;, &#39;C2&#39;, &#39;C2&#39;, &#39;C2&#39;, &#39;C2&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C3&#39;, &#39;C3&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C4&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;, &#39;C0&#39;]}
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="Unsupervised-Learning-in-Python_files/figure-markdown_github/unnamed-chunk-12-11.png" width="672" />
+<p class>
+Great work! As you can see, performing single linkage hierarchical
+clustering produces a different dendrogram!
+</p>
+</section>
+<section id="intermediate-clusterings">
+<h3>Intermediate clusterings<a class="headerlink" href="#intermediate-clusterings" title="Permalink to this headline">#</a></h3>
+<p>
+Displayed on the right is the dendrogram for the hierarchical clustering
+of the grain samples that you computed earlier. If the hierarchical
+clustering were stopped at height 6 on the dendrogram, how many clusters
+would there be?
+</p>
+<img src="archive/Unsupervised-Learning-in-Python/datasets/grains_dendrogram.png">
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 1.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> 3.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> As many as there were at the beginning.</p></li>
+</ul>
+<p class>
+Exactly - great work!
+</p>
+</section>
+<section id="extracting-the-cluster-labels">
+<h3>Extracting the cluster labels<a class="headerlink" href="#extracting-the-cluster-labels" title="Permalink to this headline">#</a></h3>
+<p>
+In the previous exercise, you saw that the intermediate clustering of
+the grain samples at height 6 has 3 clusters. Now, use the
+<code>fcluster()</code> function to extract the cluster labels for this
+intermediate clustering, and compare the labels with the grain varieties
+using a cross-tabulation.
+</p>
+<p>
+The hierarchical clustering has already been performed and
+<code>mergings</code> is the result of the <code>linkage()</code>
+function. The list <code>varieties</code> gives the variety of each
+grain sample.
+</p>
+<li>
+Import:
+<li>
+<code>pandas</code> as <code>pd</code>.
+</li>
+<li>
+<code>fcluster</code> from <code>scipy.cluster.hierarchy</code>.
+</li>
+</li>
+<li>
+Perform a flat hierarchical clustering by using the
+<code>fcluster()</code> function on <code>mergings</code>. Specify a
+maximum height of <code>6</code> and the keyword argument
+<code>criterion=‘distance’</code>.
+</li>
+<li>
+Create a DataFrame <code>df</code> with two columns named
+<code>‘labels’</code> and <code>‘varieties’</code>, using
+<code>labels</code> and <code>varieties</code>, respectively, for the
+column values. This has been done for you.
+</li>
+<li>
+Create a cross-tabulation <code>ct</code> between
+<code>df\[‘labels’\]</code> and <code>df\[‘varieties’\]</code> to count
+the number of times each grain variety coincides with each cluster
+label.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grains</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">42</span><span class="p">))[:,:</span><span class="mi">7</span><span class="p">]</span>
+<span class="n">varieties</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grains</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">42</span><span class="p">))[:,</span><span class="mi">8</span><span class="p">])</span>
+<span class="n">mergings</span> <span class="o">=</span> <span class="n">linkage</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">)</span>
+
+<span class="c1"># Perform the necessary imports</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.cluster.hierarchy</span> <span class="kn">import</span> <span class="n">fcluster</span>
+
+<span class="c1"># Use fcluster to extract labels: labels</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">fcluster</span><span class="p">(</span><span class="n">mergings</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create a DataFrame with labels and varieties as columns: df</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;labels&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span> <span class="s1">&#39;varieties&#39;</span><span class="p">:</span> <span class="n">varieties</span><span class="p">})</span>
+
+<span class="c1"># Create crosstab: ct</span>
+<span class="n">ct</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;varieties&#39;</span><span class="p">])</span>
+
+<span class="c1"># Display ct</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ct</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## varieties  Canadian wheat  Kama wheat  Rosa wheat
+## labels                                           
+## 1                       1           4           2
+## 2                       4           6           2
+## 3                       6           9           8
+</pre></div>
+</div>
+<p class>
+Fantastic - you’ve now mastered the fundamentals of k-Means and
+agglomerative hierarchical clustering. Next, you’ll learn about t-SNE,
+which is a powerful tool for visualizing high dimensional data.
+</p>
+</section>
+</section>
+<section id="t-sne-for-2-dimensional-maps">
+<h2>t-SNE for 2-dimensional maps<a class="headerlink" href="#t-sne-for-2-dimensional-maps" title="Permalink to this headline">#</a></h2>
+<section id="t-sne-visualization-of-grain-dataset">
+<h3>t-SNE visualization of grain dataset<a class="headerlink" href="#t-sne-visualization-of-grain-dataset" title="Permalink to this headline">#</a></h3>
+<p>
+In the video, you saw t-SNE applied to the iris dataset. In this
+exercise, you’ll apply t-SNE to the grain samples data and inspect the
+resulting t-SNE features using a scatter plot. You are given an array
+<code>samples</code> of grain samples and a list
+<code>variety_numbers</code> giving the variety number of each grain
+sample.
+</p>
+<li>
+Import <code>TSNE</code> from <code>sklearn.manifold</code>.
+</li>
+<li>
+Create a TSNE instance called <code>model</code> with
+<code>learning_rate=200</code>.
+</li>
+<li>
+Apply the <code>.fit_transform()</code> method of <code>model</code> to
+<code>samples</code>. Assign the result to <code>tsne_features</code>.
+</li>
+<li>
+Select the column <code>0</code> of <code>tsne_features</code>. Assign
+the result to <code>xs</code>.
+</li>
+<li>
+Select the column <code>1</code> of <code>tsne_features</code>. Assign
+the result to <code>ys</code>.
+</li>
+<li>
+Make a scatter plot of the t-SNE features <code>xs</code> and
+<code>ys</code>. To color the points by the grain variety, specify the
+additional keyword argument <code>c=variety_numbers</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">variety_numbers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grains</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">42</span><span class="p">))[:,</span><span class="mi">7</span><span class="p">])</span>
+
+<span class="c1"># Import TSNE</span>
+<span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
+
+<span class="c1"># Create a TSNE instance: model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+
+<span class="c1"># Apply fit_transform to samples: tsne_features</span>
+<span class="n">tsne_features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+
+<span class="c1"># Select the 0th feature: xs</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">tsne_features</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Select the 1st feature: ys</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">tsne_features</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Scatter plot, coloring by variety_numbers</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">variety_numbers</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="Unsupervised-Learning-in-Python_files/figure-markdown_github/unnamed-chunk-14-13.png" width="672" />
+<p class>
+Excellent! As you can see, the t-SNE visualization manages to separate
+the 3 varieties of grain samples. But how will it perform on the stock
+data? You’ll find out in the next exercise!
+</p>
+</section>
+<section id="a-t-sne-map-of-the-stock-market">
+<h3>A t-SNE map of the stock market<a class="headerlink" href="#a-t-sne-map-of-the-stock-market" title="Permalink to this headline">#</a></h3>
+<p>
+t-SNE provides great visualizations when the individual samples can be
+labeled. In this exercise, you’ll apply t-SNE to the company stock price
+data. A scatter plot of the resulting t-SNE features, labeled by the
+company names, gives you a map of the stock market! The stock price
+movements for each company are available as the array
+<code>normalized_movements</code> (these have already been normalized
+for you). The list <code>companies</code> gives the name of each
+company. PyPlot (<code>plt</code>) has been imported for you.
+</p>
+<li>
+Import <code>TSNE</code> from <code>sklearn.manifold</code>.
+</li>
+<li>
+Create a TSNE instance called <code>model</code> with
+<code>learning_rate=50</code>.
+</li>
+<li>
+Apply the <code>.fit_transform()</code> method of <code>model</code> to
+<code>normalized_movements</code>. Assign the result to
+<code>tsne_features</code>.
+</li>
+<li>
+Select column <code>0</code> and column <code>1</code> of
+<code>tsne_features</code>.
+</li>
+<li>
+Make a scatter plot of the t-SNE features <code>xs</code> and
+<code>ys</code>. Specify the additional keyword argument
+<code>alpha=0.5</code>.
+</li>
+<li>
+Code to label each point with its company name has been written for you
+using <code>plt.annotate()</code>, so just hit submit to see the
+visualization!
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">normalize</span>
+<span class="n">stock</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;archive/Unsupervised-Learning-in-Python/datasets/company-stock-movements-2010-2015-incl.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">movements</span> <span class="o">=</span> <span class="n">stock</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">companies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">stock</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">normalized_movements</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">movements</span><span class="p">)</span>
+
+<span class="c1"># Import TSNE</span>
+<span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
+
+<span class="c1"># Create a TSNE instance: model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Apply fit_transform to normalized_movements: tsne_features</span>
+<span class="n">tsne_features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">normalized_movements</span><span class="p">)</span>
+
+<span class="c1"># Select the 0th feature: xs</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">tsne_features</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Select the 1th feature: ys</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">tsne_features</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Scatter plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Annotate the points</span>
+<span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">company</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">companies</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">company</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="Unsupervised-Learning-in-Python_files/figure-markdown_github/unnamed-chunk-15-15.png" width="672" />
+<p class>
+Fantastic! It’s visualizations such as this that make t-SNE such a
+powerful tool for extracting quick insights from high dimensional data.
+</p></section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Unsupervised-Learning-in-Python-1.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Clustering for dataset exploration</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Unsupervised-Learning-in-Python-3.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Decorrelating your data and dimension reduction</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

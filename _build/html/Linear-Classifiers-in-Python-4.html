@@ -1,0 +1,1112 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Support Vector Machines &#8212; Machine Learning Scientist with Python</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Machine Learning with Tree-Based Models in Python" href="Machine-Learning-with-Tree-Based-Models-in-Python-0.html" />
+    <link rel="prev" title="Logistic regression" href="Linear-Classifiers-in-Python-3.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning Scientist with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Supervised-Learning-with-scikit-learn-0.html">
+   Supervised Learning with scikit-learn
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-1.html">
+     Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-2.html">
+     Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-3.html">
+     Fine-Tuning Your Model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-4.html">
+     Preprocessing and Pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Unsupervised-Learning-in-Python-0.html">
+   Unsupervised Learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-1.html">
+     Clustering for dataset exploration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-2.html">
+     Visualization with hierarchical clustering and t-SNE
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-3.html">
+     Decorrelating your data and dimension reduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-4.html">
+     Discovering interpretable features
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="Linear-Classifiers-in-Python-0.html">
+   Linear-Classifiers-in-Python
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-1.html">
+     Applying logistic regression and SVM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-2.html">
+     Loss functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-3.html">
+     Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Support Vector Machines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-0.html">
+   Machine Learning with Tree-Based Models in Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-1.html">
+     Classification and Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-2.html">
+     The Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-3.html">
+     Bagging and Random Forests
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-4.html">
+     Boosting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-5.html">
+     Model Tuning
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-0.html">
+   Extreme Gradient Boosting with XGBoost
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-1.html">
+     Classification with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-2.html">
+     Regression with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-3.html">
+     Fine-tuning your XGBoost model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-4.html">
+     Using XGBoost in pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml/issues/new?title=Issue%20on%20page%20%2FLinear-Classifiers-in-Python-4.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Linear-Classifiers-in-Python-4.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#support-vectors">
+   Support vectors
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#support-vector-definition">
+     Support vector definition
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#effect-of-removing-examples">
+     Effect of removing examples
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#kernel-svms">
+   Kernel SVMs
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gridsearchcv-warm-up">
+     GridSearchCV warm-up
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#jointly-tuning-gamma-and-c-with-gridsearchcv">
+     Jointly tuning gamma and C with GridSearchCV
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparing-logistic-regression-and-svm">
+   Comparing logistic regression and SVM
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#an-advantage-of-svms">
+     An advantage of SVMs
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#an-advantage-of-logistic-regression">
+     An advantage of logistic regression
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-sgdclassifier">
+     Using SGDClassifier
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Conclusion
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-does-this-course-fit-into-data-science">
+     How does this course fit into data science?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#congratulations-thanks">
+     Congratulations &amp; thanks!
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Support Vector Machines</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#support-vectors">
+   Support vectors
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#support-vector-definition">
+     Support vector definition
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#effect-of-removing-examples">
+     Effect of removing examples
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#kernel-svms">
+   Kernel SVMs
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gridsearchcv-warm-up">
+     GridSearchCV warm-up
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#jointly-tuning-gamma-and-c-with-gridsearchcv">
+     Jointly tuning gamma and C with GridSearchCV
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparing-logistic-regression-and-svm">
+   Comparing logistic regression and SVM
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#an-advantage-of-svms">
+     An advantage of SVMs
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#an-advantage-of-logistic-regression">
+     An advantage of logistic regression
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-sgdclassifier">
+     Using SGDClassifier
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Conclusion
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-does-this-course-fit-into-data-science">
+     How does this course fit into data science?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#congratulations-thanks">
+     Congratulations &amp; thanks!
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="support-vector-machines">
+<h1>Support Vector Machines<a class="headerlink" href="#support-vector-machines" title="Permalink to this headline">#</a></h1>
+<p class="chapter__description">
+In this chapter you will learn all about the details of support vector
+machines. You’ll learn about tuning hyperparameters for these models and
+using kernels to fit non-linear decision boundaries.
+</p>
+<section id="support-vectors">
+<h2>Support vectors<a class="headerlink" href="#support-vectors" title="Permalink to this headline">#</a></h2>
+<section id="support-vector-definition">
+<h3>Support vector definition<a class="headerlink" href="#support-vector-definition" title="Permalink to this headline">#</a></h3>
+<p>
+Which of the following is a true statement about support vectors? To
+help you out, here’s the picture of support vectors from the video
+(top), as well as the hinge loss from Chapter 2 (bottom).
+</p>
+<img src="archive/Linear-Classifiers-in-Python/datasets/support_vectors_top.png">
+<img src="archive/Linear-Classifiers-in-Python/datasets/support_vectors_bottom.png">
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> All support vectors are classified correctly.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> All support vectors are classified incorrectly.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> All correctly classified points are support vectors.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> All incorrectly classified points are support vectors.</p></li>
+</ul>
+<p class="dc-completion-pane__message dc-u-maxw-100pc">
+Nice work, you got it!
+</p>
+</section>
+<section id="effect-of-removing-examples">
+<h3>Effect of removing examples<a class="headerlink" href="#effect-of-removing-examples" title="Permalink to this headline">#</a></h3>
+<p>
+Support vectors are defined as training examples that influence the
+decision boundary. In this exercise, you’ll observe this behavior by
+removing non support vectors from the training set.
+</p>
+<p>
+The wine quality dataset is already loaded into <code>X</code> and
+<code>y</code> (first two features only). (Note: we specify
+<code>lims</code> in <code>plot_classifier()</code> so that the two
+plots are forced to use the same axis limits and can be compared
+directly.)
+</p>
+<li>
+Train a linear SVM on the whole data set.
+</li>
+<li>
+Create a new data set containing only the support vectors.
+</li>
+<li>
+Train a new linear SVM on the smaller data set.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;archive/Linear-Classifiers-in-Python/datasets/wine_X.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;archive/Linear-Classifiers-in-Python/datasets/wine_y.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="c1"># Train a linear SVM</span>
+<span class="n">svm</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+<span class="n">svm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## SVC(kernel=&#39;linear&#39;)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plot_classifier</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">svm</span><span class="p">,</span> <span class="n">lims</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Make a new data set keeping only the support vectors</span>
+</pre></div>
+</div>
+<img src="Linear-Classifiers-in-Python_files/figure-markdown_github/unnamed-chunk-18-21.png" width="672" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of original examples&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Number of original examples 178
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of support vectors&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">svm</span><span class="o">.</span><span class="n">support_</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Number of support vectors 81
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X_small</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">svm</span><span class="o">.</span><span class="n">support_</span><span class="p">]</span>
+<span class="n">y_small</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">svm</span><span class="o">.</span><span class="n">support_</span><span class="p">]</span>
+
+<span class="c1"># Train a new SVM using only the support vectors</span>
+<span class="n">svm_small</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+<span class="n">svm_small</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_small</span><span class="p">,</span> <span class="n">y_small</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## SVC(kernel=&#39;linear&#39;)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plot_classifier</span><span class="p">(</span><span class="n">X_small</span><span class="p">,</span> <span class="n">y_small</span><span class="p">,</span> <span class="n">svm_small</span><span class="p">,</span> <span class="n">lims</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+</pre></div>
+</div>
+<img src="Linear-Classifiers-in-Python_files/figure-markdown_github/unnamed-chunk-18-22.png" width="672" />
+<p class>
+Nice! Compare the decision boundaries of the two trained models: are
+they the same? By the definition of support vectors, they should be!
+</p>
+</section>
+</section>
+<section id="kernel-svms">
+<h2>Kernel SVMs<a class="headerlink" href="#kernel-svms" title="Permalink to this headline">#</a></h2>
+<section id="gridsearchcv-warm-up">
+<h3>GridSearchCV warm-up<a class="headerlink" href="#gridsearchcv-warm-up" title="Permalink to this headline">#</a></h3>
+<p>
+In the video we saw that increasing the RBF kernel hyperparameter
+<code>gamma</code> increases training accuracy. In this exercise we’ll
+search for the <code>gamma</code> that maximizes cross-validation
+accuracy using scikit-learn’s <code>GridSearchCV</code>. A binary
+version of the handwritten digits dataset, in which you’re just trying
+to predict whether or not an image is a “2”, is already loaded into the
+variables <code>X</code> and <code>y</code>.
+</p>
+<li>
+Create a <code>GridSearchCV</code> object.
+</li>
+<li>
+Call the <code>fit()</code> method to select the best value of
+<code>gamma</code> based on cross-validation accuracy.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;archive/Linear-Classifiers-in-Python/datasets/digits_2_X.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;archive/Linear-Classifiers-in-Python/datasets/digits_2_y.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;bool&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="c1"># Instantiate an RBF SVM</span>
+<span class="n">svm</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">()</span>
+
+<span class="c1"># Instantiate the GridSearchCV object and run the search</span>
+<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;gamma&#39;</span><span class="p">:[</span><span class="mf">0.00001</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]}</span>
+<span class="n">searcher</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">svm</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+<span class="n">searcher</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Report the best parameters</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## GridSearchCV(estimator=SVC(),
+##              param_grid={&#39;gamma&#39;: [1e-05, 0.0001, 0.001, 0.01, 0.1]})
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best CV params&quot;</span><span class="p">,</span> <span class="n">searcher</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Best CV params {&#39;gamma&#39;: 0.001}
+</pre></div>
+</div>
+<p class>
+Great job! Larger values of <code>gamma</code> are better for training
+accuracy, but cross-validation helped us find something different (and
+better!).
+</p>
+</section>
+<section id="jointly-tuning-gamma-and-c-with-gridsearchcv">
+<h3>Jointly tuning gamma and C with GridSearchCV<a class="headerlink" href="#jointly-tuning-gamma-and-c-with-gridsearchcv" title="Permalink to this headline">#</a></h3>
+<p>
+In the previous exercise the best value of <code>gamma</code> was 0.001
+using the default value of <code>C</code>, which is 1. In this exercise
+you’ll search for the best combination of <code>C</code> and
+<code>gamma</code> using <code>GridSearchCV</code>.
+</p>
+<p>
+As in the previous exercise, the 2-vs-not-2 digits dataset is already
+loaded, but this time it’s split into the variables
+<code>X_train</code>, <code>y_train</code>, <code>X_test</code>, and
+<code>y_test</code>. Even though cross-validation already splits the
+training set into parts, it’s often a good idea to hold out a separate
+test set to make sure the cross-validation results are sensible.
+</p>
+<li>
+Run <code>GridSearchCV</code> to find the best hyperparameters using the
+training set.
+</li>
+<li>
+Print the best values of the parameters.
+</li>
+<li>
+Print out the accuracy on the test set, which was not used during the
+cross-validation procedure.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Instantiate an RBF SVM</span>
+<span class="n">svm</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">()</span>
+
+<span class="c1"># Instantiate the GridSearchCV object and run the search</span>
+<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="s1">&#39;gamma&#39;</span><span class="p">:[</span><span class="mf">0.00001</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]}</span>
+<span class="n">searcher</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">svm</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+<span class="n">searcher</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Report the best parameters and the corresponding score</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## GridSearchCV(estimator=SVC(),
+##              param_grid={&#39;C&#39;: [0.1, 1, 10],
+##                          &#39;gamma&#39;: [1e-05, 0.0001, 0.001, 0.01, 0.1]})
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best CV params&quot;</span><span class="p">,</span> <span class="n">searcher</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Best CV params {&#39;C&#39;: 1, &#39;gamma&#39;: 0.001}
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best CV accuracy&quot;</span><span class="p">,</span> <span class="n">searcher</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
+
+<span class="c1"># Report the test accuracy using these best parameters</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Best CV accuracy 0.9970259812050857
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test accuracy of best grid search hypers:&quot;</span><span class="p">,</span> <span class="n">searcher</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Test accuracy of best grid search hypers: 1.0
+</pre></div>
+</div>
+<p class>
+You got it! Note that the best value of <code>gamma</code>, 0.0001, is
+different from the value of 0.001 that we got in the previous exercise,
+when we fixed <code>C=1</code>. Hyperparameters can affect each other!
+</p>
+</section>
+</section>
+<section id="comparing-logistic-regression-and-svm">
+<h2>Comparing logistic regression and SVM<a class="headerlink" href="#comparing-logistic-regression-and-svm" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Logistic regression:</p>
+<ul>
+<li><p>Is a linear classifier</p></li>
+<li><p>Can use with kernels, but slow</p></li>
+<li><p>Outputs meaningful probabilities</p></li>
+<li><p>Can be extended to multi-class</p></li>
+<li><p>All data points affect fit</p></li>
+<li><p>L2 or L1 regularization</p></li>
+</ul>
+</li>
+<li><p>Support Vector Machine (SVM)</p>
+<ul>
+<li><p>Is a linear classifier</p></li>
+<li><p>Can use with kernels, and fast</p></li>
+<li><p>Does not naturally output probabilities</p></li>
+<li><p>Can be extended to multi-class</p></li>
+<li><p>Only “support vectors” affect fit</p></li>
+<li><p>Conventionally just L2 regularization</p></li>
+</ul>
+</li>
+</ul>
+<section id="an-advantage-of-svms">
+<h3>An advantage of SVMs<a class="headerlink" href="#an-advantage-of-svms" title="Permalink to this headline">#</a></h3>
+<p>
+Which of the following is an advantage of SVMs over logistic regression?
+</p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> They naturally output meaningful probabilities.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> They can be used with kernels.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> They are computationally efficient with kernels.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> They learn sigmoidal decision boundaries.</p></li>
+</ul>
+<p class="dc-completion-pane__message dc-u-maxw-100pc">
+That’s right! Having a limited number of support vectors makes kernel
+SVMs computationally efficient.
+</p>
+</section>
+<section id="an-advantage-of-logistic-regression">
+<h3>An advantage of logistic regression<a class="headerlink" href="#an-advantage-of-logistic-regression" title="Permalink to this headline">#</a></h3>
+<p>
+Which of the following is an advantage of logistic regression over SVMs?
+</p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> It naturally outputs meaningful probabilities.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> It can be used with kernels.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> It is computationally efficient with kernels.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> It learns sigmoidal decision boundaries.</p></li>
+</ul>
+<p class="dc-completion-pane__message dc-u-maxw-100pc">
+You got it!
+</p>
+</section>
+<section id="using-sgdclassifier">
+<h3>Using SGDClassifier<a class="headerlink" href="#using-sgdclassifier" title="Permalink to this headline">#</a></h3>
+<p>
+In this final coding exercise, you’ll do a hyperparameter search over
+the regularization strength and the loss (logistic regression vs. linear
+SVM) using <code>SGDClassifier()</code>.
+</p>
+<li>
+Instantiate an <code>SGDClassifier</code> instance with
+<code>random_state=0</code>.
+</li>
+<li>
+Search over the regularization strength and the <code>hinge</code>
+vs. <code>log_loss</code> losses.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDClassifier</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">target</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># We set random_state=0 for reproducibility </span>
+<span class="n">linear_classifier</span> <span class="o">=</span> <span class="n">SGDClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Instantiate the GridSearchCV object and run the search</span>
+<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:[</span><span class="mf">0.00001</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> 
+             <span class="s1">&#39;loss&#39;</span><span class="p">:[</span><span class="s1">&#39;hinge&#39;</span><span class="p">,</span> <span class="s1">&#39;log_loss&#39;</span><span class="p">]}</span>
+<span class="n">searcher</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">linear_classifier</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">searcher</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Report the best parameters and the corresponding score</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## GridSearchCV(cv=10, estimator=SGDClassifier(random_state=0),
+##              param_grid={&#39;alpha&#39;: [1e-05, 0.0001, 0.001, 0.01, 0.1, 1],
+##                          &#39;loss&#39;: [&#39;hinge&#39;, &#39;log_loss&#39;]})
+## 
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/model_selection/_validation.py:372: FitFailedWarning: 
+## 60 fits failed out of a total of 120.
+## The score on these train-test partitions for these parameters will be set to nan.
+## If these failures are not expected, you can try to debug them by setting error_score=&#39;raise&#39;.
+## 
+## Below are more details about the failures:
+## --------------------------------------------------------------------------------
+## 60 fits failed with the following error:
+## Traceback (most recent call last):
+##   File &quot;/Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/model_selection/_validation.py&quot;, line 681, in _fit_and_score
+##     estimator.fit(X_train, y_train, **fit_params)
+##   File &quot;/Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_stochastic_gradient.py&quot;, line 890, in fit
+##     return self._fit(
+##   File &quot;/Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_stochastic_gradient.py&quot;, line 649, in _fit
+##     self._validate_params()
+##   File &quot;/Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_stochastic_gradient.py&quot;, line 162, in _validate_params
+##     raise ValueError(&quot;The loss %s is not supported. &quot; % self.loss)
+## ValueError: The loss log_loss is not supported. 
+## 
+##   warnings.warn(some_fits_failed_message, FitFailedWarning)
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/model_selection/_search.py:969: UserWarning: One or more of the test scores are non-finite: [0.93391376        nan 0.94656716        nan 0.94062465        nan
+##  0.94730238        nan 0.95101161        nan 0.95252626        nan]
+##   warnings.warn(
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best CV params&quot;</span><span class="p">,</span> <span class="n">searcher</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Best CV params {&#39;alpha&#39;: 1, &#39;loss&#39;: &#39;hinge&#39;}
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best CV accuracy&quot;</span><span class="p">,</span> <span class="n">searcher</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Best CV accuracy 0.9525262576008844
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test accuracy of best grid search hypers:&quot;</span><span class="p">,</span> <span class="n">searcher</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Test accuracy of best grid search hypers: 0.9511111111111111
+</pre></div>
+</div>
+<p class>
+Congrats, you finished the last exercise in the course! One advantage of
+<code>SGDClassifier</code> is that it’s very fast - this would have
+taken a lot longer with <code>LogisticRegression</code> or
+<code>LinearSVC</code>.
+</p>
+</section>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h2>
+<section id="id1">
+<h3>Conclusion<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
+<p>You made it - congratulations!</p>
+</section>
+<section id="how-does-this-course-fit-into-data-science">
+<h3>How does this course fit into data science?<a class="headerlink" href="#how-does-this-course-fit-into-data-science" title="Permalink to this headline">#</a></h3>
+<p>You now have practice applying logistic regression and support vector
+machines to classification problems. How does this fit into a bigger
+picture? The way I see it, data science is the process of answering
+questions and making decisions based on data. The data science process
+usually combines several of the following pieces: data collection, data
+preparation, database design, visualization, communication, software
+engineering, machine learning, and more. In this course we focused on
+the machine learning portion. Machine learning has several branches like
+supervised learning, unsupervised learning, and reinforcement learning.
+We’ve been focusing on supervised learning, which means trying to
+predict a target value from features given a labeled data set. Within
+supervised learning, we’ve focussed on classification, which means the
+thing we’re trying to predict is categorical rather than a continuous in
+nature. Finally, we covered logistic regression and SVMs, the two most
+popular linear classifiers. So, while we’ve done a lot, there’s so much
+more out there!</p>
+</section>
+<section id="congratulations-thanks">
+<h3>Congratulations &amp; thanks!<a class="headerlink" href="#congratulations-thanks" title="Permalink to this headline">#</a></h3>
+<p>Thanks for completing this journey with me. I hope you enjoyed it as
+much as I did. Congratulations again.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Linear-Classifiers-in-Python-3.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Logistic regression</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Machine-Learning-with-Tree-Based-Models-in-Python-0.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Machine Learning with Tree-Based Models in Python</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

@@ -1,0 +1,1415 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Fine-tuning your XGBoost model &#8212; Machine Learning Scientist with Python</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Using XGBoost in pipelines" href="Extreme-Gradient-Boosting-with-XGBoost-4.html" />
+    <link rel="prev" title="Regression with XGBoost" href="Extreme-Gradient-Boosting-with-XGBoost-2.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning Scientist with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Supervised-Learning-with-scikit-learn-0.html">
+   Supervised Learning with scikit-learn
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-1.html">
+     Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-2.html">
+     Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-3.html">
+     Fine-Tuning Your Model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-4.html">
+     Preprocessing and Pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Unsupervised-Learning-in-Python-0.html">
+   Unsupervised Learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-1.html">
+     Clustering for dataset exploration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-2.html">
+     Visualization with hierarchical clustering and t-SNE
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-3.html">
+     Decorrelating your data and dimension reduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-4.html">
+     Discovering interpretable features
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Linear-Classifiers-in-Python-0.html">
+   Linear-Classifiers-in-Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-1.html">
+     Applying logistic regression and SVM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-2.html">
+     Loss functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-3.html">
+     Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-4.html">
+     Support Vector Machines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-0.html">
+   Machine Learning with Tree-Based Models in Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-1.html">
+     Classification and Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-2.html">
+     The Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-3.html">
+     Bagging and Random Forests
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-4.html">
+     Boosting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-5.html">
+     Model Tuning
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-0.html">
+   Extreme Gradient Boosting with XGBoost
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-1.html">
+     Classification with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-2.html">
+     Regression with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Fine-tuning your XGBoost model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-4.html">
+     Using XGBoost in pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml/issues/new?title=Issue%20on%20page%20%2FExtreme-Gradient-Boosting-with-XGBoost-3.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Extreme-Gradient-Boosting-with-XGBoost-3.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-tune-your-model">
+   Why tune your model?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#when-is-tuning-your-model-a-bad-idea">
+     When is tuning your model a bad idea?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tuning-the-number-of-boosting-rounds">
+     Tuning the number of boosting rounds
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#automated-boosting-round-selection-using-early-stopping">
+     Automated boosting round selection using early_stopping
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overview-of-xgboosts-hyperparameters">
+   Overview of XGBoost’s hyperparameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tuning-eta">
+     Tuning eta
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tuning-max-depth">
+     Tuning max_depth
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tuning-colsample-bytree">
+     Tuning colsample_bytree
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#review-of-grid-search-and-random-search">
+   Review of grid search and random search
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#grid-search-with-xgboost">
+     Grid search with XGBoost
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#random-search-with-xgboost">
+     Random search with XGBoost
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#limits-of-grid-search-and-random-search">
+   Limits of grid search and random search
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#when-should-you-use-grid-search-and-random-search">
+     When should you use grid search and random search?
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Fine-tuning your XGBoost model</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-tune-your-model">
+   Why tune your model?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#when-is-tuning-your-model-a-bad-idea">
+     When is tuning your model a bad idea?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tuning-the-number-of-boosting-rounds">
+     Tuning the number of boosting rounds
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#automated-boosting-round-selection-using-early-stopping">
+     Automated boosting round selection using early_stopping
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overview-of-xgboosts-hyperparameters">
+   Overview of XGBoost’s hyperparameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tuning-eta">
+     Tuning eta
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tuning-max-depth">
+     Tuning max_depth
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tuning-colsample-bytree">
+     Tuning colsample_bytree
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#review-of-grid-search-and-random-search">
+   Review of grid search and random search
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#grid-search-with-xgboost">
+     Grid search with XGBoost
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#random-search-with-xgboost">
+     Random search with XGBoost
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#limits-of-grid-search-and-random-search">
+   Limits of grid search and random search
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#when-should-you-use-grid-search-and-random-search">
+     When should you use grid search and random search?
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="fine-tuning-your-xgboost-model">
+<h1>Fine-tuning your XGBoost model<a class="headerlink" href="#fine-tuning-your-xgboost-model" title="Permalink to this headline">#</a></h1>
+<p class="chapter__description">
+This chapter will teach you how to make your XGBoost models as
+performant as possible. You’ll learn about the variety of parameters
+that can be adjusted to alter the behavior of XGBoost and how to tune
+them efficiently so that you can supercharge the performance of your
+models.
+</p>
+<section id="why-tune-your-model">
+<h2>Why tune your model?<a class="headerlink" href="#why-tune-your-model" title="Permalink to this headline">#</a></h2>
+<section id="when-is-tuning-your-model-a-bad-idea">
+<h3>When is tuning your model a bad idea?<a class="headerlink" href="#when-is-tuning-your-model-a-bad-idea" title="Permalink to this headline">#</a></h3>
+<p>
+Now that you’ve seen the effect that tuning has on the overall
+performance of your XGBoost model, let’s turn the question on its head
+and see if you can figure out when tuning your model might not be the
+best idea. <strong>Given that model tuning can be time-intensive and
+complicated, which of the following scenarios would NOT call for careful
+tuning of your model</strong>?
+</p>
+<li>
+You have lots of examples from some dataset and very many features at
+your disposal.
+</li>
+<strong>
+<li>
+You are very short on time before you must push an initial model to
+production and have little data to train your model on.
+</li>
+</strong>
+<li>
+You have access to a multi-core (64 cores) server with lots of memory
+(200GB RAM) and no time constraints.
+</li>
+<li>
+You must squeeze out every last bit of performance out of your xgboost
+model.
+</li>
+<p class="dc-completion-pane__message dc-u-maxw-100pc">
+Yup! You cannot tune if you do not have time!
+</p>
+</section>
+<section id="tuning-the-number-of-boosting-rounds">
+<h3>Tuning the number of boosting rounds<a class="headerlink" href="#tuning-the-number-of-boosting-rounds" title="Permalink to this headline">#</a></h3>
+<p>
+Let’s start with parameter tuning by seeing how the number of boosting
+rounds (number of trees you build) impacts the out-of-sample performance
+of your XGBoost model. You’ll use <code>xgb.cv()</code> inside a
+<code>for</code> loop and build one model per
+<code>num_boost_round</code> parameter.
+</p>
+<p>
+Here, you’ll continue working with the Ames housing dataset. The
+features are available in the array <code>X</code>, and the target
+vector is contained in <code>y</code>.
+</p>
+<li>
+Create a <code>DMatrix</code> called <code>housing_dmatrix</code> from
+<code>X</code> and <code>y</code>.
+</li>
+<li>
+Create a parameter dictionary called <code>params</code>, passing in the
+appropriate <code>“objective”</code> (<code>“reg:linear”</code>) and
+<code>“max_depth”</code> (set it to <code>3</code>).
+</li>
+<li>
+Iterate over <code>num_rounds</code> inside a <code>for</code> loop and
+perform 3-fold cross-validation. In each iteration of the loop, pass in
+the current number of boosting rounds (<code>curr_num_rounds</code>) to
+<code>xgb.cv()</code> as the argument to <code>num_boost_round</code>.
+</li>
+<li>
+Append the final boosting round RMSE for each cross-validated XGBoost
+model to the <code>final_rmse_per_round</code> list.
+</li>
+<li>
+<code>num_rounds</code> and <code>final_rmse_per_round</code> have been
+zipped and converted into a DataFrame so you can easily see how the
+model performs with each boosting round. Hit ‘Submit Answer’ to see the
+results!
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the DMatrix: housing_dmatrix</span>
+<span class="n">housing_dmatrix</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Create the parameter dictionary for each tree: params </span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;objective&quot;</span><span class="p">:</span><span class="s2">&quot;reg:linear&quot;</span><span class="p">,</span> <span class="s2">&quot;max_depth&quot;</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
+
+<span class="c1"># Create list of number of boosting rounds</span>
+<span class="n">num_rounds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">]</span>
+
+<span class="c1"># Empty list to store final round rmse per XGBoost model</span>
+<span class="n">final_rmse_per_round</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Iterate over num_rounds and build one model per num_boost_round parameter</span>
+<span class="k">for</span> <span class="n">curr_num_rounds</span> <span class="ow">in</span> <span class="n">num_rounds</span><span class="p">:</span>
+
+    <span class="c1"># Perform cross-validation: cv_results</span>
+    <span class="n">cv_results</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">cv</span><span class="p">(</span><span class="n">dtrain</span><span class="o">=</span><span class="n">housing_dmatrix</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">nfold</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">num_boost_round</span><span class="o">=</span><span class="n">curr_num_rounds</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="s2">&quot;rmse&quot;</span><span class="p">,</span> <span class="n">as_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+    
+    <span class="c1"># Append final round RMSE</span>
+    <span class="n">final_rmse_per_round</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv_results</span><span class="p">[</span><span class="s2">&quot;test-rmse-mean&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    
+<span class="c1"># Print the resultant DataFrame</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [15:32:32] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:32] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:32] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:32] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:32] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:32] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:33] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:33] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:33] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">num_rounds_rmses</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">num_rounds</span><span class="p">,</span> <span class="n">final_rmse_per_round</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">num_rounds_rmses</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;num_boosting_rounds&quot;</span><span class="p">,</span><span class="s2">&quot;rmse&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##    num_boosting_rounds          rmse
+## 0                    5  50903.299479
+## 1                   10  34774.191406
+## 2                   15  32895.098307
+</pre></div>
+</div>
+<p class>
+Awesome! As you can see, increasing the number of boosting rounds
+decreases the RMSE.
+</p>
+</section>
+<section id="automated-boosting-round-selection-using-early-stopping">
+<h3>Automated boosting round selection using early_stopping<a class="headerlink" href="#automated-boosting-round-selection-using-early-stopping" title="Permalink to this headline">#</a></h3>
+<p>
+Now, instead of attempting to cherry pick the best possible number of
+boosting rounds, you can very easily have XGBoost automatically select
+the number of boosting rounds for you within <code>xgb.cv()</code>. This
+is done using a technique called <strong>early stopping</strong>.
+</p>
+<p>
+<strong>Early stopping</strong> works by testing the XGBoost model after
+every boosting round against a hold-out dataset and stopping the
+creation of additional boosting rounds (thereby finishing training of
+the model early) if the hold-out metric (<code>“rmse”</code> in our
+case) does not improve for a given number of rounds. Here you will use
+the <code>early_stopping_rounds</code> parameter in
+<code>xgb.cv()</code> with a large possible number of boosting rounds
+(50). Bear in mind that if the holdout metric continuously improves up
+through when <code>num_boost_rounds</code> is reached, then early
+stopping does not occur.
+</p>
+<p>
+Here, the <code>DMatrix</code> and parameter dictionary have been
+created for you. Your task is to use cross-validation with early
+stopping. Go for it!
+</p>
+<li>
+Perform 3-fold cross-validation with early stopping and
+<code>“rmse”</code> as your metric. Use <code>10</code> early stopping
+rounds and <code>50</code> boosting rounds. Specify a <code>seed</code>
+of <code>123</code> and make sure the output is a <code>pandas</code>
+DataFrame. Remember to specify the other parameters such as
+<code>dtrain</code>, <code>params</code>, and <code>metrics</code>.
+</li>
+<li>
+Print <code>cv_results</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create your housing DMatrix: housing_dmatrix</span>
+<span class="n">housing_dmatrix</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Create the parameter dictionary for each tree: params</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;objective&quot;</span><span class="p">:</span><span class="s2">&quot;reg:linear&quot;</span><span class="p">,</span> <span class="s2">&quot;max_depth&quot;</span><span class="p">:</span><span class="mi">4</span><span class="p">}</span>
+
+<span class="c1"># Perform cross-validation with early stopping: cv_results</span>
+<span class="n">cv_results</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">cv</span><span class="p">(</span><span class="n">dtrain</span><span class="o">=</span><span class="n">housing_dmatrix</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">nfold</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">num_boost_round</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">early_stopping_rounds</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="s2">&quot;rmse&quot;</span><span class="p">,</span> <span class="n">as_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+
+<span class="c1"># Print cv_results</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [15:32:35] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:35] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:35] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">cv_results</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##     train-rmse-mean  train-rmse-std  test-rmse-mean  test-rmse-std
+## 0     141871.630208      403.632409   142640.630208     705.552907
+## 1     103057.033854       73.787612   104907.677083     111.124997
+## 2      75975.958333      253.705643    79262.057292     563.761707
+## 3      57420.515625      521.666323    61620.138021    1087.681933
+## 4      44552.960938      544.168971    50437.558594    1846.450522
+## 5      35763.942708      681.796885    43035.660156    2034.476339
+## 6      29861.469401      769.567549    38600.881511    2169.803563
+## 7      25994.679036      756.524834    36071.816407    2109.801581
+## 8      23306.832031      759.237670    34383.183594    1934.542189
+## 9      21459.772786      745.623841    33509.141927    1887.374589
+## 10     20148.728516      749.612756    32916.806641    1850.890045
+## 11     19215.382162      641.387202    32197.834635    1734.459068
+## 12     18627.391276      716.256399    31770.848958    1802.156167
+## 13     17960.697265      557.046469    31482.781901    1779.126300
+## 14     17559.733724      631.413289    31389.990234    1892.321401
+## 15     17205.712891      590.168517    31302.885417    1955.164927
+## 16     16876.571615      703.636538    31234.060547    1880.707358
+## 17     16597.666992      703.677646    31318.347656    1828.860164
+## 18     16330.460612      607.275030    31323.636719    1775.911103
+## 19     16005.972331      520.472435    31204.138021    1739.073743
+## 20     15814.299479      518.603218    31089.865885    1756.024090
+## 21     15493.405924      505.617405    31047.996094    1624.672630
+## 22     15270.733724      502.021346    31056.920573    1668.036788
+## 23     15086.381836      503.910642    31024.981120    1548.988924
+## 24     14917.606445      486.208398    30983.680990    1663.131129
+## 25     14709.591797      449.666844    30989.479818    1686.664414
+## 26     14457.285156      376.785590    30952.116536    1613.170520
+## 27     14185.567708      383.100492    31066.899088    1648.531897
+## 28     13934.065104      473.464919    31095.643880    1709.226491
+## 29     13749.646485      473.671156    31103.885417    1778.882817
+## 30     13549.837891      454.900755    30976.083984    1744.514903
+## 31     13413.480469      399.601066    30938.469401    1746.051298
+## 32     13275.916341      415.404898    30931.000651    1772.471473
+## 33     13085.878906      493.793750    30929.056640    1765.541487
+## 34     12947.182292      517.789542    30890.625651    1786.510889
+## 35     12846.026367      547.731831    30884.489583    1769.731829
+## 36     12702.380534      505.522036    30833.541667    1690.999881
+## 37     12532.243815      508.298122    30856.692709    1771.447014
+## 38     12384.056641      536.224879    30818.013672    1782.783623
+## 39     12198.445312      545.165866    30839.394531    1847.325690
+## 40     12054.582682      508.840691    30776.964844    1912.779519
+## 41     11897.033528      477.177882    30794.703776    1919.677255
+## 42     11756.221354      502.993261    30780.961589    1906.820582
+## 43     11618.846029      519.835813    30783.754557    1951.258396
+## 44     11484.081380      578.429092    30776.734375    1953.449992
+## 45     11356.550781      565.367451    30758.544271    1947.456794
+## 46     11193.557292      552.298192    30729.973307    1985.701585
+## 47     11071.317383      604.088404    30732.662760    1966.997355
+## 48     10950.777018      574.864279    30712.243490    1957.751584
+## 49     10824.865885      576.664748    30720.852214    1950.513825
+</pre></div>
+</div>
+<p class>
+Great work!
+</p>
+</section>
+</section>
+<section id="overview-of-xgboosts-hyperparameters">
+<h2>Overview of XGBoost’s hyperparameters<a class="headerlink" href="#overview-of-xgboosts-hyperparameters" title="Permalink to this headline">#</a></h2>
+<section id="tuning-eta">
+<h3>Tuning eta<a class="headerlink" href="#tuning-eta" title="Permalink to this headline">#</a></h3>
+<p>
+It’s time to practice tuning other XGBoost hyperparameters in earnest
+and observing their effect on model performance! You’ll begin by tuning
+the <code>“eta”</code>, also known as the learning rate.
+</p>
+<p>
+The learning rate in XGBoost is a parameter that can range between
+<code>0</code> and <code>1</code>, with higher values of
+<code>“eta”</code> penalizing feature weights more strongly, causing
+much stronger regularization.
+</p>
+<li>
+Create a list called <code>eta_vals</code> to store the following
+<code>“eta”</code> values: <code>0.001</code>, <code>0.01</code>, and
+<code>0.1</code>.
+</li>
+<li>
+Iterate over your <code>eta_vals</code> list using a <code>for</code>
+loop.
+</li>
+<li>
+In each iteration of the <code>for</code> loop, set the
+<code>“eta”</code> key of <code>params</code> to be equal to
+<code>curr_val</code>. Then, perform 3-fold cross-validation with early
+stopping (<code>5</code> rounds), <code>10</code> boosting rounds, a
+metric of <code>“rmse”</code>, and a <code>seed</code> of
+<code>123</code>. Ensure the output is a DataFrame.
+</li>
+<li>
+Append the final round RMSE to the <code>best_rmse</code> list.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create your housing DMatrix: housing_dmatrix</span>
+<span class="n">housing_dmatrix</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Create the parameter dictionary for each tree (boosting round)</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;objective&quot;</span><span class="p">:</span><span class="s2">&quot;reg:linear&quot;</span><span class="p">,</span> <span class="s2">&quot;max_depth&quot;</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
+
+<span class="c1"># Create list of eta values and empty list to store final round rmse per xgboost model</span>
+<span class="n">eta_vals</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+<span class="n">best_rmse</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Systematically vary the eta</span>
+<span class="k">for</span> <span class="n">curr_val</span> <span class="ow">in</span> <span class="n">eta_vals</span><span class="p">:</span>
+
+    <span class="n">params</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_val</span>
+    
+    <span class="c1"># Perform cross-validation: cv_results</span>
+    <span class="n">cv_results</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">cv</span><span class="p">(</span><span class="n">dtrain</span><span class="o">=</span><span class="n">housing_dmatrix</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">nfold</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                        <span class="n">num_boost_round</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">early_stopping_rounds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                        <span class="n">metrics</span><span class="o">=</span><span class="s2">&quot;rmse&quot;</span><span class="p">,</span> <span class="n">as_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+    
+    <span class="c1"># Append the final round rmse to best_rmse</span>
+    <span class="n">best_rmse</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv_results</span><span class="p">[</span><span class="s2">&quot;test-rmse-mean&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Print the resultant DataFrame</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [15:32:39] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:39] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:39] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:39] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:39] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:39] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:39] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:39] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:39] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">eta_vals</span><span class="p">,</span> <span class="n">best_rmse</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">,</span><span class="s2">&quot;best_rmse&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##      eta      best_rmse
+## 0  0.001  195736.406250
+## 1  0.010  179932.161458
+## 2  0.100   79759.401041
+</pre></div>
+</div>
+<p class>
+Great work!
+</p>
+</section>
+<section id="tuning-max-depth">
+<h3>Tuning max_depth<a class="headerlink" href="#tuning-max-depth" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, your job is to tune <code>max_depth</code>, which is
+the parameter that dictates the maximum depth that each tree in a
+boosting round can grow to. Smaller values will lead to shallower trees,
+and larger values to deeper trees.
+</p>
+<li>
+Create a list called <code>max_depths</code> to store the following
+<code>“max_depth”</code> values: <code>2</code>, <code>5</code>,
+<code>10</code>, and <code>20</code>.
+</li>
+<li>
+Iterate over your <code>max_depths</code> list using a <code>for</code>
+loop.
+</li>
+<li>
+Systematically vary <code>“max_depth”</code> in each iteration of the
+<code>for</code> loop and perform 2-fold cross-validation with early
+stopping (<code>5</code> rounds), <code>10</code> boosting rounds, a
+metric of <code>“rmse”</code>, and a <code>seed</code> of
+<code>123</code>. Ensure the output is a DataFrame.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create your housing DMatrix: housing_dmatrix</span>
+<span class="n">housing_dmatrix</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Create the parameter dictionary</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;objective&quot;</span><span class="p">:</span><span class="s2">&quot;reg:linear&quot;</span><span class="p">}</span>
+
+<span class="c1"># Create list of max_depth values</span>
+<span class="n">max_depths</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>
+<span class="n">best_rmse</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Systematically vary the max_depth</span>
+<span class="k">for</span> <span class="n">curr_val</span> <span class="ow">in</span> <span class="n">max_depths</span><span class="p">:</span>
+
+    <span class="n">params</span><span class="p">[</span><span class="s2">&quot;max_depth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_val</span>
+    
+    <span class="c1"># Perform cross-validation</span>
+    <span class="n">cv_results</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">cv</span><span class="p">(</span><span class="n">dtrain</span><span class="o">=</span><span class="n">housing_dmatrix</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">nfold</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                 <span class="n">num_boost_round</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">early_stopping_rounds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                 <span class="n">metrics</span><span class="o">=</span><span class="s2">&quot;rmse&quot;</span><span class="p">,</span> <span class="n">as_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+    
+    <span class="c1"># Append the final round rmse to best_rmse</span>
+    <span class="n">best_rmse</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv_results</span><span class="p">[</span><span class="s2">&quot;test-rmse-mean&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Print the resultant DataFrame</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [15:32:41] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:41] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:41] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:41] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:41] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:41] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:41] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:41] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">max_depths</span><span class="p">,</span> <span class="n">best_rmse</span><span class="p">)),</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;max_depth&quot;</span><span class="p">,</span><span class="s2">&quot;best_rmse&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##    max_depth     best_rmse
+## 0          2  37957.476562
+## 1          5  35596.599610
+## 2         10  36065.537110
+## 3         20  36739.574219
+</pre></div>
+</div>
+<p class>
+Great work!
+</p>
+</section>
+<section id="tuning-colsample-bytree">
+<h3>Tuning colsample_bytree<a class="headerlink" href="#tuning-colsample-bytree" title="Permalink to this headline">#</a></h3>
+<p>
+Now, it’s time to tune <code>“colsample_bytree”</code>. You’ve already
+seen this if you’ve ever worked with scikit-learn’s
+<code>RandomForestClassifier</code> or
+<code>RandomForestRegressor</code>, where it just was called
+<code>max_features</code>. In both <code>xgboost</code> and
+<code>sklearn</code>, this parameter (although named differently) simply
+specifies the fraction of features to choose from at every split in a
+given tree. In <code>xgboost</code>, <code>colsample_bytree</code> must
+be specified as a float between 0 and 1.
+</p>
+<li>
+Create a list called <code>colsample_bytree_vals</code> to store the
+values <code>0.1</code>, <code>0.5</code>, <code>0.8</code>, and
+<code>1</code>.
+</li>
+<li>
+Systematically vary <code>“colsample_bytree”</code> and perform
+cross-validation, exactly as you did with <code>max_depth</code> and
+<code>eta</code> previously.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create your housing DMatrix</span>
+<span class="n">housing_dmatrix</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Create the parameter dictionary</span>
+<span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;objective&quot;</span><span class="p">:</span><span class="s2">&quot;reg:linear&quot;</span><span class="p">,</span><span class="s2">&quot;max_depth&quot;</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
+
+<span class="c1"># Create list of hyperparameter values</span>
+<span class="n">colsample_bytree_vals</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">best_rmse</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Systematically vary the hyperparameter value </span>
+<span class="k">for</span> <span class="n">curr_val</span> <span class="ow">in</span> <span class="n">colsample_bytree_vals</span><span class="p">:</span>
+
+    <span class="n">params</span><span class="p">[</span><span class="s2">&quot;colsample_bytree&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_val</span>
+    
+    <span class="c1"># Perform cross-validation</span>
+    <span class="n">cv_results</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">cv</span><span class="p">(</span><span class="n">dtrain</span><span class="o">=</span><span class="n">housing_dmatrix</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">nfold</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                 <span class="n">num_boost_round</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">early_stopping_rounds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                 <span class="n">metrics</span><span class="o">=</span><span class="s2">&quot;rmse&quot;</span><span class="p">,</span> <span class="n">as_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+    
+    <span class="c1"># Append the final round rmse to best_rmse</span>
+    <span class="n">best_rmse</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv_results</span><span class="p">[</span><span class="s2">&quot;test-rmse-mean&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Print the resultant DataFrame</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [15:32:43] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:43] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:43] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:43] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:43] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:43] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:43] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:43] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">colsample_bytree_vals</span><span class="p">,</span> <span class="n">best_rmse</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;colsample_bytree&quot;</span><span class="p">,</span><span class="s2">&quot;best_rmse&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##    colsample_bytree     best_rmse
+## 0               0.1  51386.587890
+## 1               0.5  36585.345703
+## 2               0.8  36093.660157
+## 3               1.0  35836.042968
+</pre></div>
+</div>
+<p class>
+Awesome! There are several other individual parameters that you can
+tune, such as <code>“subsample”</code>, which dictates the fraction of
+the training data that is used during any given boosting round. Next up:
+Grid Search and Random Search to tune XGBoost hyperparameters more
+efficiently!
+</p>
+</section>
+</section>
+<section id="review-of-grid-search-and-random-search">
+<h2>Review of grid search and random search<a class="headerlink" href="#review-of-grid-search-and-random-search" title="Permalink to this headline">#</a></h2>
+<section id="grid-search-with-xgboost">
+<h3>Grid search with XGBoost<a class="headerlink" href="#grid-search-with-xgboost" title="Permalink to this headline">#</a></h3>
+<p>
+Now that you’ve learned how to tune parameters individually with
+XGBoost, let’s take your parameter tuning to the next level by using
+scikit-learn’s <code>GridSearch</code> and <code>RandomizedSearch</code>
+capabilities with internal cross-validation using the
+<code>GridSearchCV</code> and <code>RandomizedSearchCV</code> functions.
+You will use these to find the best model exhaustively from a collection
+of possible parameter values across multiple parameters simultaneously.
+Let’s get to work, starting with <code>GridSearchCV</code>!
+</p>
+<li>
+Create a parameter grid called <code>gbm_param_grid</code> that contains
+a list of <code>“colsample_bytree”</code> values (<code>0.3</code>,
+<code>0.7</code>), a list with a single value for
+<code>“n_estimators”</code> (<code>50</code>), and a list of 2
+<code>“max_depth”</code> (<code>2</code>, <code>5</code>) values.
+</li>
+<li>
+Instantiate an <code>XGBRegressor</code> object called <code>gbm</code>.
+</li>
+<li>
+Create a <code>GridSearchCV</code> object called <code>grid_mse</code>,
+passing in: the parameter grid to <code>param_grid</code>, the
+<code>XGBRegressor</code> to <code>estimator</code>,
+<code>“neg_mean_squared_error”</code> to <code>scoring</code>, and
+<code>4</code> to <code>cv</code>. Also specify <code>verbose=1</code>
+so you can better understand the output.
+</li>
+<li>
+Fit the <code>GridSearchCV</code> object to <code>X</code> and
+<code>y</code>.
+</li>
+<li>
+Print the best parameter values and lowest RMSE, using the
+<code>.best_params\_</code> and <code>.best_score\_</code> attributes,
+respectively, of <code>grid_mse</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RandomizedSearchCV</span>
+
+<span class="c1"># Create the parameter grid: gbm_param_grid</span>
+<span class="n">gbm_param_grid</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;colsample_bytree&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">],</span>
+    <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">50</span><span class="p">],</span>
+    <span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="c1"># Instantiate the regressor: gbm</span>
+<span class="n">gbm</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBRegressor</span><span class="p">()</span>
+
+<span class="c1"># Perform grid search: grid_mse</span>
+<span class="n">grid_mse</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">gbm</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">gbm_param_grid</span><span class="p">,</span>
+                        <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">grid_mse</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Print the best parameters and lowest RMSE</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Fitting 4 folds for each of 4 candidates, totalling 16 fits
+## [15:32:46] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:46] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:46] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:46] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:46] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:46] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:46] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:46] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:46] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:47] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:47] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:47] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:47] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:47] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:47] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:47] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:48] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## GridSearchCV(cv=4, estimator=XGBRegressor(),
+##              param_grid={&#39;colsample_bytree&#39;: [0.3, 0.7], &#39;max_depth&#39;: [2, 5],
+##                          &#39;n_estimators&#39;: [50]},
+##              scoring=&#39;neg_mean_squared_error&#39;, verbose=1)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best parameters found: &quot;</span><span class="p">,</span> <span class="n">grid_mse</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Best parameters found:  {&#39;colsample_bytree&#39;: 0.7, &#39;max_depth&#39;: 5, &#39;n_estimators&#39;: 50}
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Lowest RMSE found: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">grid_mse</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Lowest RMSE found:  30540.19922467927
+</pre></div>
+</div>
+<p class>
+Excellent work! Next up, <code>RandomizedSearchCV</code>.
+</p>
+</section>
+<section id="random-search-with-xgboost">
+<h3>Random search with XGBoost<a class="headerlink" href="#random-search-with-xgboost" title="Permalink to this headline">#</a></h3>
+<p>
+Often, <code>GridSearchCV</code> can be really time consuming, so in
+practice, you may want to use <code>RandomizedSearchCV</code> instead,
+as you will do in this exercise. The good news is you only have to make
+a few modifications to your <code>GridSearchCV</code> code to do
+<code>RandomizedSearchCV</code>. The key difference is you have to
+specify a <code>param_distributions</code> parameter instead of a
+<code>param_grid</code> parameter.
+</p>
+<li>
+Create a parameter grid called <code>gbm_param_grid</code> that contains
+a list with a single value for <code>‘n_estimators’</code>
+(<code>25</code>), and a list of <code>‘max_depth’</code> values between
+<code>2</code> and <code>11</code> for <code>‘max_depth’</code> - use
+<code>range(2, 12)</code> for this.
+</li>
+<li>
+Create a <code>RandomizedSearchCV</code> object called
+<code>randomized_mse</code>, passing in: the parameter grid to
+<code>param_distributions</code>, the <code>XGBRegressor</code> to
+<code>estimator</code>, <code>“neg_mean_squared_error”</code> to
+<code>scoring</code>, <code>5</code> to <code>n_iter</code>, and
+<code>4</code> to <code>cv</code>. Also specify <code>verbose=1</code>
+so you can better understand the output.
+</li>
+<li>
+Fit the <code>RandomizedSearchCV</code> object to <code>X</code> and
+<code>y</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the parameter grid: gbm_param_grid </span>
+<span class="n">gbm_param_grid</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">25</span><span class="p">],</span>
+    <span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># Instantiate the regressor: gbm</span>
+<span class="n">gbm</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Perform random search: grid_mse</span>
+<span class="n">randomized_mse</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">gbm</span><span class="p">,</span> <span class="n">param_distributions</span><span class="o">=</span><span class="n">gbm_param_grid</span><span class="p">,</span>
+                                    <span class="n">n_iter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">randomized_mse</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Print the best parameters and lowest RMSE</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Fitting 4 folds for each of 5 candidates, totalling 20 fits
+## [15:32:50] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:50] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:50] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:50] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:51] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:51] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:51] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:51] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:51] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:51] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:51] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:51] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:52] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:52] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:52] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:52] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:52] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:52] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:52] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:52] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:32:52] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## RandomizedSearchCV(cv=4, estimator=XGBRegressor(n_estimators=10), n_iter=5,
+##                    param_distributions={&#39;max_depth&#39;: range(2, 12),
+##                                         &#39;n_estimators&#39;: [25]},
+##                    scoring=&#39;neg_mean_squared_error&#39;, verbose=1)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best parameters found: &quot;</span><span class="p">,</span><span class="n">randomized_mse</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Best parameters found:  {&#39;n_estimators&#39;: 25, &#39;max_depth&#39;: 5}
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Lowest RMSE found: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">randomized_mse</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Lowest RMSE found:  36636.35808132903
+</pre></div>
+</div>
+<p class>
+Superb!
+</p>
+</section>
+</section>
+<section id="limits-of-grid-search-and-random-search">
+<h2>Limits of grid search and random search<a class="headerlink" href="#limits-of-grid-search-and-random-search" title="Permalink to this headline">#</a></h2>
+<section id="when-should-you-use-grid-search-and-random-search">
+<h3>When should you use grid search and random search?<a class="headerlink" href="#when-should-you-use-grid-search-and-random-search" title="Permalink to this headline">#</a></h3>
+<p>
+Now that you’ve seen some of the drawbacks of grid search and random
+search, which of the following most accurately describes why both random
+search and grid search are non-ideal search hyperparameter tuning
+strategies in all scenarios?
+</p>
+<li>
+Grid Search and Random Search both take a very long time to perform,
+regardless of the number of parameters you want to tune.
+</li>
+<li>
+Grid Search and Random Search both scale exponentially in the number of
+hyperparameters you want to tune.
+</li>
+<strong>
+<li>
+The search space size can be massive for Grid Search in certain cases,
+whereas for Random Search the number of hyperparameters has a
+significant effect on how long it takes to run.
+</li>
+</strong>
+<li>
+Grid Search and Random Search require that you have some idea of where
+the ideal values for hyperparameters reside.
+</li>
+<p class="dc-completion-pane__message dc-u-maxw-100pc">
+This is why random search and grid search should not always be used.
+Nice!
+</p></section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Extreme-Gradient-Boosting-with-XGBoost-2.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Regression with XGBoost</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Extreme-Gradient-Boosting-with-XGBoost-4.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Using XGBoost in pipelines</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

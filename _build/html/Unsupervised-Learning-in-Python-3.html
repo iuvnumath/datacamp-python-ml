@@ -1,0 +1,1389 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Decorrelating your data and dimension reduction &#8212; Machine Learning Scientist with Python</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Discovering interpretable features" href="Unsupervised-Learning-in-Python-4.html" />
+    <link rel="prev" title="Visualization with hierarchical clustering and t-SNE" href="Unsupervised-Learning-in-Python-2.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning Scientist with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Supervised-Learning-with-scikit-learn-0.html">
+   Supervised Learning with scikit-learn
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-1.html">
+     Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-2.html">
+     Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-3.html">
+     Fine-Tuning Your Model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-4.html">
+     Preprocessing and Pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="Unsupervised-Learning-in-Python-0.html">
+   Unsupervised Learning
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-1.html">
+     Clustering for dataset exploration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-2.html">
+     Visualization with hierarchical clustering and t-SNE
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Decorrelating your data and dimension reduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-4.html">
+     Discovering interpretable features
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Linear-Classifiers-in-Python-0.html">
+   Linear-Classifiers-in-Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-1.html">
+     Applying logistic regression and SVM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-2.html">
+     Loss functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-3.html">
+     Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-4.html">
+     Support Vector Machines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-0.html">
+   Machine Learning with Tree-Based Models in Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-1.html">
+     Classification and Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-2.html">
+     The Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-3.html">
+     Bagging and Random Forests
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-4.html">
+     Boosting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-5.html">
+     Model Tuning
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-0.html">
+   Extreme Gradient Boosting with XGBoost
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-1.html">
+     Classification with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-2.html">
+     Regression with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-3.html">
+     Fine-tuning your XGBoost model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-4.html">
+     Using XGBoost in pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml/issues/new?title=Issue%20on%20page%20%2FUnsupervised-Learning-in-Python-3.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Unsupervised-Learning-in-Python-3.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualizing-the-pca-transformation">
+   Visualizing the PCA transformation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#correlated-data-in-nature">
+     Correlated data in nature
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#decorrelating-the-grain-measurements-with-pca">
+     Decorrelating the grain measurements with PCA
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#principal-components">
+     Principal components
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#intrinsic-dimension">
+   Intrinsic dimension
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-first-principal-component">
+     The first principal component
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#variance-of-the-pca-features">
+     Variance of the PCA features
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#intrinsic-dimension-of-the-fish-data">
+     Intrinsic dimension of the fish data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dimension-reduction-with-pca">
+   Dimension reduction with PCA
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dimension-reduction">
+     Dimension reduction
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-tf-idf-word-frequency-array">
+     A tf-idf word-frequency array
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#clustering-wikipedia-part-i">
+     Clustering Wikipedia part I
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#clustering-wikipedia-part-ii">
+     Clustering Wikipedia part II
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Decorrelating your data and dimension reduction</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualizing-the-pca-transformation">
+   Visualizing the PCA transformation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#correlated-data-in-nature">
+     Correlated data in nature
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#decorrelating-the-grain-measurements-with-pca">
+     Decorrelating the grain measurements with PCA
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#principal-components">
+     Principal components
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#intrinsic-dimension">
+   Intrinsic dimension
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-first-principal-component">
+     The first principal component
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#variance-of-the-pca-features">
+     Variance of the PCA features
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#intrinsic-dimension-of-the-fish-data">
+     Intrinsic dimension of the fish data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dimension-reduction-with-pca">
+   Dimension reduction with PCA
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dimension-reduction">
+     Dimension reduction
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-tf-idf-word-frequency-array">
+     A tf-idf word-frequency array
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#clustering-wikipedia-part-i">
+     Clustering Wikipedia part I
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#clustering-wikipedia-part-ii">
+     Clustering Wikipedia part II
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="decorrelating-your-data-and-dimension-reduction">
+<h1>Decorrelating your data and dimension reduction<a class="headerlink" href="#decorrelating-your-data-and-dimension-reduction" title="Permalink to this headline">#</a></h1>
+<p class="chapter__description">
+Dimension reduction summarizes a dataset using its common occuring
+patterns. In this chapter, you’ll learn about the most fundamental of
+dimension reduction techniques, “Principal Component Analysis” (“PCA”).
+PCA is often used before supervised learning to improve model
+performance and generalization. It can also be useful for unsupervised
+learning. For example, you’ll employ a variant of PCA will allow you to
+cluster Wikipedia articles by their content!
+</p>
+<section id="visualizing-the-pca-transformation">
+<h2>Visualizing the PCA transformation<a class="headerlink" href="#visualizing-the-pca-transformation" title="Permalink to this headline">#</a></h2>
+<section id="correlated-data-in-nature">
+<h3>Correlated data in nature<a class="headerlink" href="#correlated-data-in-nature" title="Permalink to this headline">#</a></h3>
+<p>
+You are given an array <code>grains</code> giving the width and length
+of samples of grain. You suspect that width and length will be
+correlated. To confirm this, make a scatter plot of width vs length and
+measure their Pearson correlation.
+</p>
+<li>
+Import:
+<li>
+<code>matplotlib.pyplot</code> as <code>plt</code>.
+</li>
+<li>
+<code>pearsonr</code> from <code>scipy.stats</code>.
+</li>
+</li>
+<li>
+Assign column <code>0</code> of <code>grains</code> to
+<code>width</code> and column <code>1</code> of <code>grains</code> to
+<code>length</code>.
+</li>
+<li>
+Make a scatter plot with <code>width</code> on the x-axis and
+<code>length</code> on the y-axis.
+</li>
+<li>
+Use the <code>pearsonr()</code> function to calculate the Pearson
+correlation of <code>width</code> and <code>length</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">grains</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;archive/Unsupervised-Learning-in-Python/datasets/grains.csv&quot;</span><span class="p">)</span>
+<span class="n">grains</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grains</span><span class="p">)[:,[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">]]</span>
+
+<span class="c1"># Perform the necessary imports</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">pearsonr</span>
+
+<span class="c1"># Assign the 0th column of grains: width</span>
+<span class="n">width</span> <span class="o">=</span> <span class="n">grains</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Assign the 1st column of grains: length</span>
+<span class="n">length</span> <span class="o">=</span> <span class="n">grains</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Scatter plot width vs length</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## (2.55985, 4.10315, 4.8102, 6.7638)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Calculate the Pearson correlation</span>
+</pre></div>
+</div>
+<img src="Unsupervised-Learning-in-Python_files/figure-markdown_github/unnamed-chunk-16-17.png" width="672" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">correlation</span><span class="p">,</span> <span class="n">pvalue</span> <span class="o">=</span> <span class="n">pearsonr</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+
+<span class="c1"># Display the correlation</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">correlation</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 0.8604149377143467
+</pre></div>
+</div>
+<p class>
+Great work! As you would expect, the width and length of the grain
+samples are highly correlated.
+</p>
+</section>
+<section id="decorrelating-the-grain-measurements-with-pca">
+<h3>Decorrelating the grain measurements with PCA<a class="headerlink" href="#decorrelating-the-grain-measurements-with-pca" title="Permalink to this headline">#</a></h3>
+<p>
+You observed in the previous exercise that the width and length
+measurements of the grain are correlated. Now, you’ll use PCA to
+decorrelate these measurements, then plot the decorrelated points and
+measure their Pearson correlation.
+</p>
+<li>
+Import <code>PCA</code> from <code>sklearn.decomposition</code>.
+</li>
+<li>
+Create an instance of <code>PCA</code> called <code>model</code>.
+</li>
+<li>
+Use the <code>.fit_transform()</code> method of <code>model</code> to
+apply the PCA transformation to <code>grains</code>. Assign the result
+to <code>pca_features</code>.
+</li>
+<li>
+The subsequent code to extract, plot, and compute the Pearson
+correlation of the first two columns <code>pca_features</code> has been
+written for you, so hit submit to see the result!
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import PCA</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="c1"># Create PCA instance: model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">()</span>
+
+<span class="c1"># Apply the fit_transform method of model to grains: pca_features</span>
+<span class="n">pca_features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">grains</span><span class="p">)</span>
+
+<span class="c1"># Assign 0th column of pca_features: xs</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">pca_features</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Assign 1st column of pca_features: ys</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">pca_features</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Scatter plot xs vs ys</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## (-0.9666954859113024, 1.3255192221382366, -0.47614840965670485, 0.5348749465462598)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Calculate the Pearson correlation of xs and ys</span>
+</pre></div>
+</div>
+<img src="Unsupervised-Learning-in-Python_files/figure-markdown_github/unnamed-chunk-17-19.png" width="672" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">correlation</span><span class="p">,</span> <span class="n">pvalue</span> <span class="o">=</span> <span class="n">pearsonr</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+
+<span class="c1"># Display the correlation</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">correlation</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 8.933825901280557e-17
+</pre></div>
+</div>
+<p class>
+Excellent! You’ve successfully decorrelated the grain measurements with
+PCA!
+</p>
+</section>
+<section id="principal-components">
+<h3>Principal components<a class="headerlink" href="#principal-components" title="Permalink to this headline">#</a></h3>
+<p>
+On the right are three scatter plots of the same point cloud. Each
+scatter plot shows a different set of axes (in red). In which of the
+plots could the axes represent the principal components of the point
+cloud?
+</p>
+<p>
+Recall that the principal components are the directions along which the
+the data varies.
+</p>
+<img src="archive/Unsupervised-Learning-in-Python/datasets/pca.png">
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> None of them.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> Both plot 1 and plot 3.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Plot 2.</p></li>
+</ul>
+<p class>
+Well done! You’ve correctly inferred that the principal components have
+to align with the axes of the point cloud. This happens in both plot 1
+and plot 3.
+</p>
+</section>
+</section>
+<section id="intrinsic-dimension">
+<h2>Intrinsic dimension<a class="headerlink" href="#intrinsic-dimension" title="Permalink to this headline">#</a></h2>
+<section id="the-first-principal-component">
+<h3>The first principal component<a class="headerlink" href="#the-first-principal-component" title="Permalink to this headline">#</a></h3>
+<p>
+The first principal component of the data is the direction in which the
+data varies the most. In this exercise, your job is to use PCA to find
+the first principal component of the length and width measurements of
+the grain samples, and represent it as an arrow on the scatter plot.
+</p>
+<p>
+The array <code>grains</code> gives the length and width of the grain
+samples. PyPlot (<code>plt</code>) and <code>PCA</code> have already
+been imported for you.
+</p>
+<li>
+Make a scatter plot of the grain measurements. This has been done for
+you.
+</li>
+<li>
+Create a <code>PCA</code> instance called <code>model</code>.
+</li>
+<li>
+Fit the model to the <code>grains</code> data.
+</li>
+<li>
+Extract the coordinates of the mean of the data using the
+<code>.mean\_</code> attribute of <code>model</code>.
+</li>
+<li>
+Get the first principal component of <code>model</code> using the
+<code>.components\_\[0,:\]</code> attribute.
+</li>
+<li>
+Plot the first principal component as an arrow on the scatter plot,
+using the <code>plt.arrow()</code> function. You have to specify the
+first two arguments - <code>mean\[0\]</code> and <code>mean\[1\]</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make a scatter plot of the untransformed points</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">grains</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">grains</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Create a PCA instance: model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">()</span>
+
+<span class="c1"># Fit model to points</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">grains</span><span class="p">)</span>
+
+<span class="c1"># Get the mean of the grain samples: mean</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## PCA()
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mean</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">mean_</span>
+
+<span class="c1"># Get the first principal component: first_pc</span>
+<span class="n">first_pc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">components_</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>
+
+<span class="c1"># Plot first_pc as an arrow, starting at mean</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">mean</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mean</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">first_pc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">first_pc</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="c1"># Keep axes on same scale</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## (2.55985, 4.10315, 4.8102, 6.7638)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="Unsupervised-Learning-in-Python_files/figure-markdown_github/unnamed-chunk-18-21.png" width="672" />
+<p class>
+Excellent job! This is the direction in which the grain data varies the
+most.
+</p>
+</section>
+<section id="variance-of-the-pca-features">
+<h3>Variance of the PCA features<a class="headerlink" href="#variance-of-the-pca-features" title="Permalink to this headline">#</a></h3>
+<p>
+The fish dataset is 6-dimensional. But what is its <em>intrinsic</em>
+dimension? Make a plot of the variances of the PCA features to find out.
+As before, <code>samples</code> is a 2D array, where each row represents
+a fish. You’ll need to standardize the features first.
+</p>
+<li>
+Create an instance of <code>StandardScaler</code> called
+<code>scaler</code>.
+</li>
+<li>
+Create a <code>PCA</code> instance called <code>pca</code>.
+</li>
+<li>
+Use the <code>make_pipeline()</code> function to create a pipeline
+chaining <code>scaler</code> and <code>pca</code>.
+</li>
+<li>
+Use the <code>.fit()</code> method of <code>pipeline</code> to fit it to
+the fish samples <code>samples</code>.
+</li>
+<li>
+Extract the number of components used using the
+<code>.n_components\_</code> attribute of <code>pca</code>. Place this
+inside a <code>range()</code> function and store the result as
+<code>features</code>.
+</li>
+<li>
+Use the <code>plt.bar()</code> function to plot the explained variances,
+with <code>features</code> on the x-axis and
+<code>pca.explained_variance\_</code> on the y-axis.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">fish</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;archive/Unsupervised-Learning-in-Python/datasets/fish.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">))</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">fish</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">species</span> <span class="o">=</span> <span class="n">fish</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Perform the necessary imports</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Create scaler: scaler</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+
+<span class="c1"># Create a PCA instance: pca</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">()</span>
+
+<span class="c1"># Create pipeline: pipeline</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">scaler</span><span class="p">,</span> <span class="n">pca</span><span class="p">)</span>
+
+<span class="c1"># Fit the pipeline to &#39;samples&#39;</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+
+<span class="c1"># Plot the explained variances</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Pipeline(steps=[(&#39;standardscaler&#39;, StandardScaler()), (&#39;pca&#39;, PCA())])
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">n_components_</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## &lt;BarContainer object of 6 artists&gt;
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;PCA feature&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;variance&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## ([&lt;matplotlib.axis.XTick object at 0x7ffcd9269cd0&gt;, &lt;matplotlib.axis.XTick object at 0x7ffcd9269f40&gt;, &lt;matplotlib.axis.XTick object at 0x7ffcd5657850&gt;, &lt;matplotlib.axis.XTick object at 0x7ffcd922e610&gt;, &lt;matplotlib.axis.XTick object at 0x7ffcd92137c0&gt;, &lt;matplotlib.axis.XTick object at 0x7ffcdacd1c70&gt;], [Text(0, 0, &#39;&#39;), Text(0, 0, &#39;&#39;), Text(0, 0, &#39;&#39;), Text(0, 0, &#39;&#39;), Text(0, 0, &#39;&#39;), Text(0, 0, &#39;&#39;)])
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="Unsupervised-Learning-in-Python_files/figure-markdown_github/unnamed-chunk-19-23.png" width="672" />
+<p class>
+Great work! It looks like PCA features 0 and 1 have significant
+variance.
+</p>
+</section>
+<section id="intrinsic-dimension-of-the-fish-data">
+<h3>Intrinsic dimension of the fish data<a class="headerlink" href="#intrinsic-dimension-of-the-fish-data" title="Permalink to this headline">#</a></h3>
+<p>
+In the previous exercise, you plotted the variance of the PCA features
+of the fish measurements. Looking again at your plot, what do you think
+would be a reasonable choice for the “intrinsic dimension” of the fish
+measurements? Recall that the intrinsic dimension is the number of PCA
+features with significant variance.
+</p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 1</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> 2</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 5</p></li>
+</ul>
+<p class>
+Great job! Since PCA features 0 and 1 have significant variance, the
+intrinsic dimension of this dataset appears to be 2.
+</p>
+</section>
+</section>
+<section id="dimension-reduction-with-pca">
+<h2>Dimension reduction with PCA<a class="headerlink" href="#dimension-reduction-with-pca" title="Permalink to this headline">#</a></h2>
+<section id="dimension-reduction">
+<h3>Dimension reduction<a class="headerlink" href="#dimension-reduction" title="Permalink to this headline">#</a></h3>
+<p>
+In a previous exercise, you saw that <code>2</code> was a reasonable
+choice for the “intrinsic dimension” of the fish measurements. Now use
+PCA for dimensionality reduction of the fish measurements, retaining
+only the 2 most important components.
+</p>
+<p>
+The fish measurements have already been scaled for you, and are
+available as <code>scaled_samples</code>.
+</p>
+<li>
+Import <code>PCA</code> from <code>sklearn.decomposition</code>.
+</li>
+<li>
+Create a PCA instance called <code>pca</code> with
+<code>n_components=2</code>.
+</li>
+<li>
+Use the <code>.fit()</code> method of <code>pca</code> to fit it to the
+scaled fish measurements <code>scaled_samples</code>.
+</li>
+<li>
+Use the <code>.transform()</code> method of <code>pca</code> to
+transform the <code>scaled_samples</code>. Assign the result to
+<code>pca_features</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scaled_samples</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+
+<span class="c1"># Import PCA</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="c1"># Create a PCA instance with 2 components: pca</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Fit the PCA instance to the scaled samples</span>
+<span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">scaled_samples</span><span class="p">)</span>
+
+<span class="c1"># Transform the scaled samples: pca_features</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## PCA(n_components=2)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pca_features</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">scaled_samples</span><span class="p">)</span>
+
+<span class="c1"># Print the shape of pca_features</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pca_features</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## (85, 2)
+</pre></div>
+</div>
+<p class>
+Superb! You’ve successfully reduced the dimensionality from 6 to 2.
+</p>
+</section>
+<section id="a-tf-idf-word-frequency-array">
+<h3>A tf-idf word-frequency array<a class="headerlink" href="#a-tf-idf-word-frequency-array" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you’ll create a tf-idf word frequency array for a toy
+collection of documents. For this, use the <code>TfidfVectorizer</code>
+from sklearn. It transforms a list of documents into a word frequency
+array, which it outputs as a csr_matrix. It has <code>fit()</code> and
+<code>transform()</code> methods like other sklearn objects.
+</p>
+<p>
+You are given a list <code>documents</code> of toy documents about pets.
+Its contents have been printed in the IPython Shell.
+</p>
+<li>
+Import <code>TfidfVectorizer</code> from
+<code>sklearn.feature_extraction.text</code>.
+</li>
+<li>
+Create a <code>TfidfVectorizer</code> instance called
+<code>tfidf</code>.
+</li>
+<li>
+Apply <code>.fit_transform()</code> method of <code>tfidf</code> to
+<code>documents</code> and assign the result to <code>csr_mat</code>.
+This is a word-frequency array in csr_matrix format.
+</li>
+<li>
+Inspect <code>csr_mat</code> by calling its <code>.toarray()</code>
+method and printing the result. This has been done for you.
+</li>
+<li>
+The columns of the array correspond to words. Get the list of words by
+calling the <code>.get_feature_names()</code> method of
+<code>tfidf</code>, and assign the result to <code>words</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cats say meow&#39;</span><span class="p">,</span> <span class="s1">&#39;dogs say woof&#39;</span><span class="p">,</span> <span class="s1">&#39;dogs chase cats&#39;</span><span class="p">]</span>
+
+<span class="c1"># Import TfidfVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+
+<span class="c1"># Create a TfidfVectorizer: tfidf</span>
+<span class="n">tfidf</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span> 
+
+<span class="c1"># Apply fit_transform to document: csr_mat</span>
+<span class="n">csr_mat</span> <span class="o">=</span> <span class="n">tfidf</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+
+<span class="c1"># Print result of toarray() method</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">csr_mat</span><span class="o">.</span><span class="n">toarray</span><span class="p">())</span>
+
+<span class="c1"># Get the words: words</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [[0.51785612 0.         0.         0.68091856 0.51785612 0.        ]
+##  [0.         0.         0.51785612 0.         0.51785612 0.68091856]
+##  [0.51785612 0.68091856 0.51785612 0.         0.         0.        ]]
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">words</span> <span class="o">=</span> <span class="n">tfidf</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">()</span>
+
+<span class="c1"># Print words</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [&#39;cats&#39;, &#39;chase&#39;, &#39;dogs&#39;, &#39;meow&#39;, &#39;say&#39;, &#39;woof&#39;]
+</pre></div>
+</div>
+<p class>
+Great work! You’ll now move to clustering Wikipedia articles!
+</p>
+</section>
+<section id="clustering-wikipedia-part-i">
+<h3>Clustering Wikipedia part I<a class="headerlink" href="#clustering-wikipedia-part-i" title="Permalink to this headline">#</a></h3>
+<p>
+You saw in the video that <code>TruncatedSVD</code> is able to perform
+PCA on sparse arrays in csr_matrix format, such as word-frequency
+arrays. Combine your knowledge of TruncatedSVD and k-means to cluster
+some popular pages from Wikipedia. In this exercise, build the pipeline.
+In the next exercise, you’ll apply it to the word-frequency array of
+some Wikipedia articles.
+</p>
+<p>
+Create a Pipeline object consisting of a TruncatedSVD followed by
+KMeans. (This time, we’ve precomputed the word-frequency matrix for you,
+so there’s no need for a TfidfVectorizer).
+</p>
+<p>
+The Wikipedia dataset you will be working with was obtained from
+<a href="https://blog.lateral.io/2015/06/the-unknown-perils-of-mining-wikipedia/">here</a>.
+</p>
+<li>
+Import:
+<li>
+<code>TruncatedSVD</code> from <code>sklearn.decomposition</code>.
+</li>
+<li>
+<code>KMeans</code> from <code>sklearn.cluster</code>.
+</li>
+<li>
+<code>make_pipeline</code> from <code>sklearn.pipeline</code>.
+</li>
+</li>
+<li>
+Create a <code>TruncatedSVD</code> instance called <code>svd</code> with
+<code>n_components=50</code>.
+</li>
+<li>
+Create a <code>KMeans</code> instance called <code>kmeans</code> with
+<code>n_clusters=6</code>.
+</li>
+<li>
+Create a pipeline called <code>pipeline</code> consisting of
+<code>svd</code> and <code>kmeans</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Perform the necessary imports</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">TruncatedSVD</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+
+<span class="c1"># Create a TruncatedSVD instance: svd</span>
+<span class="n">svd</span> <span class="o">=</span> <span class="n">TruncatedSVD</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Create a KMeans instance: kmeans</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+
+<span class="c1"># Create a pipeline: pipeline</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">svd</span><span class="p">,</span> <span class="n">kmeans</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class>
+Excellent! Now that you have set up your pipeline, you will use it in
+the next exercise to cluster the articles.
+</p>
+</section>
+<section id="clustering-wikipedia-part-ii">
+<h3>Clustering Wikipedia part II<a class="headerlink" href="#clustering-wikipedia-part-ii" title="Permalink to this headline">#</a></h3>
+<p>
+It is now time to put your pipeline from the previous exercise to work!
+You are given an array <code>articles</code> of tf-idf word-frequencies
+of some popular Wikipedia articles, and a list <code>titles</code> of
+their titles. Use your pipeline to cluster the Wikipedia articles.
+</p>
+<p>
+A solution to the previous exercise has been pre-loaded for you, so a
+Pipeline <code>pipeline</code> chaining TruncatedSVD with KMeans is
+available.
+</p>
+<li>
+Import <code>pandas</code> as <code>pd</code>.
+</li>
+<li>
+Fit the pipeline to the word-frequency array <code>articles</code>.
+</li>
+<li>
+Predict the cluster labels.
+</li>
+<li>
+Align the cluster labels with the list <code>titles</code> of article
+titles by creating a DataFrame <code>df</code> with <code>labels</code>
+and <code>titles</code> as columns. This has been done for you.
+</li>
+<li>
+Use the <code>.sort_values()</code> method of <code>df</code> to sort
+the DataFrame by the <code>‘label’</code> column, and print the result.
+</li>
+<li>
+Hit submit and take a moment to investigate your amazing clustering of
+Wikipedia pages!
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csc_matrix</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;archive/Unsupervised-Learning-in-Python/datasets/wikipedia-vectors.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">titles</span> <span class="o">=</span> <span class="n">documents</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">articles</span> <span class="o">=</span> <span class="n">csc_matrix</span><span class="p">(</span><span class="n">documents</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1"># Import pandas</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Fit the pipeline to articles</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">articles</span><span class="p">)</span>
+
+<span class="c1"># Calculate the cluster labels: labels</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Pipeline(steps=[(&#39;truncatedsvd&#39;, TruncatedSVD(n_components=50)),
+##                 (&#39;kmeans&#39;, KMeans(n_clusters=6))])
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">articles</span><span class="p">)</span>
+
+<span class="c1"># Create a DataFrame aligning labels and titles: df</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span> <span class="s1">&#39;article&#39;</span><span class="p">:</span> <span class="n">titles</span><span class="p">})</span>
+
+<span class="c1"># Display df sorted by cluster label</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##     label                                        article
+## 19      0  2007 United Nations Climate Change Conference
+## 18      0  2010 United Nations Climate Change Conference
+## 17      0  Greenhouse gas emissions by the United States
+## 16      0                                        350.org
+## 15      0                                 Kyoto Protocol
+## 14      0                                 Climate change
+## 13      0                               Connie Hedegaard
+## 12      0                                   Nigel Lawson
+## 11      0       Nationally Appropriate Mitigation Action
+## 10      0                                 Global warming
+## 58      1                                         Sepsis
+## 59      1                                    Adam Levine
+## 50      1                                   Chad Kroeger
+## 51      1                                     Nate Ruess
+## 52      1                                     The Wanted
+## 53      1                                   Stevie Nicks
+## 54      1                                 Arctic Monkeys
+## 55      1                                  Black Sabbath
+## 56      1                                       Skrillex
+## 57      1                          Red Hot Chili Peppers
+## 40      2                                    Tonsillitis
+## 41      2                                    Hepatitis B
+## 42      2                                    Doxycycline
+## 49      2                                       Lymphoma
+## 43      2                                       Leukemia
+## 45      2                                    Hepatitis C
+## 46      2                                     Prednisone
+## 47      2                                          Fever
+## 48      2                                     Gabapentin
+## 44      2                                           Gout
+## 38      3                                         Neymar
+## 30      3                  France national football team
+## 31      3                              Cristiano Ronaldo
+## 32      3                                   Arsenal F.C.
+## 33      3                                 Radamel Falcao
+## 34      3                             Zlatan Ibrahimović
+## 35      3                Colombia national football team
+## 36      3              2014 FIFA World Cup qualification
+## 37      3                                       Football
+## 39      3                                  Franck Ribéry
+## 29      4                               Jennifer Aniston
+## 27      4                                 Dakota Fanning
+## 26      4                                     Mila Kunis
+## 25      4                                  Russell Crowe
+## 24      4                                   Jessica Biel
+## 23      4                           Catherine Zeta-Jones
+## 22      4                              Denzel Washington
+## 21      4                             Michael Fassbender
+## 20      4                                 Angelina Jolie
+## 28      4                                  Anne Hathaway
+## 1       5                                 Alexa Internet
+## 2       5                              Internet Explorer
+## 3       5                                    HTTP cookie
+## 4       5                                  Google Search
+## 8       5                                        Firefox
+## 6       5                    Hypertext Transfer Protocol
+## 7       5                                  Social search
+## 9       5                                       LinkedIn
+## 5       5                                         Tumblr
+## 0       5                                       HTTP 404
+</pre></div>
+</div>
+<p class>
+Fantastic! Take a look at the cluster labels and see if you can identify
+any patterns!
+</p></section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Unsupervised-Learning-in-Python-2.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Visualization with hierarchical clustering and t-SNE</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Unsupervised-Learning-in-Python-4.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Discovering interpretable features</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
