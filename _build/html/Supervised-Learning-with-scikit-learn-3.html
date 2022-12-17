@@ -1,0 +1,1360 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Fine-Tuning Your Model &#8212; Machine Learning Scientist with Python</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Preprocessing and Pipelines" href="Supervised-Learning-with-scikit-learn-4.html" />
+    <link rel="prev" title="Regression" href="Supervised-Learning-with-scikit-learn-2.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning Scientist with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Machine Learning Scientist with Python
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="Supervised-Learning-with-scikit-learn-0.html">
+   Supervised Learning with scikit-learn
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-1.html">
+     Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-2.html">
+     Regression
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Fine-Tuning Your Model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-4.html">
+     Preprocessing and Pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml/issues/new?title=Issue%20on%20page%20%2FSupervised-Learning-with-scikit-learn-3.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Supervised-Learning-with-scikit-learn-3.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-good-is-your-model">
+   How good is your model?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#deciding-on-a-primary-metric">
+     Deciding on a primary metric
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#assessing-a-diabetes-prediction-classifier">
+     Assessing a diabetes prediction classifier
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#logistic-regression-and-the-roc-curve">
+   Logistic regression and the ROC curve
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#building-a-logistic-regression-model">
+     Building a logistic regression model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-roc-curve">
+     The ROC curve
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#roc-auc">
+     ROC AUC
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hyperparameter-tuning">
+   Hyperparameter tuning
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hyperparameter-tuning-with-gridsearchcv">
+     Hyperparameter tuning with GridSearchCV
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hyperparameter-tuning-with-randomizedsearchcv">
+     Hyperparameter tuning with RandomizedSearchCV
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Fine-Tuning Your Model</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-good-is-your-model">
+   How good is your model?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#deciding-on-a-primary-metric">
+     Deciding on a primary metric
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#assessing-a-diabetes-prediction-classifier">
+     Assessing a diabetes prediction classifier
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#logistic-regression-and-the-roc-curve">
+   Logistic regression and the ROC curve
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#building-a-logistic-regression-model">
+     Building a logistic regression model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-roc-curve">
+     The ROC curve
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#roc-auc">
+     ROC AUC
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hyperparameter-tuning">
+   Hyperparameter tuning
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hyperparameter-tuning-with-gridsearchcv">
+     Hyperparameter tuning with GridSearchCV
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hyperparameter-tuning-with-randomizedsearchcv">
+     Hyperparameter tuning with RandomizedSearchCV
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="fine-tuning-your-model">
+<h1>Fine-Tuning Your Model<a class="headerlink" href="#fine-tuning-your-model" title="Permalink to this headline">#</a></h1>
+<p>Having trained models, now you will learn how to evaluate them. In this
+chapter, you will be introduced to several metrics along with a
+visualization technique for analyzing classification model performance
+using scikit-learn. You will also learn how to optimize classification
+and regression models through the use of hyperparameter tuning.</p>
+<section id="how-good-is-your-model">
+<h2>How good is your model?<a class="headerlink" href="#how-good-is-your-model" title="Permalink to this headline">#</a></h2>
+<section id="deciding-on-a-primary-metric">
+<h3>Deciding on a primary metric<a class="headerlink" href="#deciding-on-a-primary-metric" title="Permalink to this headline">#</a></h3>
+<p>
+As you have seen, several metrics can be useful to evaluate the
+performance of classification models, including accuracy, precision,
+recall, and F1-score.
+</p>
+<p>
+In this exercise, you will be provided with three different
+classification problems, and your task is to select the problem where
+<strong>precision</strong> is best suited as the primary metric.
+</p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> A model predicting the presence of cancer as the positive class.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> A classifier predicting the positive class of a computer program
+containing malware.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> A model predicting if a customer is a high-value lead for a
+sales team with limited capacity.</p></li>
+</ul>
+<p class="dc-completion-pane__message dc-u-maxw-100pc">
+Correct! With limited capacity, the sales team needs the model to return
+the highest proportion of true positives compared to all predicted
+positives, thus minimizing wasted effort.
+</p>
+</section>
+<section id="assessing-a-diabetes-prediction-classifier">
+<h3>Assessing a diabetes prediction classifier<a class="headerlink" href="#assessing-a-diabetes-prediction-classifier" title="Permalink to this headline">#</a></h3>
+<p>
+In this chapter you’ll work with the <code>diabetes_df</code> dataset
+introduced previously.
+</p>
+<p>
+The goal is to predict whether or not each individual is likely to have
+diabetes based on the features body mass index (BMI) and age (in years).
+Therefore, it is a binary classification problem. A target value of
+<code>0</code> indicates that the individual does <em>not</em> have
+diabetes, while a value of <code>1</code> indicates that the individual
+<em>does</em> have diabetes.
+</p>
+<p>
+<code>diabetes_df</code> has been preloaded for you as a pandas
+DataFrame and split into <code>X_train</code>, <code>X_test</code>,
+<code>y_train</code>, and <code>y_test</code>. In addition, a
+<code>KNeighborsClassifier()</code> has been instantiated and assigned
+to <code>knn</code>.
+</p>
+<p>
+You will fit the model, make predictions on the test set, then produce a
+confusion matrix and classification report.
+</p>
+<li>
+Import <code>confusion_matrix</code> and
+<code>classification_report</code>.
+</li>
+<li>
+Fit the model to the training data.
+</li>
+<li>
+Predict the labels of the test set, storing the results as
+<code>y_pred</code>.
+</li>
+<li>
+Compute and print the confusion matrix and classification report for the
+test labels versus the predicted labels.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;archive/Supervised-Learning-with-scikit-learn/datasets/diabetes_clean.csv&#39;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Import confusion matrix</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">classification_report</span>
+
+<span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+
+<span class="c1"># Fit the model to the training data</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Predict the labels of the test data: y_pred</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## KNeighborsClassifier(n_neighbors=6)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Generate the confusion matrix and classification report</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [[176  30]
+##  [ 56  46]]
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##               precision    recall  f1-score   support
+## 
+##            0       0.76      0.85      0.80       206
+##            1       0.61      0.45      0.52       102
+## 
+##     accuracy                           0.72       308
+##    macro avg       0.68      0.65      0.66       308
+## weighted avg       0.71      0.72      0.71       308
+</pre></div>
+</div>
+<p class>
+Excellent! The model produced 116 true positives, 34 true negatives, 35
+false negatives, and 46 false positives. The classification report shows
+a better F1-score for the zero class, which represents individuals who
+do not have diabetes.
+</p>
+</section>
+</section>
+<section id="logistic-regression-and-the-roc-curve">
+<h2>Logistic regression and the ROC curve<a class="headerlink" href="#logistic-regression-and-the-roc-curve" title="Permalink to this headline">#</a></h2>
+<section id="building-a-logistic-regression-model">
+<h3>Building a logistic regression model<a class="headerlink" href="#building-a-logistic-regression-model" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you will build a logistic regression model using all
+features in the <code>diabetes_df</code> dataset. The model will be used
+to predict the probability of individuals in the test set having a
+diabetes diagnosis.
+</p>
+<p>
+The <code>diabetes_df</code> dataset has been split into
+<code>X_train</code>, <code>X_test</code>, <code>y_train</code>, and
+<code>y_test</code>, and preloaded for you.
+</p>
+<li>
+Import <code>LogisticRegression</code>.
+</li>
+<li>
+Instantiate a logistic regression model, <code>logreg</code>.
+</li>
+<li>
+Fit the model to the training data.
+</li>
+<li>
+Predict the probabilities of each individual in the test set having a
+diabetes diagnosis, storing the array of positive probabilities as
+<code>y_pred_probs</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+
+<span class="c1"># Instantiate the model</span>
+<span class="n">logreg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+
+<span class="c1"># Fit the model</span>
+<span class="n">logreg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Predict probabilities</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## LogisticRegression()
+## 
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred_probs</span> <span class="o">=</span> <span class="n">logreg</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">y_pred_probs</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [0.29470305 0.19804348 0.14437298 0.16915287 0.51158696 0.47996502
+##  0.01555776 0.60402348 0.53766072 0.78702224]
+</pre></div>
+</div>
+<p class>
+Nicely done! Notice how the probability of a diabetes diagnosis for the
+first 10 individuals in the test set ranges from 0.01 to 0.79. Now let’s
+plot the ROC curve to visualize performance using different thresholds.
+</p>
+</section>
+<section id="the-roc-curve">
+<h3>The ROC curve<a class="headerlink" href="#the-roc-curve" title="Permalink to this headline">#</a></h3>
+<p>
+Now you have built a logistic regression model for predicting diabetes
+status, you can plot the ROC curve to visualize how the true positive
+rate and false positive rate vary as the decision threshold changes.
+</p>
+<p>
+The test labels, <code>y_test</code>, and the predicted probabilities of
+the test features belonging to the positive class,
+<code>y_pred_probs</code>, have been preloaded for you, along with
+<code>matplotlib.pyplot</code> as <code>plt</code>.
+</p>
+<p>
+You will create a ROC curve and then interpret the results.
+</p>
+<li>
+Import <code>roc_curve</code>.
+</li>
+<li>
+Calculate the ROC curve values, using <code>y_test</code> and
+<code>y_pred_probs</code>, and unpacking the results into
+<code>fpr</code>, <code>tpr</code>, and <code>thresholds</code>.
+</li>
+<li>
+Plot true positive rate against false positive rate.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import roc_curve</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_curve</span>
+
+<span class="c1"># Generate ROC curve values: fpr, tpr, thresholds</span>
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_probs</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k--&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot tpr against fpr</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;False Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;ROC Curve for Diabetes Prediction&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="Supervised-Learning-with-scikit-learn_files/figure-markdown_github/unnamed-chunk-20-7.png" width="672" />
+<p>
+Well done on producing the ROC curve for the diabetes prediction model.
+</p>
+<p>
+But, what does the plot tell you about the model’s performance?
+</p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> The model is about as good as randomly guessing the class of
+each observation.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> The model is much worse than randomly guessing the class of each
+observation.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> The model is much better than randomly guessing the class of
+each observation.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> It is not possible to conclude whether the model performs better
+or worse than randomly guessing the class of each observation.</p></li>
+</ul>
+<p class>
+Well done! The ROC curve is above the dotted line, so the model performs
+better than randomly guessing the class of each observation.
+</p>
+</section>
+<section id="roc-auc">
+<h3>ROC AUC<a class="headerlink" href="#roc-auc" title="Permalink to this headline">#</a></h3>
+<p>
+The ROC curve you plotted in the last exercise looked promising.
+</p>
+<p>
+Now you will compute the area under the ROC curve, along with the other
+classification metrics you have used previously.
+</p>
+<p>
+The <code>confusion_matrix</code> and <code>classification_report</code>
+functions have been preloaded for you, along with the
+<code>logreg</code> model you previously built, plus
+<code>X_train</code>, <code>X_test</code>, <code>y_train</code>,
+<code>y_test</code>. Also, the model’s predicted test set labels are
+stored as <code>y_pred</code>, and probabilities of test set
+observations belonging to the positive class stored as
+<code>y_pred_probs</code>.
+</p>
+<p>
+A <code>knn</code> model has also been created and the performance
+metrics printed in the console, so you can compare the
+<code>roc_auc_score</code>, <code>confusion_matrix</code>, and
+<code>classification_report</code> between the two models.
+</p>
+<li>
+Import <code>roc_auc_score</code>.
+</li>
+<li>
+Calculate and print the ROC AUC score, passing the test labels and the
+predicted positive class probabilities.
+</li>
+<li>
+Calculate and print the confusion matrix.
+</li>
+<li>
+Call <code>classification_report()</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import roc_auc_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_auc_score</span>
+
+<span class="c1"># Calculate roc_auc_score</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_probs</span><span class="p">))</span>
+
+<span class="c1"># Calculate the confusion matrix</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 0.8260517799352751
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+
+<span class="c1"># Calculate the classification report</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [[176  30]
+##  [ 56  46]]
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##               precision    recall  f1-score   support
+## 
+##            0       0.76      0.85      0.80       206
+##            1       0.61      0.45      0.52       102
+## 
+##     accuracy                           0.72       308
+##    macro avg       0.68      0.65      0.66       308
+## weighted avg       0.71      0.72      0.71       308
+</pre></div>
+</div>
+<p class>
+Did you notice that logistic regression performs better than the KNN
+model across all the metrics you calculated? A ROC AUC score of 0.8002
+means this model is 60% better than a chance model at correctly
+predicting labels! scikit-learn makes it easy to produce several
+classification metrics with only a few lines of code.
+</p>
+</section>
+</section>
+<section id="hyperparameter-tuning">
+<h2>Hyperparameter tuning<a class="headerlink" href="#hyperparameter-tuning" title="Permalink to this headline">#</a></h2>
+<section id="hyperparameter-tuning-with-gridsearchcv">
+<h3>Hyperparameter tuning with GridSearchCV<a class="headerlink" href="#hyperparameter-tuning-with-gridsearchcv" title="Permalink to this headline">#</a></h3>
+<p>
+Now you have seen how to perform grid search hyperparameter tuning, you
+are going to build a lasso regression model with optimal hyperparameters
+to predict blood glucose levels using the features in the
+<code>diabetes_df</code> dataset.
+</p>
+<p>
+<code>X_train</code>, <code>X_test</code>, <code>y_train</code>, and
+<code>y_test</code> have been preloaded for you. A <code>KFold()</code>
+object has been created and stored for you as <code>kf</code>, along
+with a lasso regression model as <code>lasso</code>.
+</p>
+<li>
+Import <code>GridSearchCV</code>.
+</li>
+<li>
+Set up a parameter grid for <code>“alpha”</code>, using
+<code>np.linspace()</code> to create 20 evenly spaced values ranging
+from <code>0.00001</code> to <code>1</code>.
+</li>
+<li>
+Call <code>GridSearchCV()</code>, passing <code>lasso</code>, the
+parameter grid, and setting <code>cv</code> equal to <code>kf</code>.
+</li>
+<li>
+Fit the grid search object to the training data to perform a
+cross-validated grid search.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="c1"># Set up the parameter grid</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.00001</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">)}</span>
+
+<span class="c1"># Instantiate lasso_cv</span>
+<span class="n">lasso_cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">lasso</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kf</span><span class="p">)</span>
+
+<span class="c1"># Fit to the training data</span>
+<span class="n">lasso_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## GridSearchCV(cv=KFold(n_splits=6, random_state=5, shuffle=True),
+##              estimator=Lasso(alpha=0.3),
+##              param_grid={&#39;alpha&#39;: array([1.00000000e-05, 5.26410526e-02, 1.05272105e-01, 1.57903158e-01,
+##        2.10534211e-01, 2.63165263e-01, 3.15796316e-01, 3.68427368e-01,
+##        4.21058421e-01, 4.73689474e-01, 5.26320526e-01, 5.78951579e-01,
+##        6.31582632e-01, 6.84213684e-01, 7.36844737e-01, 7.89475789e-01,
+##        8.42106842e-01, 8.94737895e-01, 9.47368947e-01, 1.00000000e+00])})
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tuned lasso paramaters: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lasso_cv</span><span class="o">.</span><span class="n">best_params_</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Tuned lasso paramaters: {&#39;alpha&#39;: 1e-05}
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tuned lasso score: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lasso_cv</span><span class="o">.</span><span class="n">best_score_</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Tuned lasso score: 0.2715979243400802
+</pre></div>
+</div>
+<p class>
+Well done! Unfortunately, the best model only has an R-squared score of
+<code>0.33</code>, highlighting that using the optimal hyperparameters
+does not guarantee a high performing model!
+</p>
+</section>
+<section id="hyperparameter-tuning-with-randomizedsearchcv">
+<h3>Hyperparameter tuning with RandomizedSearchCV<a class="headerlink" href="#hyperparameter-tuning-with-randomizedsearchcv" title="Permalink to this headline">#</a></h3>
+<p>
+As you saw, <code>GridSearchCV</code> can be computationally expensive,
+especially if you are searching over a large hyperparameter space. In
+this case, you can use <code>RandomizedSearchCV</code>, which tests a
+fixed number of hyperparameter settings from specified probability
+distributions.
+</p>
+<p>
+Training and test sets from <code>diabetes_df</code> have been
+pre-loaded for you as <code>X_train</code>. <code>X_test</code>,
+<code>y_train</code>, and <code>y_test</code>, where the target is
+<code>“diabetes”</code>. A logistic regression model has been created
+and stored as <code>logreg</code>, as well as a <code>KFold</code>
+variable stored as <code>kf</code>.
+</p>
+<p>
+You will define a range of hyperparameters and use
+<code>RandomizedSearchCV</code>, which has been imported from
+<code>sklearn.model_selection</code>, to look for optimal
+hyperparameters from these options.
+</p>
+<li>
+Create <code>params</code>, adding <code>“l1”</code> and
+<code>“l2”</code> as <code>penalty</code> values, setting <code>C</code>
+to a range of <code>50</code> float values between <code>0.1</code> and
+<code>1.0</code>, and <code>class_weight</code> to either
+<code>“balanced”</code> or a dictionary containing <code>0:0.8,
+1:0.2</code>.
+</li>
+<li>
+Create the Randomized Search CV object, passing the model and the
+parameters, and setting <code>cv</code> equal to <code>kf</code>.
+</li>
+<li>
+Fit <code>logreg_cv</code> to the training data.
+</li>
+<li>
+Print the model’s best parameters and accuracy score.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RandomizedSearchCV</span>
+
+<span class="c1"># Create the parameter space</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;penalty&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;l1&quot;</span><span class="p">,</span> <span class="s2">&quot;l2&quot;</span><span class="p">],</span>
+         <span class="s2">&quot;tol&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+         <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+         <span class="s2">&quot;class_weight&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;balanced&quot;</span><span class="p">,</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="mf">0.8</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mf">0.2</span><span class="p">}]}</span>
+         
+<span class="c1"># Instantiate the RandomizedSearchCV object</span>
+<span class="n">logreg_cv</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span><span class="n">logreg</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kf</span><span class="p">)</span>
+
+<span class="c1"># Fit the data to the model</span>
+<span class="n">logreg_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Print the tuned parameters and score</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RandomizedSearchCV(cv=KFold(n_splits=6, random_state=5, shuffle=True),
+##                    estimator=LogisticRegression(),
+##                    param_distributions={&#39;C&#39;: array([0.1       , 0.11836735, 0.13673469, 0.15510204, 0.17346939,
+##        0.19183673, 0.21020408, 0.22857143, 0.24693878, 0.26530612,
+##        0.28367347, 0.30204082, 0.32040816, 0.33877551, 0.35714286,
+##        0.3755102 , 0.39387755, 0.4122449 , 0.43061224, 0.44897959,
+##        0.467346...
+##        4.89846939e-01, 5.10253061e-01, 5.30659184e-01, 5.51065306e-01,
+##        5.71471429e-01, 5.91877551e-01, 6.12283673e-01, 6.32689796e-01,
+##        6.53095918e-01, 6.73502041e-01, 6.93908163e-01, 7.14314286e-01,
+##        7.34720408e-01, 7.55126531e-01, 7.75532653e-01, 7.95938776e-01,
+##        8.16344898e-01, 8.36751020e-01, 8.57157143e-01, 8.77563265e-01,
+##        8.97969388e-01, 9.18375510e-01, 9.38781633e-01, 9.59187755e-01,
+##        9.79593878e-01, 1.00000000e+00])})
+## 
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/model_selection/_validation.py:548: FitFailedWarning: Estimator fit failed. The score on this train-test partition for these parameters will be set to nan. Details: 
+## Traceback (most recent call last):
+##   File &quot;/Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/model_selection/_validation.py&quot;, line 531, in _fit_and_score
+##     estimator.fit(X_train, y_train, **fit_params)
+##   File &quot;/Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py&quot;, line 1304, in fit
+##     solver = _check_solver(self.solver, self.penalty, self.dual)
+##   File &quot;/Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py&quot;, line 442, in _check_solver
+##     raise ValueError(&quot;Solver %s supports only &#39;l2&#39; or &#39;none&#39; penalties, &quot;
+## ValueError: Solver lbfgs supports only &#39;l2&#39; or &#39;none&#39; penalties, got l1 penalty.
+## 
+##   warnings.warn(&quot;Estimator fit failed. The score on this train-test&quot;
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/model_selection/_validation.py:548: FitFailedWarning: Estimator fit failed. The score on this train-test partition for these parameters will be set to nan. Details: 
+## Traceback (most recent call last):
+##   File &quot;/Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/model_selection/_validation.py&quot;, line 531, in _fit_and_score
+##     estimator.fit(X_train, y_train, **fit_params)
+##   File &quot;/Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py&quot;, line 1304, in fit
+##     solver = _check_solver(self.solver, self.penalty, self.dual)
+##   File &quot;/Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py&quot;, line 442, in _check_solver
+##     raise ValueError(&quot;Solver %s supports only &#39;l2&#39; or &#39;none&#39; penalties, &quot;
+## ValueError: Solver lbfgs supports only &#39;l2&#39; or &#39;none&#39; penalties, got l1 penalty.
+## 
+##   warnings.warn(&quot;Estimator fit failed. The score on this train-test&quot;
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+## STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+## 
+## Increase the number of iterations (max_iter) or scale the data as shown in:
+##     https://scikit-learn.org/stable/modules/preprocessing.html
+## Please also refer to the documentation for alternative solver options:
+##     https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+##   n_iter_i = _check_optimize_result(
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tuned Logistic Regression Parameters: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">logreg_cv</span><span class="o">.</span><span class="n">best_params_</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Tuned Logistic Regression Parameters: {&#39;tol&#39;: 0.7347204081632653, &#39;penalty&#39;: &#39;l2&#39;, &#39;class_weight&#39;: &#39;balanced&#39;, &#39;C&#39;: 0.13673469387755102}
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tuned Logistic Regression Best Accuracy Score: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">logreg_cv</span><span class="o">.</span><span class="n">best_score_</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Tuned Logistic Regression Best Accuracy Score: 0.737012987012987
+</pre></div>
+</div>
+<p class>
+Great searching! Even without exhaustively trying every combination of
+hyperparameters, the model has an accuracy of over 70% on the test set!
+So far we have worked with clean datasets; however, in the next chapter,
+we will discuss the steps required to transform messy data before
+building supervised learning models.
+</p></section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Supervised-Learning-with-scikit-learn-2.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Regression</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Supervised-Learning-with-scikit-learn-4.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Preprocessing and Pipelines</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

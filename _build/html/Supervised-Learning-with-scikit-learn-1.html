@@ -1,0 +1,948 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Classification &#8212; Machine Learning Scientist with Python</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Regression" href="Supervised-Learning-with-scikit-learn-2.html" />
+    <link rel="prev" title="Supervised Learning with scikit-learn" href="Supervised-Learning-with-scikit-learn-0.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning Scientist with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Machine Learning Scientist with Python
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="Supervised-Learning-with-scikit-learn-0.html">
+   Supervised Learning with scikit-learn
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-2.html">
+     Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-3.html">
+     Fine-Tuning Your Model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-4.html">
+     Preprocessing and Pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml/issues/new?title=Issue%20on%20page%20%2FSupervised-Learning-with-scikit-learn-1.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Supervised-Learning-with-scikit-learn-1.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#machine-learning-with-scikit-learn">
+   Machine learning with scikit-learn
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#binary-classification">
+     Binary classification
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-supervised-learning-workflow">
+     The supervised learning workflow
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-classification-challenge">
+   The classification challenge
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#k-nearest-neighbors-fit">
+     k-Nearest Neighbors: Fit
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#k-nearest-neighbors-predict">
+     k-Nearest Neighbors: Predict
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#measuring-model-performance">
+   Measuring model performance
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#train-test-split-computing-accuracy">
+     Train/test split + computing accuracy
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#overfitting-and-underfitting">
+     Overfitting and underfitting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualizing-model-complexity">
+     Visualizing model complexity
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Classification</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#machine-learning-with-scikit-learn">
+   Machine learning with scikit-learn
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#binary-classification">
+     Binary classification
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-supervised-learning-workflow">
+     The supervised learning workflow
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-classification-challenge">
+   The classification challenge
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#k-nearest-neighbors-fit">
+     k-Nearest Neighbors: Fit
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#k-nearest-neighbors-predict">
+     k-Nearest Neighbors: Predict
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#measuring-model-performance">
+   Measuring model performance
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#train-test-split-computing-accuracy">
+     Train/test split + computing accuracy
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#overfitting-and-underfitting">
+     Overfitting and underfitting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualizing-model-complexity">
+     Visualizing model complexity
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="classification">
+<h1>Classification<a class="headerlink" href="#classification" title="Permalink to this headline">#</a></h1>
+<p>In this chapter, you’ll be introduced to classification problems and
+learn how to solve them using supervised learning techniques. You’ll
+learn how to split data into training and test sets, fit a model, make
+predictions, and evaluate accuracy. You’ll discover the relationship
+between model complexity and performance, applying what you learn to a
+churn dataset, where you will classify the churn status of a telecom
+company’s customers.</p>
+<section id="machine-learning-with-scikit-learn">
+<h2>Machine learning with scikit-learn<a class="headerlink" href="#machine-learning-with-scikit-learn" title="Permalink to this headline">#</a></h2>
+<section id="binary-classification">
+<h3>Binary classification<a class="headerlink" href="#binary-classification" title="Permalink to this headline">#</a></h3>
+<p>
+In the video, you saw that there are two types of supervised learning —
+classification and regression. Recall that binary classification is used
+to predict a target variable that has only two labels, typically
+represented numerically with a zero or a one.
+</p>
+<p>
+A dataset, <code>churn_df</code>, has been preloaded for you in the
+console.
+</p>
+<p>
+Your task is to examine the data and choose which column could be the
+target variable for binary classification.
+</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">churn_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;archive/Supervised-Learning-with-scikit-learn/datasets/telecom_churn_clean.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">churn_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+## Int64Index: 3333 entries, 0 to 3332
+## Data columns (total 19 columns):
+##  #   Column                  Non-Null Count  Dtype  
+## ---  ------                  --------------  -----  
+##  0   account_length          3333 non-null   int64  
+##  1   area_code               3333 non-null   int64  
+##  2   international_plan      3333 non-null   int64  
+##  3   voice_mail_plan         3333 non-null   int64  
+##  4   number_vmail_messages   3333 non-null   int64  
+##  5   total_day_minutes       3333 non-null   float64
+##  6   total_day_calls         3333 non-null   int64  
+##  7   total_day_charge        3333 non-null   float64
+##  8   total_eve_minutes       3333 non-null   float64
+##  9   total_eve_calls         3333 non-null   int64  
+##  10  total_eve_charge        3333 non-null   float64
+##  11  total_night_minutes     3333 non-null   float64
+##  12  total_night_calls       3333 non-null   int64  
+##  13  total_night_charge      3333 non-null   float64
+##  14  total_intl_minutes      3333 non-null   float64
+##  15  total_intl_calls        3333 non-null   int64  
+##  16  total_intl_charge       3333 non-null   float64
+##  17  customer_service_calls  3333 non-null   int64  
+##  18  churn                   3333 non-null   int64  
+## dtypes: float64(8), int64(11)
+## memory usage: 520.8 KB
+</pre></div>
+</div>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> <code>“customer_service_calls”</code></p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> <code>“total_night_charge”</code></p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> <code>“churn”</code></p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> <code>“account_length”</code></p></li>
+</ul>
+<p class>
+Correct! <code>churn</code> has values of <code>0</code> or
+<code>1</code>, so it can be predicted using a binary classification
+model.
+</p>
+</section>
+<section id="the-supervised-learning-workflow">
+<h3>The supervised learning workflow<a class="headerlink" href="#the-supervised-learning-workflow" title="Permalink to this headline">#</a></h3>
+<p>
+Recall that scikit-learn offers a repeatable workflow for using
+supervised learning models to predict the target variable values when
+presented with new data.
+</p>
+<p>
+Reorder the pseudo-code provided so it accurately represents the
+workflow of building a supervised learning model and making predictions.
+</p>
+<li>
+Drag the code blocks into the correct order to represent how a
+supervised learning workflow would be executed.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.module</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_new</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>
+Great work! You can see how scikit-learn enables predictions to be made
+in only a few lines of code!
+</p>
+</section>
+</section>
+<section id="the-classification-challenge">
+<h2>The classification challenge<a class="headerlink" href="#the-classification-challenge" title="Permalink to this headline">#</a></h2>
+<section id="k-nearest-neighbors-fit">
+<h3>k-Nearest Neighbors: Fit<a class="headerlink" href="#k-nearest-neighbors-fit" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you will build your first classification model using
+the <code>churn_df</code> dataset, which has been preloaded for the
+remainder of the chapter.
+</p>
+<p>
+The features to use will be <code>“account_length”</code> and
+<code>“customer_service_calls”</code>. The target, <code>“churn”</code>,
+needs to be a single column with the same number of observations as the
+feature data.
+</p>
+<p>
+You will convert the features and the target variable into NumPy arrays,
+create an instance of a KNN classifier, and then fit it to the data.
+</p>
+<p>
+<code>numpy</code> has also been preloaded for you as <code>np</code>.
+</p>
+<li>
+Import <code>KNeighborsClassifier</code> from
+<code>sklearn.neighbors</code>.
+</li>
+<li>
+Create an array called <code>X</code> containing values from the
+<code>“account_length”</code> and <code>“customer_service_calls”</code>
+columns, and an array called <code>y</code> for the values of the
+<code>“churn”</code> column.
+</li>
+<li>
+Instantiate a <code>KNeighborsClassifier</code> called <code>knn</code>
+with <code>6</code> neighbors.
+</li>
+<li>
+Fit the classifier to the data using the <code>.fit()</code> method.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span> 
+
+<span class="c1"># Create arrays for the features and the target variable</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">churn_df</span><span class="p">[</span><span class="s2">&quot;churn&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">churn_df</span><span class="p">[[</span><span class="s2">&quot;account_length&quot;</span><span class="p">,</span> <span class="s2">&quot;customer_service_calls&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="c1"># Create a KNN classifier with 6 neighbors</span>
+<span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+
+<span class="c1"># Fit the classifier to the data</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## KNeighborsClassifier(n_neighbors=6)
+</pre></div>
+</div>
+<p class>
+Excellent! Now that your KNN classifier has been fit to the data, it can
+be used to predict the labels of new data points.
+</p>
+</section>
+<section id="k-nearest-neighbors-predict">
+<h3>k-Nearest Neighbors: Predict<a class="headerlink" href="#k-nearest-neighbors-predict" title="Permalink to this headline">#</a></h3>
+<p>
+Now you have fit a KNN classifier, you can use it to predict the label
+of new data points. All available data was used for training, however,
+fortunately, there are new observations available. These have been
+preloaded for you as <code>X_new</code>.
+</p>
+<p>
+The model <code>knn</code>, which you created and fit the data in the
+last exercise, has been preloaded for you. You will use your classifier
+to predict the labels of a set of new data points:
+</p>
+<pre><code>X_new = np.array([[30.0, 17.5],
+                  [107.0, 24.1],
+                  [213.0, 10.9]])
+</code></pre>
+<li>
+Create <code>y_pred</code> by predicting the target values of the unseen
+features <code>X_new</code>.
+</li>
+<li>
+Print the predicted labels for the set of predictions.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">X_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">17.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">107.0</span><span class="p">,</span> <span class="mf">24.1</span><span class="p">],</span> <span class="p">[</span><span class="mf">213.0</span><span class="p">,</span> <span class="mf">10.9</span><span class="p">]])</span>
+
+<span class="c1"># Predict the labels for the X_new</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_new</span><span class="p">)</span>
+
+<span class="c1"># Print the predictions for X_new</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predictions: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y_pred</span><span class="p">))</span> 
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Predictions: [0 1 0]
+</pre></div>
+</div>
+<p class>
+Great work! The model has predicted the first and third customers will
+not churn in the new array. But how do we know how accurate these
+predictions are? Let’s explore how to measure a model’s performance in
+the next video.
+</p>
+</section>
+</section>
+<section id="measuring-model-performance">
+<h2>Measuring model performance<a class="headerlink" href="#measuring-model-performance" title="Permalink to this headline">#</a></h2>
+<section id="train-test-split-computing-accuracy">
+<h3>Train/test split + computing accuracy<a class="headerlink" href="#train-test-split-computing-accuracy" title="Permalink to this headline">#</a></h3>
+<p>
+Now that you have learned about the importance of splitting your data
+into training and test sets, it’s time to practice doing this on the
+<code>churn_df</code> dataset!
+</p>
+<p>
+NumPy arrays have been created for you containing the features as
+<code>X</code> and the target variable as <code>y</code>. You will split
+them into training and test sets, fit a KNN classifier to the training
+data, and then compute its accuracy on the test data using the
+<code>.score()</code> method.
+</p>
+<li>
+Import <code>train_test_split</code> from
+<code>sklearn.model_selection</code>.
+</li>
+<li>
+Split <code>X</code> and <code>y</code> into training and test sets,
+setting <code>test_size</code> equal to 20%, <code>random_state</code>
+to <code>42</code>, and ensuring the target label proportions reflect
+that of the original dataset.
+</li>
+<li>
+Fit the <code>knn</code> model to the training data.
+</li>
+<li>
+Compute and print the model’s accuracy for the test data.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the module</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">churn_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;churn&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">churn_df</span><span class="p">[</span><span class="s2">&quot;churn&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="c1"># Split into training and test sets</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Fit the classifier to the training data</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Print the accuracy</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## KNeighborsClassifier()
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 0.8740629685157422
+</pre></div>
+</div>
+<p class>
+Excellent! In a few lines of code you split a dataset, fit a KNN model,
+and found its accuracy to be 87%!
+</p>
+</section>
+<section id="overfitting-and-underfitting">
+<h3>Overfitting and underfitting<a class="headerlink" href="#overfitting-and-underfitting" title="Permalink to this headline">#</a></h3>
+<p>
+Interpreting model complexity is a great way to evaluate performance
+when utilizing supervised learning. Your aim is to produce a model that
+can interpret the relationship between features and the target variable,
+as well as generalize well when exposed to new observations.
+</p>
+<p>
+You will generate accuracy scores for the training and test sets using a
+KNN classifier with different <code>n_neighbor</code> values, which you
+will plot in the next exercise.
+</p>
+<p>
+The training and test sets have been created from the
+<code>churn_df</code> dataset and preloaded as <code>X_train</code>,
+<code>X_test</code>, <code>y_train</code>, and <code>y_test</code>.
+</p>
+<p>
+In addition, <code>KNeighborsClassifier</code> has been imported for you
+along with <code>numpy</code> as <code>np</code>.
+</p>
+<li>
+Create <code>neighbors</code> as a <code>numpy</code> array of values
+from <code>1</code> up to and including <code>12</code>.
+</li>
+<li>
+Instantiate a KNN classifier, with the number of neighbors equal to the
+<code>neighbor</code> iterator.
+</li>
+<li>
+Fit the model to the training data.
+</li>
+<li>
+Calculate accuracy scores for the training set and test set separately
+using the <code>.score()</code> method, and assign the results to the
+index of the <code>train_accuracies</code> and
+<code>test_accuracies</code> dictionaries, respectively.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create neighbors</span>
+<span class="n">neighbors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
+<span class="n">train_accuracies</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">test_accuracies</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">:</span>
+  
+    <span class="c1"># Set up a KNN Classifier</span>
+    <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">neighbor</span><span class="p">)</span>
+  
+    <span class="c1"># Fit the model</span>
+    <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+  
+    <span class="c1"># Compute accuracy</span>
+    <span class="n">train_accuracies</span><span class="p">[</span><span class="n">neighbor</span><span class="p">]</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">test_accuracies</span><span class="p">[</span><span class="n">neighbor</span><span class="p">]</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## KNeighborsClassifier(n_neighbors=1)
+## KNeighborsClassifier(n_neighbors=2)
+## KNeighborsClassifier(n_neighbors=3)
+## KNeighborsClassifier(n_neighbors=4)
+## KNeighborsClassifier()
+## KNeighborsClassifier(n_neighbors=6)
+## KNeighborsClassifier(n_neighbors=7)
+## KNeighborsClassifier(n_neighbors=8)
+## KNeighborsClassifier(n_neighbors=9)
+## KNeighborsClassifier(n_neighbors=10)
+## KNeighborsClassifier(n_neighbors=11)
+## KNeighborsClassifier(n_neighbors=12)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">train_accuracies</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">test_accuracies</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [ 1  2  3  4  5  6  7  8  9 10 11 12] 
+##  {1: 1.0, 2: 0.9036009002250562, 3: 0.9114778694673669, 4: 0.8945986496624156, 5: 0.8953488372093024, 6: 0.8893473368342085, 7: 0.8885971492873218, 8: 0.8863465866466617, 9: 0.8870967741935484, 10: 0.8840960240060015, 11: 0.8874718679669917, 12: 0.8837209302325582} 
+##  {1: 0.7946026986506747, 2: 0.8605697151424287, 3: 0.8500749625187406, 4: 0.8695652173913043, 5: 0.8740629685157422, 6: 0.8650674662668666, 7: 0.8710644677661169, 8: 0.863568215892054, 9: 0.8725637181409296, 10: 0.8665667166416792, 11: 0.8710644677661169, 12: 0.8710644677661169}
+</pre></div>
+</div>
+<p class>
+Notice how training accuracy decreases as the number of neighbors
+initially gets larger, and vice versa for the testing accuracy? These
+scores would be much easier to interpret in a line plot, so let’s
+produce a model complexity curve of these results.
+</p>
+</section>
+<section id="visualizing-model-complexity">
+<h3>Visualizing model complexity<a class="headerlink" href="#visualizing-model-complexity" title="Permalink to this headline">#</a></h3>
+<p>
+Now you have calculated the accuracy of the KNN model on the training
+and test sets using various values of <code>n_neighbors</code>, you can
+create a model complexity curve to visualize how performance changes as
+the model becomes less complex!
+</p>
+<p>
+The variables <code>neighbors</code>, <code>train_accuracies</code>, and
+<code>test_accuracies</code>, which you generated in the previous
+exercise, have all been preloaded for you. You will plot the results to
+aid in finding the optimal number of neighbors for your model.
+</p>
+<li>
+Add a title <code>“KNN: Varying Number of Neighbors”</code>.
+</li>
+<li>
+Plot the <code>.values()</code> method of <code>train_accuracies</code>
+on the y-axis against <code>neighbors</code> on the x-axis, with a label
+of <code>“Training Accuracy”</code>.
+</li>
+<li>
+Plot the <code>.values()</code> method of <code>test_accuracies</code>
+on the y-axis against <code>neighbors</code> on the x-axis, with a label
+of <code>“Testing Accuracy”</code>.
+</li>
+<li>
+Display the plot.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Add a title</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;KNN: Varying Number of Neighbors&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot training accuracies</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">train_accuracies</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Training Accuracy&quot;</span><span class="p">)</span> <span class="c1"># edited/added</span>
+
+<span class="c1"># Plot test accuracies</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">test_accuracies</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Testing Accuracy&quot;</span><span class="p">)</span> <span class="c1"># edited/added</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Number of Neighbors&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">)</span>
+
+<span class="c1"># Display the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="Supervised-Learning-with-scikit-learn_files/figure-markdown_github/unnamed-chunk-7-1.png" width="672" />
+<p class>
+Great work! See how training accuracy decreases and test accuracy
+increases as the number of neighbors gets larger. For the test set,
+accuracy peaks with 7 neighbors, suggesting it is the optimal value for
+our model. Now let’s explore regression models!
+</p></section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Supervised-Learning-with-scikit-learn-0.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Supervised Learning with scikit-learn</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Supervised-Learning-with-scikit-learn-2.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Regression</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

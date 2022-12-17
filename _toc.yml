@@ -1,0 +1,12 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+chapters:
+  - file: Supervised-Learning-with-scikit-learn-0.md
+    sections:
+      - file: Supervised-Learning-with-scikit-learn-1.md
+      - file: Supervised-Learning-with-scikit-learn-2.md
+      - file: Supervised-Learning-with-scikit-learn-3.md
+      - file: Supervised-Learning-with-scikit-learn-4.md
