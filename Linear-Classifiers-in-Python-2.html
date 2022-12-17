@@ -1,0 +1,1002 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Loss functions &#8212; Machine Learning Scientist with Python</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Logistic regression" href="Linear-Classifiers-in-Python-3.html" />
+    <link rel="prev" title="Applying logistic regression and SVM" href="Linear-Classifiers-in-Python-1.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning Scientist with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Supervised-Learning-with-scikit-learn-0.html">
+   Supervised Learning with scikit-learn
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-1.html">
+     Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-2.html">
+     Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-3.html">
+     Fine-Tuning Your Model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-4.html">
+     Preprocessing and Pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Unsupervised-Learning-in-Python-0.html">
+   Unsupervised Learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-1.html">
+     Clustering for dataset exploration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-2.html">
+     Visualization with hierarchical clustering and t-SNE
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-3.html">
+     Decorrelating your data and dimension reduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-4.html">
+     Discovering interpretable features
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="Linear-Classifiers-in-Python-0.html">
+   Linear-Classifiers-in-Python
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-1.html">
+     Applying logistic regression and SVM
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Loss functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-3.html">
+     Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-4.html">
+     Support Vector Machines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-0.html">
+   Machine Learning with Tree-Based Models in Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-1.html">
+     Classification and Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-2.html">
+     The Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-3.html">
+     Bagging and Random Forests
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-4.html">
+     Boosting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-5.html">
+     Model Tuning
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-0.html">
+   Extreme Gradient Boosting with XGBoost
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-1.html">
+     Classification with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-2.html">
+     Regression with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-3.html">
+     Fine-tuning your XGBoost model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-4.html">
+     Using XGBoost in pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml/issues/new?title=Issue%20on%20page%20%2FLinear-Classifiers-in-Python-2.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Linear-Classifiers-in-Python-2.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-classifiers-the-coefficients">
+   Linear classifiers: the coefficients
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-models-make-predictions">
+     How models make predictions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#changing-the-model-coefficients">
+     Changing the model coefficients
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-a-loss-function">
+   What is a loss function?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-0-1-loss">
+     The 0-1 loss
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#minimizing-a-loss-function">
+     Minimizing a loss function
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loss-function-diagrams">
+   Loss function diagrams
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classification-loss-functions">
+     Classification loss functions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#comparing-the-logistic-and-hinge-losses">
+     Comparing the logistic and hinge losses
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#implementing-logistic-regression">
+     Implementing logistic regression
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Loss functions</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-classifiers-the-coefficients">
+   Linear classifiers: the coefficients
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-models-make-predictions">
+     How models make predictions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#changing-the-model-coefficients">
+     Changing the model coefficients
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-a-loss-function">
+   What is a loss function?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-0-1-loss">
+     The 0-1 loss
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#minimizing-a-loss-function">
+     Minimizing a loss function
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loss-function-diagrams">
+   Loss function diagrams
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classification-loss-functions">
+     Classification loss functions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#comparing-the-logistic-and-hinge-losses">
+     Comparing the logistic and hinge losses
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#implementing-logistic-regression">
+     Implementing logistic regression
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="loss-functions">
+<h1>Loss functions<a class="headerlink" href="#loss-functions" title="Permalink to this headline">#</a></h1>
+<p class="chapter__description">
+In this chapter you will discover the conceptual framework behind
+logistic regression and SVMs. This will let you delve deeper into the
+inner workings of these models.
+</p>
+<section id="linear-classifiers-the-coefficients">
+<h2>Linear classifiers: the coefficients<a class="headerlink" href="#linear-classifiers-the-coefficients" title="Permalink to this headline">#</a></h2>
+<section id="how-models-make-predictions">
+<h3>How models make predictions<a class="headerlink" href="#how-models-make-predictions" title="Permalink to this headline">#</a></h3>
+<p>
+Which classifiers make predictions based on the sign (positive or
+negative) of the raw model output?
+</p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Logistic regression only</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Linear SVMs only</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Neither</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> Both logistic regression and Linear SVMs</p></li>
+</ul>
+<p class="dc-completion-pane__message dc-u-maxw-100pc">
+Nice! Furthermore, since logistic regression and SVMs are both linear
+classifiers, the raw model output is a linear function of x.
+</p>
+</section>
+<section id="changing-the-model-coefficients">
+<h3>Changing the model coefficients<a class="headerlink" href="#changing-the-model-coefficients" title="Permalink to this headline">#</a></h3>
+<p>
+When you call <code>fit</code> with scikit-learn, the logistic
+regression coefficients are automatically learned from your dataset. In
+this exercise you will explore how the decision boundary is represented
+by the coefficients. To do so, you will change the coefficients manually
+(instead of with <code>fit</code>), and visualize the resulting
+classifiers.
+</p>
+<p>
+A 2D dataset is already loaded into the environment as <code>X</code>
+and <code>y</code>, along with a linear classifier object
+<code>model</code>.
+</p>
+<li>
+Set the two coefficients and the intercept to various values and observe
+the resulting decision boundaries.
+</li>
+<li>
+Try to build up a sense of how the coefficients relate to the decision
+boundary.
+</li>
+<li>
+Set the coefficients and intercept such that the model makes no errors
+on the given training data.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">1.78862847</span><span class="p">,</span>  <span class="mf">0.43650985</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">0.09649747</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.8634927</span> <span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">0.2773882</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.35475898</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">3.08274148</span><span class="p">,</span>  <span class="mf">2.37299932</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">3.04381817</span><span class="p">,</span>  <span class="mf">2.52278197</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">1.31386475</span><span class="p">,</span>  <span class="mf">0.88462238</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">2.11868196</span><span class="p">,</span>  <span class="mf">4.70957306</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">2.94996636</span><span class="p">,</span>  <span class="mf">2.59532259</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">3.54535995</span><span class="p">,</span>  <span class="mf">1.45352268</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">0.98236743</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.10106763</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">1.18504653</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2056499</span> <span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">1.51385164</span><span class="p">,</span>  <span class="mf">3.23671627</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">4.02378514</span><span class="p">,</span>  <span class="mf">2.2870068</span> <span class="p">],</span>
+       <span class="p">[</span> <span class="mf">0.62524497</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.16051336</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">3.76883635</span><span class="p">,</span>  <span class="mf">2.76996928</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">0.74505627</span><span class="p">,</span>  <span class="mf">1.97611078</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">1.24412333</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.62641691</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">0.80376609</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.41908317</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">0.92379202</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.02387576</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">1.12397796</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.13191423</span><span class="p">]])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+       <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Set the coefficients</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## LogisticRegression()
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">model</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="c1"># Plot the data and decision boundary</span>
+<span class="n">plot_classifier</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">model</span><span class="p">)</span>
+
+<span class="c1"># Print the number of errors</span>
+</pre></div>
+</div>
+<img src="Linear-Classifiers-in-Python_files/figure-markdown_github/unnamed-chunk-6-3.png" width="672" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">num_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y</span> <span class="o">!=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of errors:&quot;</span><span class="p">,</span> <span class="n">num_err</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Number of errors: 0
+</pre></div>
+</div>
+<p class>
+Great job! As you’ve been experiencing, the coefficients determine the
+slope of the boundary and the intercept shifts it.
+</p>
+</section>
+</section>
+<section id="what-is-a-loss-function">
+<h2>What is a loss function?<a class="headerlink" href="#what-is-a-loss-function" title="Permalink to this headline">#</a></h2>
+<section id="the-0-1-loss">
+<h3>The 0-1 loss<a class="headerlink" href="#the-0-1-loss" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Least squares: the squared loss</p>
+<ul>
+<li><p>scikit-learn’s <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> minimizes a loss:
+$<span class="math notranslate nohighlight">\(\sum\_{i=1}^{n}(\text{true ith target value - predicted ith target value})^2\)</span>$</p></li>
+<li><p>Minimization is with respect to coefficients or parameters of
+the model.</p></li>
+</ul>
+</li>
+<li><p>Classification errors: the 0-1 loss</p>
+<ul>
+<li><p>Squared loss not appropriate for classification problems</p></li>
+<li><p>A natrual loss for classification problem is the number of
+errors</p></li>
+<li><p>This is the <strong>0-1 loss</strong>: it’s 0 for a correct prediction and 1
+for an incorrect prediction</p></li>
+<li><p>But this loss is hard to minimize</p></li>
+</ul>
+</li>
+</ul>
+<p>
+In the figure below, what is the 0-1 loss (number of classification
+errors) of the classifier?
+</p>
+<img src="archive/Linear-Classifiers-in-Python/datasets/01_loss.png">
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 0</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 1</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> 2</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 3</p></li>
+</ul>
+<p class="dc-completion-pane__message dc-u-maxw-100pc">
+Correct! There is 1 misclassified red point and 1 misclassified blue
+point.
+</p>
+</section>
+<section id="minimizing-a-loss-function">
+<h3>Minimizing a loss function<a class="headerlink" href="#minimizing-a-loss-function" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise you’ll implement linear regression “from scratch” using
+<code>scipy.optimize.minimize</code>.
+</p>
+<p>
+We’ll train a model on the Boston housing price data set, which is
+already loaded into the variables <code>X</code> and <code>y</code>. For
+simplicity, we won’t include an intercept in our regression model.
+</p>
+<li>
+Fill in the loss function for least squares linear regression.
+</li>
+<li>
+Print out the coefficients from fitting sklearn’s
+<code>LinearRegression</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;archive/Linear-Classifiers-in-Python/datasets/boston_X.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;archive/Linear-Classifiers-in-Python/datasets/boston_y.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="c1"># The squared error, summed over training examples</span>
+<span class="k">def</span> <span class="nf">my_loss</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="c1"># Get the true and predicted target values for example &#39;i&#39;</span>
+        <span class="n">y_i_true</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">y_i_pred</span> <span class="o">=</span> <span class="n">w</span><span class="nd">@X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="p">(</span><span class="n">y_i_true</span> <span class="o">-</span> <span class="n">y_i_pred</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+    <span class="k">return</span> <span class="n">s</span>
+  
+<span class="c1"># Returns the w that makes my_loss(w) smallest</span>
+<span class="n">w_fit</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">my_loss</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">x</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">w_fit</span><span class="p">)</span>
+
+<span class="c1"># Compare with scikit-learn&#39;s LinearRegression coefficients</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [-9.16299769e-02  4.86754601e-02 -3.77616187e-03  2.85635921e+00
+##  -2.88073141e+00  5.92521965e+00 -7.22450907e-03 -9.67993759e-01
+##   1.70448640e-01 -9.38968004e-03 -3.92422032e-01  1.49830751e-02
+##  -4.16972374e-01]
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [[-9.16297843e-02  4.86751203e-02 -3.77930006e-03  2.85636751e+00
+##   -2.88077933e+00  5.92521432e+00 -7.22447929e-03 -9.67995240e-01
+##    1.70443393e-01 -9.38925373e-03 -3.92425680e-01  1.49832102e-02
+##   -4.16972624e-01]]
+</pre></div>
+</div>
+<p class>
+Great job! This was a tough one. Isn’t it cool how you reproduce the
+weights learned by <code>scikit-learn</code>?
+</p>
+</section>
+</section>
+<section id="loss-function-diagrams">
+<h2>Loss function diagrams<a class="headerlink" href="#loss-function-diagrams" title="Permalink to this headline">#</a></h2>
+<section id="classification-loss-functions">
+<h3>Classification loss functions<a class="headerlink" href="#classification-loss-functions" title="Permalink to this headline">#</a></h3>
+<p>
+Which of the four loss functions makes sense for classification?
+</p>
+<img src="archive/Linear-Classifiers-in-Python/datasets/4_loss_functions.png">
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> (1)</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> (2)</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> (3)</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> (4)</p></li>
+</ul>
+<p class="dc-completion-pane__message dc-u-maxw-100pc">
+Correct! This loss is very similar to the hinge loss used in SVMs (just
+shifted slightly).
+</p>
+</section>
+<section id="comparing-the-logistic-and-hinge-losses">
+<h3>Comparing the logistic and hinge losses<a class="headerlink" href="#comparing-the-logistic-and-hinge-losses" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise you’ll create a plot of the logistic and hinge losses
+using their mathematical expressions, which are provided to you.
+</p>
+<p>
+The loss function diagram from the video is shown on the right.
+</p>
+<li>
+Evaluate the <code>log_loss()</code> and <code>hinge_loss()</code>
+functions <strong>at the grid points</strong> so that they are plotted.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mathematical functions for logistic and hinge losses</span>
+<span class="k">def</span> <span class="nf">log_loss</span><span class="p">(</span><span class="n">raw_model_output</span><span class="p">):</span>
+   <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">raw_model_output</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">hinge_loss</span><span class="p">(</span><span class="n">raw_model_output</span><span class="p">):</span>
+   <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="o">-</span><span class="n">raw_model_output</span><span class="p">)</span>
+
+<span class="c1"># Create a grid of values and plot</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">log_loss</span><span class="p">(</span><span class="n">grid</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;logistic&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">hinge_loss</span><span class="p">(</span><span class="n">grid</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;hinge&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="Linear-Classifiers-in-Python_files/figure-markdown_github/unnamed-chunk-8-5.png" width="672" />
+<p class>
+Nice! As you can see, these match up with the loss function diagrams we
+saw in the video.
+</p>
+</section>
+<section id="implementing-logistic-regression">
+<h3>Implementing logistic regression<a class="headerlink" href="#implementing-logistic-regression" title="Permalink to this headline">#</a></h3>
+<p>
+This is very similar to the earlier exercise where you implemented
+linear regression “from scratch” using
+<code>scipy.optimize.minimize</code>. However, this time we’ll minimize
+the logistic loss and compare with scikit-learn’s
+<code>LogisticRegression</code> (we’ve set <code>C</code> to a large
+value to disable regularization; more on this in Chapter 3!).
+</p>
+<p>
+The <code>log_loss()</code> function from the previous exercise is
+already defined in your environment, and the <code>sklearn</code> breast
+cancer prediction dataset (first 10 features, standardized) is loaded
+into the variables <code>X</code> and <code>y</code>.
+</p>
+<li>
+Input the number of training examples into <code>range()</code>.
+</li>
+<li>
+Fill in the loss function for logistic regression.
+</li>
+<li>
+Compare the coefficients to sklearn’s <code>LogisticRegression</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;archive/Linear-Classifiers-in-Python/datasets/breast_X.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;archive/Linear-Classifiers-in-Python/datasets/breast_y.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="c1"># The logistic loss, summed over training examples</span>
+<span class="k">def</span> <span class="nf">my_loss</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">raw_model_output</span> <span class="o">=</span> <span class="n">w</span><span class="nd">@X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="n">log_loss</span><span class="p">(</span><span class="n">raw_model_output</span> <span class="o">*</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">s</span>
+  
+<span class="c1"># Returns the w that makes my_loss(w) smallest</span>
+<span class="n">w_fit</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">my_loss</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">x</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">w_fit</span><span class="p">)</span>
+
+<span class="c1"># Compare with scikit-learn&#39;s LogisticRegression</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [ 1.03608522 -1.65378403  4.08314729 -9.40923525 -1.06786728  0.0789288
+##  -0.85110209 -2.44102633 -0.4528562   0.43353478]
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1000000</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/utils/validation.py:985: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples, ), for example using ravel().
+##   y = column_or_1d(y, warn=True)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [[ 1.03665946 -1.65380077  4.08233062 -9.40904867 -1.06787935  0.07901598
+##   -0.85099843 -2.44107473 -0.45288928  0.43348202]]
+</pre></div>
+</div>
+<p class>
+Great job! As you can see, logistic regression is just minimizing the
+loss function we’ve been looking at. Much more on logistic regression in
+the next chapter!
+</p></section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Linear-Classifiers-in-Python-1.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Applying logistic regression and SVM</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Linear-Classifiers-in-Python-3.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Logistic regression</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

@@ -1,0 +1,1396 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Clustering for dataset exploration &#8212; Machine Learning Scientist with Python</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Visualization with hierarchical clustering and t-SNE" href="Unsupervised-Learning-in-Python-2.html" />
+    <link rel="prev" title="Unsupervised Learning" href="Unsupervised-Learning-in-Python-0.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning Scientist with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Supervised-Learning-with-scikit-learn-0.html">
+   Supervised Learning with scikit-learn
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-1.html">
+     Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-2.html">
+     Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-3.html">
+     Fine-Tuning Your Model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-4.html">
+     Preprocessing and Pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="Unsupervised-Learning-in-Python-0.html">
+   Unsupervised Learning
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Clustering for dataset exploration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-2.html">
+     Visualization with hierarchical clustering and t-SNE
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-3.html">
+     Decorrelating your data and dimension reduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-4.html">
+     Discovering interpretable features
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Linear-Classifiers-in-Python-0.html">
+   Linear-Classifiers-in-Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-1.html">
+     Applying logistic regression and SVM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-2.html">
+     Loss functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-3.html">
+     Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-4.html">
+     Support Vector Machines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-0.html">
+   Machine Learning with Tree-Based Models in Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-1.html">
+     Classification and Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-2.html">
+     The Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-3.html">
+     Bagging and Random Forests
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-4.html">
+     Boosting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-5.html">
+     Model Tuning
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-0.html">
+   Extreme Gradient Boosting with XGBoost
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-1.html">
+     Classification with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-2.html">
+     Regression with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-3.html">
+     Fine-tuning your XGBoost model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-4.html">
+     Using XGBoost in pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml/issues/new?title=Issue%20on%20page%20%2FUnsupervised-Learning-in-Python-1.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Unsupervised-Learning-in-Python-1.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#unsupervised-learning">
+   Unsupervised Learning
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-many-clusters">
+     How many clusters?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#clustering-2d-points">
+     Clustering 2D points
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#inspect-your-clustering">
+     Inspect your clustering
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#evaluating-a-clustering">
+   Evaluating a clustering
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-many-clusters-of-grain">
+     How many clusters of grain?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluating-the-grain-clustering">
+     Evaluating the grain clustering
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#transforming-features-for-better-clusterings">
+   Transforming features for better clusterings
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#scaling-fish-data-for-clustering">
+     Scaling fish data for clustering
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#clustering-the-fish-data">
+     Clustering the fish data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#clustering-stocks-using-kmeans">
+     Clustering stocks using KMeans
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#which-stocks-move-together">
+     Which stocks move together?
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Clustering for dataset exploration</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#unsupervised-learning">
+   Unsupervised Learning
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-many-clusters">
+     How many clusters?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#clustering-2d-points">
+     Clustering 2D points
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#inspect-your-clustering">
+     Inspect your clustering
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#evaluating-a-clustering">
+   Evaluating a clustering
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-many-clusters-of-grain">
+     How many clusters of grain?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluating-the-grain-clustering">
+     Evaluating the grain clustering
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#transforming-features-for-better-clusterings">
+   Transforming features for better clusterings
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#scaling-fish-data-for-clustering">
+     Scaling fish data for clustering
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#clustering-the-fish-data">
+     Clustering the fish data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#clustering-stocks-using-kmeans">
+     Clustering stocks using KMeans
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#which-stocks-move-together">
+     Which stocks move together?
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="clustering-for-dataset-exploration">
+<h1>Clustering for dataset exploration<a class="headerlink" href="#clustering-for-dataset-exploration" title="Permalink to this headline">#</a></h1>
+<p class="chapter__description">
+Learn how to discover the underlying groups (or “clusters”) in a
+dataset. By the end of this chapter, you’ll be clustering companies
+using their stock market prices, and distinguishing different species by
+clustering their measurements.
+</p>
+<section id="unsupervised-learning">
+<h2>Unsupervised Learning<a class="headerlink" href="#unsupervised-learning" title="Permalink to this headline">#</a></h2>
+<section id="how-many-clusters">
+<h3>How many clusters?<a class="headerlink" href="#how-many-clusters" title="Permalink to this headline">#</a></h3>
+<p>
+You are given an array <code>points</code> of size 300x2, where each row
+gives the (x, y) co-ordinates of a point on a map. Make a scatter plot
+of these points, and use the scatter plot to guess how many clusters
+there are.
+</p>
+<p>
+<code>matplotlib.pyplot</code> has already been imported as
+<code>plt</code>. In the IPython Shell:
+</p>
+<li>
+Create an array called <code>xs</code> that contains the values of
+<code>points\[:,0\]</code> - that is, column <code>0</code> of
+<code>points</code>.
+</li>
+<li>
+Create an array called <code>ys</code> that contains the values of
+<code>points\[:,1\]</code> - that is, column <code>1</code> of
+<code>points</code>.
+</li>
+<li>
+Make a scatter plot by passing <code>xs</code> and <code>ys</code> to
+the <code>plt.scatter()</code> function.
+</li>
+<li>
+Call the <code>plt.show()</code> function to show your plot.
+</li>
+<p>
+How many clusters do you see?
+</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;archive/Unsupervised-Learning-in-Python/datasets/points.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">))</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="Unsupervised-Learning-in-Python_files/figure-markdown_github/unnamed-chunk-1-1.png" width="672" />
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 2</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> 3</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 300</p></li>
+</ul>
+<p class>
+Correct! The scatter plot suggests that there are 3 distinct clusters.
+</p>
+</section>
+<section id="clustering-2d-points">
+<h3>Clustering 2D points<a class="headerlink" href="#clustering-2d-points" title="Permalink to this headline">#</a></h3>
+<p>
+From the scatter plot of the previous exercise, you saw that the points
+seem to separate into 3 clusters. You’ll now create a KMeans model to
+find 3 clusters, and fit it to the data points from the previous
+exercise. After the model has been fit, you’ll obtain the cluster labels
+for some new points using the <code>.predict()</code> method.
+</p>
+<p>
+You are given the array <code>points</code> from the previous exercise,
+and also an array <code>new_points</code>.
+</p>
+<li>
+Import <code>KMeans</code> from <code>sklearn.cluster</code>.
+</li>
+<li>
+Using <code>KMeans()</code>, create a <code>KMeans</code> instance
+called <code>model</code> to find <code>3</code> clusters. To specify
+the number of clusters, use the <code>n_clusters</code> keyword
+argument.
+</li>
+<li>
+Use the <code>.fit()</code> method of <code>model</code> to fit the
+model to the array of points <code>points</code>.
+</li>
+<li>
+Use the <code>.predict()</code> method of <code>model</code> to predict
+the cluster labels of <code>new_points</code>, assigning the result to
+<code>labels</code>.
+</li>
+<li>
+Hit submit to see the cluster labels of <code>new_points</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;archive/Unsupervised-Learning-in-Python/datasets/points.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">))</span>
+<span class="n">new_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;archive/Unsupervised-Learning-in-Python/datasets/new_points.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">))</span>
+
+<span class="c1"># Import KMeans</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+
+<span class="c1"># Create a KMeans instance with 3 clusters: model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Fit model to points</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+
+<span class="c1"># Determine the cluster labels of new_points: labels</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## KMeans(n_clusters=3)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">new_points</span><span class="p">)</span>
+
+<span class="c1"># Print cluster labels of new_points</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [0 1 2 0 1 0 1 1 1 2 0 1 1 2 2 1 2 2 1 1 2 1 0 1 0 2 1 2 2 0 0 1 1 1 2 0 1
+##  1 0 1 2 0 0 2 0 1 2 2 1 1 1 1 2 2 0 0 2 2 2 0 0 1 1 1 0 1 2 1 0 2 0 0 0 1
+##  0 2 2 0 1 2 0 2 0 1 2 1 2 0 1 1 1 0 1 1 0 2 2 2 2 0 1 0 2 2 0 0 1 0 2 2 0
+##  2 2 2 1 1 1 1 2 2 1 0 1 2 1 0 2 1 2 2 1 2 1 2 0 1 0 0 1 2 0 1 0 0 2 1 1 0
+##  2 0 2 1 0 2 2 0 2 1 1 2 1 2 2 1 1 0 1 1 2 0 2 0 0 1 0 1 1 0 0 2 0 0 0 2 1
+##  1 0 2 0 2 2 1 1 1 0 1 1 1 2 2 0 1 0 0 0 2 1 1 1 1 1 1 2 2 1 2 2 2 2 1 2 2
+##  1 1 0 2 0 0 2 0 2 0 2 1 1 2 1 1 1 2 0 0 2 1 1 2 1 2 2 1 2 2 0 2 0 0 0 1 2
+##  2 2 0 1 0 2 0 2 2 1 0 0 0 2 1 1 1 0 1 2 2 1 0 0 2 0 0 2 0 1 0 2 2 2 2 1 2
+##  2 1 1 0]
+</pre></div>
+</div>
+<p class>
+Great work! You’ve successfully performed k-Means clustering and
+predicted the labels of new points. But it is not easy to inspect the
+clustering by just looking at the printed labels. A visualization would
+be far more useful. In the next exercise, you’ll inspect your clustering
+with a scatter plot!
+</p>
+</section>
+<section id="inspect-your-clustering">
+<h3>Inspect your clustering<a class="headerlink" href="#inspect-your-clustering" title="Permalink to this headline">#</a></h3>
+<p>
+Let’s now inspect the clustering you performed in the previous exercise!
+</p>
+<p>
+A solution to the previous exercise has already run, so
+<code>new_points</code> is an array of points and <code>labels</code> is
+the array of their cluster labels.
+</p>
+<li>
+Import <code>matplotlib.pyplot</code> as <code>plt</code>.
+</li>
+<li>
+Assign column <code>0</code> of <code>new_points</code> to
+<code>xs</code>, and column <code>1</code> of <code>new_points</code> to
+<code>ys</code>.
+</li>
+<li>
+Make a scatter plot of <code>xs</code> and <code>ys</code>, specifying
+the <code>c=labels</code> keyword arguments to color the points by their
+cluster label. Also specify <code>alpha=0.5</code>.
+</li>
+<li>
+Compute the coordinates of the centroids using the
+<code>.cluster_centers\_</code> attribute of <code>model</code>.
+</li>
+<li>
+Assign column <code>0</code> of <code>centroids</code> to
+<code>centroids_x</code>, and column <code>1</code> of
+<code>centroids</code> to <code>centroids_y</code>.
+</li>
+<li>
+Make a scatter plot of <code>centroids_x</code> and
+<code>centroids_y</code>, using <code>‘D’</code> (a diamond) as a marker
+by specifying the <code>marker</code> parameter. Set the size of the
+markers to be <code>50</code> using <code>s=50</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import pyplot</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># Assign the columns of new_points: xs and ys</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">new_points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">new_points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Make a scatter plot of xs and ys, using labels to define the colors</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Assign the cluster centers: centroids</span>
+<span class="n">centroids</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">cluster_centers_</span>
+
+<span class="c1"># Assign the columns of centroids: centroids_x, centroids_y</span>
+<span class="n">centroids_x</span> <span class="o">=</span> <span class="n">centroids</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">centroids_y</span> <span class="o">=</span> <span class="n">centroids</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Make a scatter plot of centroids_x and centroids_y</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">centroids_x</span><span class="p">,</span> <span class="n">centroids_y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="Unsupervised-Learning-in-Python_files/figure-markdown_github/unnamed-chunk-3-3.png" width="672" />
+<p class>
+Fantastic! The clustering looks great! But how can you be sure that 3
+clusters is the correct choice? In other words, how can you evaluate the
+quality of a clustering? Tune into the next video in which Ben will
+explain how to evaluate a clustering!
+</p>
+</section>
+</section>
+<section id="evaluating-a-clustering">
+<h2>Evaluating a clustering<a class="headerlink" href="#evaluating-a-clustering" title="Permalink to this headline">#</a></h2>
+<section id="how-many-clusters-of-grain">
+<h3>How many clusters of grain?<a class="headerlink" href="#how-many-clusters-of-grain" title="Permalink to this headline">#</a></h3>
+<p>
+In the video, you learned how to choose a good number of clusters for a
+dataset using the k-means inertia graph. You are given an array
+<code>samples</code> containing the measurements (such as area,
+perimeter, length, and several others) of samples of grain. What’s a
+good number of clusters in this case?
+</p>
+<p>
+<code>KMeans</code> and PyPlot (<code>plt</code>) have already been
+imported for you.
+</p>
+<p>
+This dataset was sourced from the
+<a href="https://archive.ics.uci.edu/ml/datasets/seeds">UCI Machine
+Learning Repository</a>.
+</p>
+<li>
+For each of the given values of <code>k</code>, perform the following
+steps:
+</li>
+<li>
+Create a <code>KMeans</code> instance called <code>model</code> with
+<code>k</code> clusters.
+</li>
+<li>
+Fit the model to the grain data <code>samples</code>.
+</li>
+<li>
+Append the value of the <code>inertia\_</code> attribute of
+<code>model</code> to the list <code>inertias</code>.
+</li>
+<li>
+The code to plot <code>ks</code> vs <code>inertias</code> has been
+written for you, so hit submit to see the plot!
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">grains</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;archive/Unsupervised-Learning-in-Python/datasets/grains.csv&quot;</span><span class="p">)</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grains</span><span class="p">)[:,:</span><span class="mi">7</span><span class="p">]</span>
+<span class="n">varieties</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grains</span><span class="p">)[:,</span><span class="mi">8</span><span class="p">])</span>
+
+<span class="n">ks</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">inertias</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ks</span><span class="p">:</span>
+    <span class="c1"># Create a KMeans instance with k clusters: model</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+    
+    <span class="c1"># Fit model to samples</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+    
+    <span class="c1"># Append the inertia to the list of inertias</span>
+    <span class="n">inertias</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">inertia_</span><span class="p">)</span>
+    
+<span class="c1"># Plot ks vs inertias</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## KMeans(n_clusters=1)
+## KMeans(n_clusters=2)
+## KMeans(n_clusters=3)
+## KMeans(n_clusters=4)
+## KMeans(n_clusters=5)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span> <span class="n">inertias</span><span class="p">,</span> <span class="s1">&#39;-o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;number of clusters, k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;inertia&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">ks</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## ([&lt;matplotlib.axis.XTick object at 0x7ffcdace2910&gt;, &lt;matplotlib.axis.XTick object at 0x7ffcdace2a60&gt;, &lt;matplotlib.axis.XTick object at 0x7ffcdace95e0&gt;, &lt;matplotlib.axis.XTick object at 0x7ffcdacf72e0&gt;, &lt;matplotlib.axis.XTick object at 0x7ffcdacf7610&gt;], [Text(0, 0, &#39;&#39;), Text(0, 0, &#39;&#39;), Text(0, 0, &#39;&#39;), Text(0, 0, &#39;&#39;), Text(0, 0, &#39;&#39;)])
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="Unsupervised-Learning-in-Python_files/figure-markdown_github/unnamed-chunk-4-5.png" width="672" />
+<p class>
+Excellent job! The inertia decreases very slowly from 3 clusters to 4,
+so it looks like 3 clusters would be a good choice for this data.
+</p>
+</section>
+<section id="evaluating-the-grain-clustering">
+<h3>Evaluating the grain clustering<a class="headerlink" href="#evaluating-the-grain-clustering" title="Permalink to this headline">#</a></h3>
+<p>
+In the previous exercise, you observed from the inertia plot that 3 is a
+good number of clusters for the grain data. In fact, the grain samples
+come from a mix of 3 different grain varieties: “Kama”, “Rosa” and
+“Canadian”. In this exercise, cluster the grain samples into three
+clusters, and compare the clusters to the grain varieties using a
+cross-tabulation.
+</p>
+<p>
+You have the array <code>samples</code> of grain samples, and a list
+<code>varieties</code> giving the grain variety for each sample. Pandas
+(<code>pd</code>) and <code>KMeans</code> have already been imported for
+you.
+</p>
+<li>
+Create a <code>KMeans</code> model called <code>model</code> with
+<code>3</code> clusters.
+</li>
+<li>
+Use the <code>.fit_predict()</code> method of <code>model</code> to fit
+it to <code>samples</code> and derive the cluster labels. Using
+<code>.fit_predict()</code> is the same as using <code>.fit()</code>
+followed by <code>.predict()</code>.
+</li>
+<li>
+Create a DataFrame <code>df</code> with two columns named
+<code>‘labels’</code> and <code>‘varieties’</code>, using
+<code>labels</code> and <code>varieties</code>, respectively, for the
+column values. This has been done for you.
+</li>
+<li>
+Use the <code>pd.crosstab()</code> function on
+<code>df\[‘labels’\]</code> and <code>df\[‘varieties’\]</code> to count
+the number of times each grain variety coincides with each cluster
+label. Assign the result to <code>ct</code>.
+</li>
+<li>
+Hit submit to see the cross-tabulation!
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a KMeans model with 3 clusters: model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Use fit_predict to fit model and obtain cluster labels: labels</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+
+<span class="c1"># Create a DataFrame with clusters and varieties as columns: df</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;labels&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span> <span class="s1">&#39;varieties&#39;</span><span class="p">:</span> <span class="n">varieties</span><span class="p">})</span>
+
+<span class="c1"># Create crosstab: ct</span>
+<span class="n">ct</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;varieties&#39;</span><span class="p">])</span>
+
+<span class="c1"># Display ct</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ct</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## varieties  Canadian wheat  Kama wheat  Rosa wheat
+## labels                                           
+## 0                       2          60          10
+## 1                       0           1          60
+## 2                      68           9           0
+</pre></div>
+</div>
+<p class>
+Great work! The cross-tabulation shows that the 3 varieties of grain
+separate really well into 3 clusters. But depending on the type of data
+you are working with, the clustering may not always be this good. Is
+there anything you can do in such situations to improve your clustering?
+You’ll find out in the next video!
+</p>
+</section>
+</section>
+<section id="transforming-features-for-better-clusterings">
+<h2>Transforming features for better clusterings<a class="headerlink" href="#transforming-features-for-better-clusterings" title="Permalink to this headline">#</a></h2>
+<section id="scaling-fish-data-for-clustering">
+<h3>Scaling fish data for clustering<a class="headerlink" href="#scaling-fish-data-for-clustering" title="Permalink to this headline">#</a></h3>
+<p>
+You are given an array <code>samples</code> giving measurements of fish.
+Each row represents an individual fish. The measurements, such as weight
+in grams, length in centimeters, and the percentage ratio of height to
+length, have very different scales. In order to cluster this data
+effectively, you’ll need to standardize these features first. In this
+exercise, you’ll build a pipeline to standardize and cluster the data.
+</p>
+<p>
+These fish measurement data were sourced from the
+<a href="http://ww2.amstat.org/publications/jse/jse_data_archive.htm">Journal
+of Statistics Education</a>.
+</p>
+<li>
+Import:
+<li>
+<code>make_pipeline</code> from <code>sklearn.pipeline</code>.
+</li>
+<li>
+<code>StandardScaler</code> from <code>sklearn.preprocessing</code>.
+</li>
+<li>
+<code>KMeans</code> from <code>sklearn.cluster</code>.
+</li>
+</li>
+<li>
+Create an instance of <code>StandardScaler</code> called
+<code>scaler</code>.
+</li>
+<li>
+Create an instance of <code>KMeans</code> with <code>4</code> clusters
+called <code>kmeans</code>.
+</li>
+<li>
+Create a pipeline called <code>pipeline</code> that chains
+<code>scaler</code> and <code>kmeans</code>. To do this, you just need
+to pass them in as arguments to <code>make_pipeline()</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">fish</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;archive/Unsupervised-Learning-in-Python/datasets/fish.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">))</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">fish</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">species</span> <span class="o">=</span> <span class="n">fish</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Perform the necessary imports</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+
+<span class="c1"># Create scaler: scaler</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+
+<span class="c1"># Create KMeans instance: kmeans</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Create pipeline: pipeline</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">scaler</span><span class="p">,</span> <span class="n">kmeans</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class>
+Great work! Now that you’ve built the pipeline, you’ll use it in the
+next exercise to cluster the fish by their measurements.
+</p>
+</section>
+<section id="clustering-the-fish-data">
+<h3>Clustering the fish data<a class="headerlink" href="#clustering-the-fish-data" title="Permalink to this headline">#</a></h3>
+<p>
+You’ll now use your standardization and clustering pipeline from the
+previous exercise to cluster the fish by their measurements, and then
+create a cross-tabulation to compare the cluster labels with the fish
+species.
+</p>
+<p>
+As before, <code>samples</code> is the 2D array of fish measurements.
+Your pipeline is available as <code>pipeline</code>, and the species of
+every fish sample is given by the list <code>species</code>.
+</p>
+<li>
+Import <code>pandas</code> as <code>pd</code>.
+</li>
+<li>
+Fit the pipeline to the fish measurements <code>samples</code>.
+</li>
+<li>
+Obtain the cluster labels for <code>samples</code> by using the
+<code>.predict()</code> method of <code>pipeline</code>.
+</li>
+<li>
+Using <code>pd.DataFrame()</code>, create a DataFrame <code>df</code>
+with two columns named <code>‘labels’</code> and <code>‘species’</code>,
+using <code>labels</code> and <code>species</code>, respectively, for
+the column values.
+</li>
+<li>
+Using <code>pd.crosstab()</code>, create a cross-tabulation
+<code>ct</code> of <code>df\[‘labels’\]</code> and
+<code>df\[‘species’\]</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import pandas</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Fit the pipeline to samples</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+
+<span class="c1"># Calculate the cluster labels: labels</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Pipeline(steps=[(&#39;standardscaler&#39;, StandardScaler()),
+##                 (&#39;kmeans&#39;, KMeans(n_clusters=4))])
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+
+<span class="c1"># Create a DataFrame with labels and species as columns: df</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;labels&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span> <span class="s1">&#39;species&#39;</span><span class="p">:</span> <span class="n">species</span><span class="p">})</span>
+
+<span class="c1"># Create crosstab: ct</span>
+<span class="n">ct</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">])</span>
+
+<span class="c1"># Display ct</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ct</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## species  Bream  Pike  Roach  Smelt
+## labels                            
+## 0            1     0     19      1
+## 1            0    17      0      0
+## 2            0     0      0     13
+## 3           33     0      1      0
+</pre></div>
+</div>
+<p class>
+Excellent! It looks like the fish data separates really well into 4
+clusters!
+</p>
+</section>
+<section id="clustering-stocks-using-kmeans">
+<h3>Clustering stocks using KMeans<a class="headerlink" href="#clustering-stocks-using-kmeans" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you’ll cluster companies using their daily stock price
+movements (i.e. the dollar difference between the closing and opening
+prices for each trading day). You are given a NumPy array
+<code>movements</code> of daily price movements from 2010 to 2015
+(obtained from Yahoo! Finance), where each row corresponds to a company,
+and each column corresponds to a trading day.
+</p>
+<p>
+Some stocks are more expensive than others. To account for this, include
+a <code>Normalizer</code> at the beginning of your pipeline. The
+Normalizer will separately transform each company’s stock price to a
+relative scale before the clustering begins.
+</p>
+<p>
+Note that <code>Normalizer()</code> is different to
+<code>StandardScaler()</code>, which you used in the previous exercise.
+While <code>StandardScaler()</code> standardizes
+<strong>features</strong> (such as the features of the fish data from
+the previous exercise) by removing the mean and scaling to unit
+variance, <code>Normalizer()</code> rescales <strong>each
+sample</strong> - here, each company’s stock price - independently of
+the other.
+</p>
+<p>
+<code>KMeans</code> and <code>make_pipeline</code> have already been
+imported for you.
+</p>
+<li>
+Import <code>Normalizer</code> from <code>sklearn.preprocessing</code>.
+</li>
+<li>
+Create an instance of <code>Normalizer</code> called
+<code>normalizer</code>.
+</li>
+<li>
+Create an instance of <code>KMeans</code> called <code>kmeans</code>
+with <code>10</code> clusters.
+</li>
+<li>
+Using <code>make_pipeline()</code>, create a pipeline called
+<code>pipeline</code> that chains <code>normalizer</code> and
+<code>kmeans</code>.
+</li>
+<li>
+Fit the pipeline to the <code>movements</code> array.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">stock</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;archive/Unsupervised-Learning-in-Python/datasets/company-stock-movements-2010-2015-incl.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">movements</span> <span class="o">=</span> <span class="n">stock</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">companies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">stock</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Import Normalizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">Normalizer</span>
+
+<span class="c1"># Create a normalizer: normalizer</span>
+<span class="n">normalizer</span> <span class="o">=</span> <span class="n">Normalizer</span><span class="p">()</span>
+
+<span class="c1"># Create a KMeans model with 10 clusters: kmeans</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Make a pipeline chaining normalizer and kmeans: pipeline</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">normalizer</span><span class="p">,</span> <span class="n">kmeans</span><span class="p">)</span>
+
+<span class="c1"># Fit pipeline to the daily price movements</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">movements</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Pipeline(steps=[(&#39;normalizer&#39;, Normalizer()),
+##                 (&#39;kmeans&#39;, KMeans(n_clusters=10))])
+</pre></div>
+</div>
+<p class>
+Great work - you’re really getting the hang of this. Now that your
+pipeline has been set up, you can find out which stocks move together in
+the next exercise!
+</p>
+</section>
+<section id="which-stocks-move-together">
+<h3>Which stocks move together?<a class="headerlink" href="#which-stocks-move-together" title="Permalink to this headline">#</a></h3>
+<p>
+In the previous exercise, you clustered companies by their daily stock
+price movements. So which company have stock prices that tend to change
+in the same way? You’ll now inspect the cluster labels from your
+clustering to find out.
+</p>
+<p>
+Your solution to the previous exercise has already been run. Recall that
+you constructed a Pipeline <code>pipeline</code> containing a
+<code>KMeans</code> model and fit it to the NumPy array
+<code>movements</code> of daily stock movements. In addition, a list
+<code>companies</code> of the company names is available.
+</p>
+<li>
+Import <code>pandas</code> as <code>pd</code>.
+</li>
+<li>
+Use the <code>.predict()</code> method of the pipeline to predict the
+labels for <code>movements</code>.
+</li>
+<li>
+Align the cluster labels with the list of company names
+<code>companies</code> by creating a DataFrame <code>df</code> with
+<code>labels</code> and <code>companies</code> as columns. This has been
+done for you.
+</li>
+<li>
+Use the <code>.sort_values()</code> method of <code>df</code> to sort
+the DataFrame by the <code>‘labels’</code> column, and print the result.
+</li>
+<li>
+Hit submit and take a moment to see which companies are together in each
+cluster!
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import pandas</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Predict the cluster labels: labels</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">movements</span><span class="p">)</span>
+
+<span class="c1"># Create a DataFrame aligning labels and companies: df</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;labels&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span> <span class="s1">&#39;companies&#39;</span><span class="p">:</span> <span class="n">companies</span><span class="p">})</span>
+
+<span class="c1"># Display df sorted by cluster label</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##     labels                           companies
+## 26       0                      JPMorgan Chase
+## 1        0                                 AIG
+## 3        0                    American express
+## 5        0                     Bank of America
+## 18       0                       Goldman Sachs
+## 16       0                   General Electrics
+## 55       0                         Wells Fargo
+## 15       0                                Ford
+## 30       1                          MasterCard
+## 44       1                        Schlumberger
+## 32       1                                  3M
+## 53       1                       Valero Energy
+## 13       1                   DuPont de Nemours
+## 59       1                               Yahoo
+## 10       1                      ConocoPhillips
+## 8        1                         Caterpillar
+## 35       1                            Navistar
+## 57       1                               Exxon
+## 2        1                              Amazon
+## 12       1                             Chevron
+## 42       2                   Royal Dutch Shell
+## 43       2                                 SAP
+## 41       2                       Philip Morris
+## 46       2                      Sanofi-Aventis
+## 28       2                           Coca Cola
+## 19       2                     GlaxoSmithKline
+## 20       2                          Home Depot
+## 37       2                            Novartis
+## 52       2                            Unilever
+## 54       2                            Walgreen
+## 6        2            British American Tobacco
+## 49       2                               Total
+## 39       2                              Pfizer
+## 24       3                               Intel
+## 47       3                            Symantec
+## 23       3                                 IBM
+## 50       3  Taiwan Semiconductor Manufacturing
+## 51       3                   Texas instruments
+## 56       4                            Wal-Mart
+## 29       5                     Lookheed Martin
+## 36       5                    Northrop Grumman
+## 4        5                              Boeing
+## 34       6                          Mitsubishi
+## 7        6                               Canon
+## 45       6                                Sony
+## 58       6                               Xerox
+## 48       6                              Toyota
+## 21       6                               Honda
+## 40       7                      Procter Gamble
+## 9        7                   Colgate-Palmolive
+## 25       7                   Johnson &amp; Johnson
+## 38       7                               Pepsi
+## 27       7                      Kimberly-Clark
+## 31       8                           McDonalds
+## 17       9                     Google/Alphabet
+## 14       9                                Dell
+## 11       9                               Cisco
+## 33       9                           Microsoft
+## 22       9                                  HP
+## 0        9                               Apple
+</pre></div>
+</div>
+<p class>
+Fantastic job - you have completed Chapter 1! Take a look at the
+clusters. Are you surprised by any of the results? In the next chapter,
+you’ll learn about how to communicate results such as this through
+visualizations.
+</p></section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Unsupervised-Learning-in-Python-0.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Unsupervised Learning</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Unsupervised-Learning-in-Python-2.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Visualization with hierarchical clustering and t-SNE</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

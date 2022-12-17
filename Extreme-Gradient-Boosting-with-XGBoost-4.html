@@ -1,0 +1,1620 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Using XGBoost in pipelines &#8212; Machine Learning Scientist with Python</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Fine-tuning your XGBoost model" href="Extreme-Gradient-Boosting-with-XGBoost-3.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning Scientist with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Supervised-Learning-with-scikit-learn-0.html">
+   Supervised Learning with scikit-learn
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-1.html">
+     Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-2.html">
+     Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-3.html">
+     Fine-Tuning Your Model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-4.html">
+     Preprocessing and Pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Unsupervised-Learning-in-Python-0.html">
+   Unsupervised Learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-1.html">
+     Clustering for dataset exploration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-2.html">
+     Visualization with hierarchical clustering and t-SNE
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-3.html">
+     Decorrelating your data and dimension reduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-4.html">
+     Discovering interpretable features
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Linear-Classifiers-in-Python-0.html">
+   Linear-Classifiers-in-Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-1.html">
+     Applying logistic regression and SVM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-2.html">
+     Loss functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-3.html">
+     Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-4.html">
+     Support Vector Machines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-0.html">
+   Machine Learning with Tree-Based Models in Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-1.html">
+     Classification and Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-2.html">
+     The Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-3.html">
+     Bagging and Random Forests
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-4.html">
+     Boosting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-5.html">
+     Model Tuning
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-0.html">
+   Extreme Gradient Boosting with XGBoost
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-1.html">
+     Classification with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-2.html">
+     Regression with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-3.html">
+     Fine-tuning your XGBoost model
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Using XGBoost in pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml/issues/new?title=Issue%20on%20page%20%2FExtreme-Gradient-Boosting-with-XGBoost-4.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Extreme-Gradient-Boosting-with-XGBoost-4.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#review-of-pipelines-using-sklearn">
+   Review of pipelines using sklearn
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#exploratory-data-analysis">
+     Exploratory data analysis
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#encoding-categorical-columns-i-labelencoder">
+     Encoding categorical columns I: LabelEncoder
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#encoding-categorical-columns-ii-onehotencoder">
+     Encoding categorical columns II: OneHotEncoder
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#encoding-categorical-columns-iii-dictvectorizer">
+     Encoding categorical columns III: DictVectorizer
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#preprocessing-within-a-pipeline">
+     Preprocessing within a pipeline
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#incorporating-xgboost-into-pipelines">
+   Incorporating XGBoost into pipelines
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cross-validating-your-xgboost-model">
+     Cross-validating your XGBoost model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#kidney-disease-case-study-i-categorical-imputer">
+     Kidney disease case study I: Categorical Imputer
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#kidney-disease-case-study-ii-feature-union">
+     Kidney disease case study II: Feature Union
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#kidney-disease-case-study-iii-full-pipeline">
+     Kidney disease case study III: Full pipeline
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tuning-xgboost-hyperparameters">
+   Tuning XGBoost hyperparameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bringing-it-all-together">
+     Bringing it all together
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#final-thoughts">
+   Final Thoughts
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Final Thoughts
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-we-have-covered-and-you-have-learned">
+     What We Have Covered And You Have Learned
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-we-have-not-covered-and-how-you-can-proceed">
+     What We Have Not Covered (And How You Can Proceed)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#congratulations">
+     Congratulations!
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Using XGBoost in pipelines</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#review-of-pipelines-using-sklearn">
+   Review of pipelines using sklearn
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#exploratory-data-analysis">
+     Exploratory data analysis
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#encoding-categorical-columns-i-labelencoder">
+     Encoding categorical columns I: LabelEncoder
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#encoding-categorical-columns-ii-onehotencoder">
+     Encoding categorical columns II: OneHotEncoder
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#encoding-categorical-columns-iii-dictvectorizer">
+     Encoding categorical columns III: DictVectorizer
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#preprocessing-within-a-pipeline">
+     Preprocessing within a pipeline
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#incorporating-xgboost-into-pipelines">
+   Incorporating XGBoost into pipelines
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cross-validating-your-xgboost-model">
+     Cross-validating your XGBoost model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#kidney-disease-case-study-i-categorical-imputer">
+     Kidney disease case study I: Categorical Imputer
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#kidney-disease-case-study-ii-feature-union">
+     Kidney disease case study II: Feature Union
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#kidney-disease-case-study-iii-full-pipeline">
+     Kidney disease case study III: Full pipeline
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tuning-xgboost-hyperparameters">
+   Tuning XGBoost hyperparameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bringing-it-all-together">
+     Bringing it all together
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#final-thoughts">
+   Final Thoughts
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Final Thoughts
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-we-have-covered-and-you-have-learned">
+     What We Have Covered And You Have Learned
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-we-have-not-covered-and-how-you-can-proceed">
+     What We Have Not Covered (And How You Can Proceed)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#congratulations">
+     Congratulations!
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="using-xgboost-in-pipelines">
+<h1>Using XGBoost in pipelines<a class="headerlink" href="#using-xgboost-in-pipelines" title="Permalink to this headline">#</a></h1>
+<p class="chapter__description">
+Take your XGBoost skills to the next level by incorporating your models
+into two end-to-end machine learning pipelines. You’ll learn how to tune
+the most important XGBoost hyperparameters efficiently within a
+pipeline, and get an introduction to some more advanced preprocessing
+techniques.
+</p>
+<section id="review-of-pipelines-using-sklearn">
+<h2>Review of pipelines using sklearn<a class="headerlink" href="#review-of-pipelines-using-sklearn" title="Permalink to this headline">#</a></h2>
+<section id="exploratory-data-analysis">
+<h3>Exploratory data analysis<a class="headerlink" href="#exploratory-data-analysis" title="Permalink to this headline">#</a></h3>
+<p>
+Before diving into the nitty gritty of pipelines and preprocessing,
+let’s do some exploratory analysis of the original, unprocessed
+<a href="https://www.kaggle.com/c/house-prices-advanced-regression-techniques">Ames
+housing dataset</a>. When you worked with this data in previous
+chapters, we preprocessed it for you so you could focus on the core
+XGBoost concepts. In this chapter, you’ll do the preprocessing yourself!
+</p>
+<p>
+A smaller version of this original, unprocessed dataset has been
+pre-loaded into a <code>pandas</code> DataFrame called <code>df</code>.
+Your task is to explore <code>df</code> in the Shell and pick the option
+that is <strong>incorrect</strong>. The larger purpose of this exercise
+is to understand the kinds of transformations you will need to perform
+in order to be able to use XGBoost.
+</p>
+<li>
+The DataFrame has 21 columns and 1460 rows.
+</li>
+<li>
+The mean of the <code>LotArea</code> column is
+<code>10516.828082</code>.
+</li>
+<li>
+The DataFrame has missing values.
+</li>
+<strong>
+<li>
+The <code>LotFrontage</code> column has no missing values and its
+entries are of type <code>float64</code>.
+</li>
+</strong>
+<li>
+The standard deviation of <code>SalePrice</code> is
+<code>79442.502883</code>.
+</li>
+<p class>
+Well done! The <code>LotFrontage</code> column actually does have
+missing values: 259, to be precise. Additionally, notice how columns
+such as <code>MSZoning</code>, <code>PavedDrive</code>, and
+<code>HouseStyle</code> are categorical. These need to be encoded
+numerically before you can use XGBoost. This is what you’ll do in the
+coming exercises.
+</p>
+</section>
+<section id="encoding-categorical-columns-i-labelencoder">
+<h3>Encoding categorical columns I: LabelEncoder<a class="headerlink" href="#encoding-categorical-columns-i-labelencoder" title="Permalink to this headline">#</a></h3>
+<p>
+Now that you’ve seen what will need to be done to get the housing data
+ready for XGBoost, let’s go through the process step-by-step.
+</p>
+<p>
+First, you will need to fill in missing values - as you saw previously,
+the column <code>LotFrontage</code> has many missing values. Then, you
+will need to encode any categorical columns in the dataset using one-hot
+encoding so that they are encoded numerically. You can watch
+<a href="https://campus.datacamp.com/courses/supervised-learning-with-scikit-learn/preprocessing-and-pipelines?ex=1">this
+video</a> from
+<a href="https://www.datacamp.com/courses/supervised-learning-with-scikit-learn">Supervised
+Learning with scikit-learn</a> for a refresher on the idea.
+</p>
+<p>
+The data has five categorical columns: <code>MSZoning</code>,
+<code>PavedDrive</code>, <code>Neighborhood</code>,
+<code>BldgType</code>, and <code>HouseStyle</code>. Scikit-learn has a
+<a href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html">LabelEncoder</a>
+function that converts the values in each categorical column into
+integers. You’ll practice using this here.
+</p>
+<li>
+Import <code>LabelEncoder</code> from
+<code>sklearn.preprocessing</code>.
+</li>
+<li>
+Fill in missing values in the <code>LotFrontage</code> column with
+<code>0</code> using <code>.fillna()</code>.
+</li>
+<li>
+Create a boolean mask for categorical columns. You can do this by
+checking for whether <code>df.dtypes</code> equals <code>object</code>.
+</li>
+<li>
+Create a <code>LabelEncoder</code> object. You can do this in the same
+way you instantiate any scikit-learn estimator.
+</li>
+<li>
+Encode all of the categorical columns into integers using
+<code>LabelEncoder()</code>. To do this, use the
+<code>.fit_transform()</code> method of <code>le</code> in the provided
+lambda function.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;archive/Extreme-Gradient-Boosting-with-XGBoost/datasets/ames_unprocessed_data.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Import LabelEncoder</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+
+<span class="c1"># Fill missing values with 0</span>
+<span class="n">df</span><span class="o">.</span><span class="n">LotFrontage</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">LotFrontage</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Create a boolean mask for categorical columns</span>
+<span class="n">categorical_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="nb">object</span><span class="p">)</span>
+
+<span class="c1"># Get list of categorical column names</span>
+<span class="n">categorical_columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">categorical_mask</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># Print the head of the categorical columns</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">categorical_columns</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="c1"># Create LabelEncoder object: le</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##   MSZoning Neighborhood BldgType HouseStyle PavedDrive
+## 0       RL      CollgCr     1Fam     2Story          Y
+## 1       RL      Veenker     1Fam     1Story          Y
+## 2       RL      CollgCr     1Fam     2Story          Y
+## 3       RL      Crawfor     1Fam     2Story          Y
+## 4       RL      NoRidge     1Fam     2Story          Y
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+
+<span class="c1"># Apply LabelEncoder to categorical columns</span>
+<span class="n">df</span><span class="p">[</span><span class="n">categorical_columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">categorical_columns</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="c1"># Print the head of the LabelEncoded categorical columns</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">categorical_columns</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##    MSZoning  Neighborhood  BldgType  HouseStyle  PavedDrive
+## 0         3             5         0           5           2
+## 1         3            24         0           2           2
+## 2         3             5         0           5           2
+## 3         3             6         0           5           2
+## 4         3            15         0           5           2
+</pre></div>
+</div>
+<p class>
+Well done! Notice how the entries in each categorical column are now
+encoded numerically. A <code>BldgTpe</code> of <code>1Fam</code> is
+encoded as <code>0</code>, while a <code>HouseStyle</code> of
+<code>2Story</code> is encoded as <code>5</code>.
+</p>
+</section>
+<section id="encoding-categorical-columns-ii-onehotencoder">
+<h3>Encoding categorical columns II: OneHotEncoder<a class="headerlink" href="#encoding-categorical-columns-ii-onehotencoder" title="Permalink to this headline">#</a></h3>
+<p>
+Okay - so you have your categorical columns encoded numerically. Can you
+now move onto using pipelines and XGBoost? Not yet! In the categorical
+columns of this dataset, there is no natural ordering between the
+entries. As an example: Using <code>LabelEncoder</code>, the
+<code>CollgCr</code> <code>Neighborhood</code> was encoded as
+<code>5</code>, while the <code>Veenker</code> <code>Neighborhood</code>
+was encoded as <code>24</code>, and <code>Crawfor</code> as
+<code>6</code>. Is <code>Veenker</code> “greater” than
+<code>Crawfor</code> and <code>CollgCr</code>? No - and allowing the
+model to assume this natural ordering may result in poor performance.
+</p>
+<p>
+As a result, there is another step needed: You have to apply a one-hot
+encoding to create binary, or “dummy” variables. You can do this using
+scikit-learn’s
+<a href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html">OneHotEncoder</a>.
+</p>
+<li>
+Import <code>OneHotEncoder</code> from
+<code>sklearn.preprocessing</code>.
+</li>
+<li>
+Instantiate a <code>OneHotEncoder</code> object called <code>ohe</code>.
+Specify the keyword arguments
+<code>categorical_features=categorical_mask</code> and
+<code>sparse=False</code>.
+</li>
+<li>
+Using its <code>.fit_transform()</code> method, apply the
+<code>OneHotEncoder</code> to <code>df</code> and save the result as
+<code>df_encoded</code>. The output will be a NumPy array.
+</li>
+<li>
+Print the first 5 rows of <code>df_encoded</code>, and then the shape of
+<code>df</code> as well as <code>df_encoded</code> to compare the
+difference.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import OneHotEncoder</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+
+<span class="c1"># Create OneHotEncoder: ohe</span>
+<span class="n">ohe</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">categories</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Apply OneHotEncoder to categorical columns - output is no longer a dataframe: df_encoded</span>
+<span class="n">df_encoded</span> <span class="o">=</span> <span class="n">ohe</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1"># Print first 5 rows of the resulting dataset - again, this will no longer be a pandas dataframe</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_encoded</span><span class="p">[:</span><span class="mi">5</span><span class="p">,</span> <span class="p">:])</span>
+
+<span class="c1"># Print the shape of the original DataFrame</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [[0. 0. 0. ... 0. 0. 0.]
+##  [1. 0. 0. ... 0. 0. 0.]
+##  [0. 0. 0. ... 0. 0. 0.]
+##  [0. 0. 0. ... 0. 0. 0.]
+##  [0. 0. 0. ... 0. 0. 0.]]
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Print the shape of the transformed array</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## (1460, 21)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df_encoded</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## (1460, 3369)
+</pre></div>
+</div>
+<p class>
+Superb! As you can see, after one hot encoding, which creates binary
+variables out of the categorical variables, there are now 62 columns.
+</p>
+</section>
+<section id="encoding-categorical-columns-iii-dictvectorizer">
+<h3>Encoding categorical columns III: DictVectorizer<a class="headerlink" href="#encoding-categorical-columns-iii-dictvectorizer" title="Permalink to this headline">#</a></h3>
+<p>
+Alright, one final trick before you dive into pipelines. The two step
+process you just went through - <code>LabelEncoder</code> followed by
+<code>OneHotEncoder</code> - can be simplified by using a
+<a href="http://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.DictVectorizer.html">DictVectorizer</a>.
+</p>
+<p>
+Using a <code>DictVectorizer</code> on a DataFrame that has been
+converted to a dictionary allows you to get label encoding as well as
+one-hot encoding in one go.
+</p>
+<p>
+Your task is to work through this strategy in this exercise!
+</p>
+<li>
+Import <code>DictVectorizer</code> from
+<code>sklearn.feature_extraction</code>.
+</li>
+<li>
+Convert <code>df</code> into a dictionary called <code>df_dict</code>
+using its <code>.to_dict()</code> method with <code>“records”</code> as
+the argument.
+</li>
+<li>
+Instantiate a <code>DictVectorizer</code> object called <code>dv</code>
+with the keyword argument <code>sparse=False</code>.
+</li>
+<li>
+Apply the <code>DictVectorizer</code> on <code>df_dict</code> by using
+its <code>.fit_transform()</code> method.
+</li>
+<li>
+Hit ‘Submit Answer’ to print the resulting first five rows and the
+vocabulary.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import DictVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction</span> <span class="kn">import</span> <span class="n">DictVectorizer</span>
+
+<span class="c1"># Convert df into a dictionary: df_dict</span>
+<span class="n">df_dict</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create the DictVectorizer object: dv</span>
+<span class="n">dv</span> <span class="o">=</span> <span class="n">DictVectorizer</span><span class="p">(</span><span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Apply dv on df: df_encoded</span>
+<span class="n">df_encoded</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df_dict</span><span class="p">)</span>
+
+<span class="c1"># Print the resulting first five rows</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_encoded</span><span class="p">[:</span><span class="mi">5</span><span class="p">,:])</span>
+
+<span class="c1"># Print the vocabulary</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [[3.000e+00 0.000e+00 1.000e+00 0.000e+00 0.000e+00 2.000e+00 5.480e+02
+##   1.710e+03 1.000e+00 5.000e+00 8.450e+03 6.500e+01 6.000e+01 3.000e+00
+##   5.000e+00 5.000e+00 7.000e+00 2.000e+00 0.000e+00 2.085e+05 2.003e+03]
+##  [3.000e+00 0.000e+00 0.000e+00 1.000e+00 1.000e+00 2.000e+00 4.600e+02
+##   1.262e+03 0.000e+00 2.000e+00 9.600e+03 8.000e+01 2.000e+01 3.000e+00
+##   2.400e+01 8.000e+00 6.000e+00 2.000e+00 0.000e+00 1.815e+05 1.976e+03]
+##  [3.000e+00 0.000e+00 1.000e+00 0.000e+00 1.000e+00 2.000e+00 6.080e+02
+##   1.786e+03 1.000e+00 5.000e+00 1.125e+04 6.800e+01 6.000e+01 3.000e+00
+##   5.000e+00 5.000e+00 7.000e+00 2.000e+00 1.000e+00 2.235e+05 2.001e+03]
+##  [3.000e+00 0.000e+00 1.000e+00 0.000e+00 1.000e+00 1.000e+00 6.420e+02
+##   1.717e+03 0.000e+00 5.000e+00 9.550e+03 6.000e+01 7.000e+01 3.000e+00
+##   6.000e+00 5.000e+00 7.000e+00 2.000e+00 1.000e+00 1.400e+05 1.915e+03]
+##  [4.000e+00 0.000e+00 1.000e+00 0.000e+00 1.000e+00 2.000e+00 8.360e+02
+##   2.198e+03 1.000e+00 5.000e+00 1.426e+04 8.400e+01 6.000e+01 3.000e+00
+##   1.500e+01 5.000e+00 8.000e+00 2.000e+00 0.000e+00 2.500e+05 2.000e+03]]
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">dv</span><span class="o">.</span><span class="n">vocabulary_</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## {&#39;MSSubClass&#39;: 12, &#39;MSZoning&#39;: 13, &#39;LotFrontage&#39;: 11, &#39;LotArea&#39;: 10, &#39;Neighborhood&#39;: 14, &#39;BldgType&#39;: 1, &#39;HouseStyle&#39;: 9, &#39;OverallQual&#39;: 16, &#39;OverallCond&#39;: 15, &#39;YearBuilt&#39;: 20, &#39;Remodeled&#39;: 18, &#39;GrLivArea&#39;: 7, &#39;BsmtFullBath&#39;: 2, &#39;BsmtHalfBath&#39;: 3, &#39;FullBath&#39;: 5, &#39;HalfBath&#39;: 8, &#39;BedroomAbvGr&#39;: 0, &#39;Fireplaces&#39;: 4, &#39;GarageArea&#39;: 6, &#39;PavedDrive&#39;: 17, &#39;SalePrice&#39;: 19}
+</pre></div>
+</div>
+<p class>
+Fantastic! Besides simplifying the process into one step,
+<code>DictVectorizer</code> has useful attributes such as
+<code>vocabulary\_</code> which maps the names of the features to their
+indices. With the data preprocessed, it’s time to move onto pipelines!
+</p>
+</section>
+<section id="preprocessing-within-a-pipeline">
+<h3>Preprocessing within a pipeline<a class="headerlink" href="#preprocessing-within-a-pipeline" title="Permalink to this headline">#</a></h3>
+<p>
+Now that you’ve seen what steps need to be taken individually to
+properly process the Ames housing data, let’s use the much cleaner and
+more succinct <code>DictVectorizer</code> approach and put it alongside
+an <code>XGBoostRegressor</code> inside of a scikit-learn pipeline.
+</p>
+<li>
+Import <code>DictVectorizer</code> from
+<code>sklearn.feature_extraction</code> and <code>Pipeline</code> from
+<code>sklearn.pipeline</code>.
+</li>
+<li>
+Fill in any missing values in the <code>LotFrontage</code> column of
+<code>X</code> with <code>0</code>.
+</li>
+<li>
+Complete the steps of the pipeline with
+<code>DictVectorizer(sparse=False)</code> for <code>“ohe_onestep”</code>
+and <code>xgb.XGBRegressor()</code> for <code>“xgb_model”</code>.
+</li>
+<li>
+Create the pipeline using <code>Pipeline()</code> and
+<code>steps</code>.
+</li>
+<li>
+Fit the <code>Pipeline</code>. Don’t forget to convert <code>X</code>
+into a format that <code>DictVectorizer</code> understands by calling
+the <code>to_dict(“records”)</code> method on <code>X</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import necessary modules</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction</span> <span class="kn">import</span> <span class="n">DictVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="c1"># Fill LotFrontage missing values with 0</span>
+<span class="n">X</span><span class="o">.</span><span class="n">LotFrontage</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">LotFrontage</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Setup the pipeline steps: steps</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;ohe_onestep&quot;</span><span class="p">,</span> <span class="n">DictVectorizer</span><span class="p">(</span><span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">)),</span>
+         <span class="p">(</span><span class="s2">&quot;xgb_model&quot;</span><span class="p">,</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBRegressor</span><span class="p">())]</span>
+         
+<span class="c1"># Create the pipeline: xgb_pipeline</span>
+<span class="n">xgb_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
+
+<span class="c1"># Fit the pipeline</span>
+<span class="n">xgb_pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;records&quot;</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [15:33:00] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## Pipeline(steps=[(&#39;ohe_onestep&#39;, DictVectorizer(sparse=False)),
+##                 (&#39;xgb_model&#39;, XGBRegressor())])
+</pre></div>
+</div>
+<p class>
+Well done! It’s now time to see what it takes to use XGBoost within
+pipelines.
+</p>
+</section>
+</section>
+<section id="incorporating-xgboost-into-pipelines">
+<h2>Incorporating XGBoost into pipelines<a class="headerlink" href="#incorporating-xgboost-into-pipelines" title="Permalink to this headline">#</a></h2>
+<section id="cross-validating-your-xgboost-model">
+<h3>Cross-validating your XGBoost model<a class="headerlink" href="#cross-validating-your-xgboost-model" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you’ll go one step further by using the pipeline
+you’ve created to preprocess <strong>and</strong> cross-validate your
+model.
+</p>
+<li>
+Create a pipeline called <code>xgb_pipeline</code> using
+<code>steps</code>.
+</li>
+<li>
+Perform 10-fold cross-validation using
+<a href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html"><code>cross_val_score()</code></a>.
+You’ll have to pass in the pipeline, <code>X</code> (as a dictionary,
+using <code>.to_dict(“records”)</code>), <code>y</code>, the number of
+folds you want to use, and <code>scoring</code>
+(<code>“neg_mean_squared_error”</code>).
+</li>
+<li>
+Print the 10-fold RMSE.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import necessary modules</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction</span> <span class="kn">import</span> <span class="n">DictVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+
+<span class="c1"># Fill LotFrontage missing values with 0</span>
+<span class="n">X</span><span class="o">.</span><span class="n">LotFrontage</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">LotFrontage</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Setup the pipeline steps: steps</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;ohe_onestep&quot;</span><span class="p">,</span> <span class="n">DictVectorizer</span><span class="p">(</span><span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">)),</span>
+         <span class="p">(</span><span class="s2">&quot;xgb_model&quot;</span><span class="p">,</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">objective</span><span class="o">=</span><span class="s2">&quot;reg:linear&quot;</span><span class="p">))]</span>
+
+<span class="c1"># Create the pipeline: xgb_pipeline</span>
+<span class="n">xgb_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
+
+<span class="c1"># Cross-validate the model</span>
+<span class="n">cross_val_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">xgb_pipeline</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;records&quot;</span><span class="p">),</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;neg_mean_squared_error&quot;</span><span class="p">)</span>
+
+<span class="c1"># Print the 10-fold RMSE</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [15:33:03] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:33:03] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:33:04] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:33:04] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:33:04] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:33:05] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:33:05] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:33:05] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:33:06] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+## [15:33:06] WARNING: src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10-fold RMSE: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">cross_val_scores</span><span class="p">))))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 10-fold RMSE:  29903.48369050373
+</pre></div>
+</div>
+<p class>
+Great work!
+</p>
+</section>
+<section id="kidney-disease-case-study-i-categorical-imputer">
+<h3>Kidney disease case study I: Categorical Imputer<a class="headerlink" href="#kidney-disease-case-study-i-categorical-imputer" title="Permalink to this headline">#</a></h3>
+<p>
+You’ll now continue your exploration of using pipelines with a dataset
+that requires significantly more wrangling. The
+<a href="https://archive.ics.uci.edu/ml/datasets/chronic_kidney_disease">chronic
+kidney disease dataset</a> contains both categorical and numeric
+features, but contains lots of missing values. The goal here is to
+predict who has chronic kidney disease given various blood indicators as
+features.
+</p>
+<p>
+As Sergey mentioned in the video, you’ll be introduced to a new library,
+<a href="https://github.com/pandas-dev/sklearn-pandas"><code>sklearn_pandas</code></a>,
+that allows you to chain many more processing steps inside of a pipeline
+than are currently supported in scikit-learn. Specifically, you’ll be
+able to impute missing categorical values directly using the
+<code>Categorical_Imputer()</code> class in <code>sklearn_pandas</code>,
+and the <code>DataFrameMapper()</code> class to apply any arbitrary
+sklearn-compatible transformer on DataFrame columns, where the resulting
+output can be either a NumPy array or DataFrame.
+</p>
+<p>
+We’ve also created a transformer called a <code>Dictifier</code> that
+encapsulates converting a DataFrame using
+<code>.to_dict(“records”)</code> without you having to do it explicitly
+(and so that it works in a pipeline). Finally, we’ve also provided the
+list of feature names in <code>kidney_feature_names</code>, the target
+name in <code>kidney_target_name</code>, the features in <code>X</code>,
+and the target in <code>y</code>.
+</p>
+<p>
+In this exercise, your task is to apply the
+<code>CategoricalImputer</code> to impute all of the categorical columns
+in the dataset. You can refer to how the numeric imputation mapper was
+created as a template. Notice the keyword arguments
+<code>input_df=True</code> and <code>df_out=True</code>? This is so that
+you can work with DataFrames instead of arrays. By default, the
+transformers are passed a <code>numpy</code> array of the selected
+columns as input, and as a result, the output of the DataFrame mapper is
+also an array. Scikit-learn transformers have historically been designed
+to work with <code>numpy</code> arrays, not <code>pandas</code>
+DataFrames, even though their basic indexing interfaces are similar.
+</p>
+<li>
+Apply the categorical imputer using <code>DataFrameMapper()</code> and
+<code>SimpleImputer()</code>. <code>SimpleImputer()</code> does not need
+any arguments to be passed in. The columns are contained in
+<code>categorical_columns</code>. Be sure to specify
+<code>input_df=True</code> and <code>df_out=True</code>, and use
+<code>category_feature</code> as your iterator variable in the list
+comprehension.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;archive/Extreme-Gradient-Boosting-with-XGBoost/datasets/chronic_kidney_X.csv&#39;</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;archive/Extreme-Gradient-Boosting-with-XGBoost/datasets/chronic_kidney_y.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="c1"># Import necessary modules</span>
+<span class="kn">from</span> <span class="nn">sklearn_pandas</span> <span class="kn">import</span> <span class="n">DataFrameMapper</span><span class="p">,</span> <span class="n">CategoricalImputer</span>
+<span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+
+<span class="c1"># Check number of nulls in each feature columns</span>
+<span class="n">nulls_per_column</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nulls_per_column</span><span class="p">)</span>
+
+<span class="c1"># Create a boolean mask for categorical columns</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## age        9
+## bp        12
+## sg        47
+## al        46
+## su        49
+## bgr       44
+## bu        19
+## sc        17
+## sod       87
+## pot       88
+## hemo      52
+## pcv       71
+## wc       106
+## rc       131
+## rbc      152
+## pc        65
+## pcc        4
+## ba         4
+## htn        2
+## dm         2
+## cad        2
+## appet      1
+## pe         1
+## ane        1
+## dtype: int64
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">categorical_feature_mask</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="nb">object</span>
+
+<span class="c1"># Get list of categorical column names</span>
+<span class="n">categorical_columns</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">categorical_feature_mask</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># Get list of non-categorical column names</span>
+<span class="n">non_categorical_columns</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="o">~</span><span class="n">categorical_feature_mask</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># Apply numeric imputer</span>
+<span class="n">numeric_imputation_mapper</span> <span class="o">=</span> <span class="n">DataFrameMapper</span><span class="p">(</span>
+    <span class="p">[([</span><span class="n">numeric_feature</span><span class="p">],</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">))</span> 
+     <span class="k">for</span> <span class="n">numeric_feature</span> <span class="ow">in</span> <span class="n">non_categorical_columns</span><span class="p">],</span>
+    <span class="n">input_df</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">df_out</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Apply categorical imputer</span>
+<span class="n">categorical_imputation_mapper</span> <span class="o">=</span> <span class="n">DataFrameMapper</span><span class="p">(</span>
+    <span class="p">[(</span><span class="n">category_feature</span><span class="p">,</span> <span class="n">CategoricalImputer</span><span class="p">())</span> 
+     <span class="k">for</span> <span class="n">category_feature</span> <span class="ow">in</span> <span class="n">categorical_columns</span><span class="p">],</span>
+    <span class="n">input_df</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">df_out</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p class>
+Great work!
+</p>
+</section>
+<section id="kidney-disease-case-study-ii-feature-union">
+<h3>Kidney disease case study II: Feature Union<a class="headerlink" href="#kidney-disease-case-study-ii-feature-union" title="Permalink to this headline">#</a></h3>
+<p>
+Having separately imputed numeric as well as categorical columns, your
+task is now to use scikit-learn’s
+<a href="http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.FeatureUnion.html">FeatureUnion</a>
+to concatenate their results, which are contained in two separate
+transformer objects - <code>numeric_imputation_mapper</code>, and
+<code>categorical_imputation_mapper</code>, respectively.
+</p>
+<p>
+You may have already encountered <code>FeatureUnion</code> in
+<a href="https://campus.datacamp.com/courses/machine-learning-with-the-experts-school-budgets/improving-your-model?ex=7">Machine
+Learning with the Experts: School Budgets</a>. Just like with pipelines,
+you have to pass it a list of <code>(string, transformer)</code> tuples,
+where the first half of each tuple is the name of the transformer.
+</p>
+<li>
+Import <code>FeatureUnion</code> from <code>sklearn.pipeline</code>.
+</li>
+<li>
+Combine the results of <code>numeric_imputation_mapper</code> and
+<code>categorical_imputation_mapper</code> using
+<code>FeatureUnion()</code>, with the names <code>“num_mapper”</code>
+and <code>“cat_mapper”</code> respectively.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import FeatureUnion</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">FeatureUnion</span>
+
+<span class="c1"># Combine the numeric and categorical transformations</span>
+<span class="n">numeric_categorical_union</span> <span class="o">=</span> <span class="n">FeatureUnion</span><span class="p">([</span>
+                                          <span class="p">(</span><span class="s2">&quot;num_mapper&quot;</span><span class="p">,</span> <span class="n">numeric_imputation_mapper</span><span class="p">),</span>
+                                          <span class="p">(</span><span class="s2">&quot;cat_mapper&quot;</span><span class="p">,</span> <span class="n">categorical_imputation_mapper</span><span class="p">)</span>
+                                         <span class="p">])</span>
+</pre></div>
+</div>
+<p class>
+Great work!
+</p>
+</section>
+<section id="kidney-disease-case-study-iii-full-pipeline">
+<h3>Kidney disease case study III: Full pipeline<a class="headerlink" href="#kidney-disease-case-study-iii-full-pipeline" title="Permalink to this headline">#</a></h3>
+<p>
+It’s time to piece together all of the transforms along with an
+<code>XGBClassifier</code> to build the full pipeline!
+</p>
+<p>
+Besides the <code>numeric_categorical_union</code> that you created in
+the previous exercise, there are two other transforms needed: the
+<code>Dictifier()</code> transform which we created for you, and the
+<code>DictVectorizer()</code>.
+</p>
+<p>
+After creating the pipeline, your task is to cross-validate it to see
+how well it performs.
+</p>
+<li>
+Create the pipeline using the <code>numeric_categorical_union</code>,
+<code>Dictifier()</code>, and <code>DictVectorizer(sort=False)</code>
+transforms, and <code>xgb.XGBClassifier()</code> estimator with
+<code>max_depth=3</code>. Name the transforms
+<code>“featureunion”</code>, <code>“dictifier”</code>
+<code>“vectorizer”</code>, and the estimator <code>“clf”</code>.
+</li>
+<li>
+Perform 3-fold cross-validation on the <code>pipeline</code> using
+<code>cross_val_score()</code>. Pass it the pipeline,
+<code>pipeline</code>, the features, <code>kidney_data</code>, the
+outcomes, <code>y</code>. Also set <code>scoring</code> to
+<code>“roc_auc”</code> and <code>cv</code> to <code>3</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction</span> <span class="kn">import</span> <span class="n">DictVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+<span class="kn">import</span> <span class="nn">xgboost</span> <span class="k">as</span> <span class="nn">xgb</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Define Dictifier class to turn df into dictionary as part of pipeline</span>
+<span class="k">class</span> <span class="nc">Dictifier</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>       
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">==</span> <span class="n">pd</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">X</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+          
+<span class="c1"># Create full pipeline</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+                     <span class="p">(</span><span class="s2">&quot;featureunion&quot;</span><span class="p">,</span> <span class="n">numeric_categorical_union</span><span class="p">),</span>
+                     <span class="p">(</span><span class="s2">&quot;dictifier&quot;</span><span class="p">,</span> <span class="n">Dictifier</span><span class="p">()),</span>
+                     <span class="p">(</span><span class="s2">&quot;vectorizer&quot;</span><span class="p">,</span> <span class="n">DictVectorizer</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)),</span>
+                     <span class="p">(</span><span class="s2">&quot;clf&quot;</span><span class="p">,</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+                    <span class="p">])</span>
+                    
+<span class="c1"># Perform cross-validation</span>
+<span class="n">cross_val_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;roc_auc&#39;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Print avg. AUC</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;3-fold AUC: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cross_val_scores</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 3-fold AUC:  0.998637406769937
+</pre></div>
+</div>
+<p class>
+Great work!
+</p>
+</section>
+</section>
+<section id="tuning-xgboost-hyperparameters">
+<h2>Tuning XGBoost hyperparameters<a class="headerlink" href="#tuning-xgboost-hyperparameters" title="Permalink to this headline">#</a></h2>
+<section id="bringing-it-all-together">
+<h3>Bringing it all together<a class="headerlink" href="#bringing-it-all-together" title="Permalink to this headline">#</a></h3>
+<p>
+Alright, it’s time to bring together everything you’ve learned so far!
+In this final exercise of the course, you will combine your work from
+the previous exercises into one end-to-end XGBoost pipeline to really
+cement your understanding of preprocessing and pipelines in XGBoost.
+</p>
+<p>
+Your work from the previous 3 exercises, where you preprocessed the data
+and set up your pipeline, has been pre-loaded. Your job is to perform a
+randomized search and identify the best hyperparameters.
+</p>
+<li>
+Set up the parameter grid to tune <code>’clf\_\_learning_rate’</code>
+(from <code>0.05</code> to <code>1</code> in increments of
+<code>0.05</code>), <code>’clf\_\_max_depth’</code> (from <code>3</code>
+to <code>10</code> in increments of <code>1</code>), and
+<code>’clf\_\_n_estimators’</code> (from <code>50</code> to
+<code>200</code> in increments of <code>50</code>).
+</li>
+<li>
+Using your <code>pipeline</code> as the estimator, perform 2-fold
+<code>RandomizedSearchCV</code> with an <code>n_iter</code> of
+<code>2</code>. Use <code>“roc_auc”</code> as the metric, and set
+<code>verbose</code> to <code>1</code> so the output is more detailed.
+Store the result in <code>randomized_roc_auc</code>.
+</li>
+<li>
+Fit <code>randomized_roc_auc</code> to <code>X</code> and
+<code>y</code>.
+</li>
+<li>
+Compute the best score and best estimator of
+<code>randomized_roc_auc</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RandomizedSearchCV</span>
+
+<span class="c1"># Create the parameter grid</span>
+<span class="n">gbm_param_grid</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;clf__learning_rate&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">.05</span><span class="p">),</span>
+    <span class="s1">&#39;clf__max_depth&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s1">&#39;clf__n_estimators&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># Perform RandomizedSearchCV</span>
+<span class="n">randomized_roc_auc</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">pipeline</span><span class="p">,</span>
+                                        <span class="n">param_distributions</span><span class="o">=</span><span class="n">gbm_param_grid</span><span class="p">,</span>
+                                        <span class="n">n_iter</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;roc_auc&#39;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                                        
+<span class="c1"># Fit the estimator</span>
+<span class="n">randomized_roc_auc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Compute metrics</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Fitting 2 folds for each of 2 candidates, totalling 4 fits
+## RandomizedSearchCV(cv=2,
+##                    estimator=Pipeline(steps=[(&#39;featureunion&#39;,
+##                                               FeatureUnion(transformer_list=[(&#39;num_mapper&#39;,
+##                                                                               DataFrameMapper(df_out=True,
+##                                                                                               features=[([&#39;age&#39;],
+##                                                                                                          SimpleImputer(strategy=&#39;median&#39;)),
+##                                                                                                         ([&#39;bp&#39;],
+##                                                                                                          SimpleImputer(strategy=&#39;median&#39;)),
+##                                                                                                         ([&#39;sg&#39;],
+##                                                                                                          SimpleImputer(strategy=&#39;median&#39;)),
+##                                                                                                         ([&#39;al&#39;],
+##                                                                                                          SimpleImputer(strategy=&#39;median&#39;)),
+##                                                                                                         ([&#39;su&#39;],
+##                                                                                                          SimpleImputer(strategy=&#39;...
+##                                                                                               input_df=True))])),
+##                                              (&#39;dictifier&#39;, Dictifier()),
+##                                              (&#39;vectorizer&#39;,
+##                                               DictVectorizer(sort=False)),
+##                                              (&#39;clf&#39;, XGBClassifier())]),
+##                    n_iter=2,
+##                    param_distributions={&#39;clf__learning_rate&#39;: array([0.05, 0.1 , 0.15, 0.2 , 0.25, 0.3 , 0.35, 0.4 , 0.45, 0.5 , 0.55,
+##        0.6 , 0.65, 0.7 , 0.75, 0.8 , 0.85, 0.9 , 0.95]),
+##                                         &#39;clf__max_depth&#39;: array([3, 4, 5, 6, 7, 8, 9]),
+##                                         &#39;clf__n_estimators&#39;: array([ 50, 100, 150])},
+##                    scoring=&#39;roc_auc&#39;, verbose=1)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">randomized_roc_auc</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 0.9969066666666666
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">randomized_roc_auc</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Pipeline(steps=[(&#39;featureunion&#39;,
+##                  FeatureUnion(transformer_list=[(&#39;num_mapper&#39;,
+##                                                  DataFrameMapper(df_out=True,
+##                                                                  features=[([&#39;age&#39;],
+##                                                                             SimpleImputer(strategy=&#39;median&#39;)),
+##                                                                            ([&#39;bp&#39;],
+##                                                                             SimpleImputer(strategy=&#39;median&#39;)),
+##                                                                            ([&#39;sg&#39;],
+##                                                                             SimpleImputer(strategy=&#39;median&#39;)),
+##                                                                            ([&#39;al&#39;],
+##                                                                             SimpleImputer(strategy=&#39;median&#39;)),
+##                                                                            ([&#39;su&#39;],
+##                                                                             SimpleImputer(strategy=&#39;median&#39;)),
+##                                                                            ([&#39;bgr&#39;],
+##                                                                             SimpleImputer(s...
+##                                                                             CategoricalImputer()),
+##                                                                            (&#39;htn&#39;,
+##                                                                             CategoricalImputer()),
+##                                                                            (&#39;dm&#39;,
+##                                                                             CategoricalImputer()),
+##                                                                            (&#39;cad&#39;,
+##                                                                             CategoricalImputer()),
+##                                                                            (&#39;appet&#39;,
+##                                                                             CategoricalImputer()),
+##                                                                            (&#39;pe&#39;,
+##                                                                             CategoricalImputer()),
+##                                                                            (&#39;ane&#39;,
+##                                                                             CategoricalImputer())],
+##                                                                  input_df=True))])),
+##                 (&#39;dictifier&#39;, Dictifier()),
+##                 (&#39;vectorizer&#39;, DictVectorizer(sort=False)),
+##                 (&#39;clf&#39;,
+##                  XGBClassifier(learning_rate=0.4, max_depth=7,
+##                                n_estimators=150))])
+</pre></div>
+</div>
+<p class>
+Amazing work! This type of pipelining is very common in real-world data
+science and you’re well on your way towards mastering it.
+</p>
+</section>
+</section>
+<section id="final-thoughts">
+<h2>Final Thoughts<a class="headerlink" href="#final-thoughts" title="Permalink to this headline">#</a></h2>
+<section id="id1">
+<h3>Final Thoughts<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
+<p>Congratulations on completing this course. Let’s go over everything
+we’ve covered in this course, as well as where you can go from here with
+learning other topics related to XGBoost that we didn’t have a chance to
+cover.</p>
+</section>
+<section id="what-we-have-covered-and-you-have-learned">
+<h3>What We Have Covered And You Have Learned<a class="headerlink" href="#what-we-have-covered-and-you-have-learned" title="Permalink to this headline">#</a></h3>
+<p>So, what have we been able to cover in this course? Well, we’ve learned
+how to use XGBoost for both classification and regression tasks. We’ve
+also covered all the most important hyperparameters that you should tune
+when creating XGBoost models, so that they are as performant as
+possible. And we just finished up how to incorporate XGBoost into
+pipelines, and used some more advanced functions that allow us to
+seamlessly work with Pandas DataFrames and scikit-learn. That’s quite a
+lot of ground we’ve covered and you should be proud of what you’ve been
+able to accomplish.</p>
+</section>
+<section id="what-we-have-not-covered-and-how-you-can-proceed">
+<h3>What We Have Not Covered (And How You Can Proceed)<a class="headerlink" href="#what-we-have-not-covered-and-how-you-can-proceed" title="Permalink to this headline">#</a></h3>
+<p>However, although we’ve covered quite a lot, we didn’t cover some other
+topics that would advance your mastery of XGBoost. Specifically, we
+never looked into how to use XGBoost for ranking or recommendation
+problems, which can be done by modifying the loss function you use when
+constructing your model. We also didn’t look into more advanced
+hyperparameter selection strategies. The most powerful strategy, called
+Bayesian optimization, has been used with lots of success, and entire
+companies have been created just for specifically using this method in
+tuning models (for example, the company sigopt does exactly this). It’s
+a powerful method, but would take an entire other DataCamp course to
+teach properly! Finally, we haven’t talked about ensembling XGBoost with
+other models. Although XGBoost is itself an ensemble method, nothing
+stops you from combining the predictions you get from an XGBoost model
+with other models, as this is usually a very powerful additional way to
+squeeze the last bit of juice from your data. Learning about all of
+these additional topics will help you become an even more powerful user
+of XGBoost. Now that you know your way around the package, there’s no
+reason for you to stop learning how to get even more benefits out of it.</p>
+</section>
+<section id="congratulations">
+<h3>Congratulations!<a class="headerlink" href="#congratulations" title="Permalink to this headline">#</a></h3>
+<p>I hope you’ve enjoyed taking this course on XGBoost as I have teaching
+it. Please let us know if you’ve enjoyed the course and definitely let
+me know how I can improve it. It’s been a pleasure, and I hope you
+continue your data science journey from here!</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Extreme-Gradient-Boosting-with-XGBoost-3.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Fine-tuning your XGBoost model</p>
+        </div>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

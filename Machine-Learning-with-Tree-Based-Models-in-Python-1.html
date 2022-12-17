@@ -1,0 +1,1235 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Classification and Regression &#8212; Machine Learning Scientist with Python</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The Bias-Variance Tradeoff" href="Machine-Learning-with-Tree-Based-Models-in-Python-2.html" />
+    <link rel="prev" title="Machine Learning with Tree-Based Models in Python" href="Machine-Learning-with-Tree-Based-Models-in-Python-0.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning Scientist with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Supervised-Learning-with-scikit-learn-0.html">
+   Supervised Learning with scikit-learn
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-1.html">
+     Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-2.html">
+     Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-3.html">
+     Fine-Tuning Your Model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-4.html">
+     Preprocessing and Pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Unsupervised-Learning-in-Python-0.html">
+   Unsupervised Learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-1.html">
+     Clustering for dataset exploration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-2.html">
+     Visualization with hierarchical clustering and t-SNE
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-3.html">
+     Decorrelating your data and dimension reduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-4.html">
+     Discovering interpretable features
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Linear-Classifiers-in-Python-0.html">
+   Linear-Classifiers-in-Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-1.html">
+     Applying logistic regression and SVM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-2.html">
+     Loss functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-3.html">
+     Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-4.html">
+     Support Vector Machines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-0.html">
+   Machine Learning with Tree-Based Models in Python
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Classification and Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-2.html">
+     The Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-3.html">
+     Bagging and Random Forests
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-4.html">
+     Boosting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-5.html">
+     Model Tuning
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-0.html">
+   Extreme Gradient Boosting with XGBoost
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-1.html">
+     Classification with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-2.html">
+     Regression with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-3.html">
+     Fine-tuning your XGBoost model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-4.html">
+     Using XGBoost in pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml/issues/new?title=Issue%20on%20page%20%2FMachine-Learning-with-Tree-Based-Models-in-Python-1.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Machine-Learning-with-Tree-Based-Models-in-Python-1.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decision-tree-for-classification">
+   Decision tree for classification
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#train-your-first-classification-tree">
+     Train your first classification tree
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-classification-tree">
+     Evaluate the classification tree
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#logistic-regression-vs-classification-tree">
+     Logistic regression vs classification tree
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#classification-tree-learning">
+   Classification tree Learning
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#growing-a-classification-tree">
+     Growing a classification tree
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-entropy-as-a-criterion">
+     Using entropy as a criterion
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#entropy-vs-gini-index">
+     Entropy vs Gini index
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decision-tree-for-regression">
+   Decision tree for regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#train-your-first-regression-tree">
+     Train your first regression tree
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-regression-tree">
+     Evaluate the regression tree
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#linear-regression-vs-regression-tree">
+     Linear regression vs regression tree
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Classification and Regression</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decision-tree-for-classification">
+   Decision tree for classification
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#train-your-first-classification-tree">
+     Train your first classification tree
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-classification-tree">
+     Evaluate the classification tree
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#logistic-regression-vs-classification-tree">
+     Logistic regression vs classification tree
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#classification-tree-learning">
+   Classification tree Learning
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#growing-a-classification-tree">
+     Growing a classification tree
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-entropy-as-a-criterion">
+     Using entropy as a criterion
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#entropy-vs-gini-index">
+     Entropy vs Gini index
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decision-tree-for-regression">
+   Decision tree for regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#train-your-first-regression-tree">
+     Train your first regression tree
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-regression-tree">
+     Evaluate the regression tree
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#linear-regression-vs-regression-tree">
+     Linear regression vs regression tree
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="classification-and-regression">
+<h1>Classification and Regression<a class="headerlink" href="#classification-and-regression" title="Permalink to this headline">#</a></h1>
+<p class="chapter__description">
+Classification and Regression Trees (CART) are a set of supervised
+learning models used for problems involving classification and
+regression. In this chapter, you’ll be introduced to the CART algorithm.
+</p>
+<section id="decision-tree-for-classification">
+<h2>Decision tree for classification<a class="headerlink" href="#decision-tree-for-classification" title="Permalink to this headline">#</a></h2>
+<section id="train-your-first-classification-tree">
+<h3>Train your first classification tree<a class="headerlink" href="#train-your-first-classification-tree" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise you’ll work with the
+<a href="https://www.kaggle.com/uciml/breast-cancer-wisconsin-data">Wisconsin
+Breast Cancer Dataset</a> from the UCI machine learning repository.
+You’ll predict whether a tumor is malignant or benign based on two
+features: the mean radius of the tumor (<code>radius_mean</code>) and
+its mean number of concave points (<code>concave points_mean</code>).
+</p>
+<p>
+The dataset is already loaded in your workspace and is split into 80%
+train and 20% test. The feature matrices are assigned to
+<code>X_train</code> and <code>X_test</code>, while the arrays of labels
+are assigned to <code>y_train</code> and <code>y_test</code> where class
+1 corresponds to a malignant tumor and class 0 corresponds to a benign
+tumor. To obtain reproducible results, we also defined a variable called
+<code>SEED</code> which is set to 1.
+</p>
+<li>
+Import <code>DecisionTreeClassifier</code> from
+<code>sklearn.tree</code>.
+</li>
+<li>
+Instantiate a <code>DecisionTreeClassifier</code> <code>dt</code> of
+maximum depth equal to 6.
+</li>
+<li>
+Fit <code>dt</code> to the training set.
+</li>
+<li>
+Predict the test set labels and assign the result to
+<code>y_pred</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">sklearn</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;archive/Machine-Learning-with-Tree-Based-Models-in-Python/datasets/wbc.csv&#39;</span><span class="p">)</span>
+<span class="n">label_encoder</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">preprocessing</span><span class="o">.</span><span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">label_encoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;diagnosis&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## LabelEncoder()
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;radius_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;concave points_mean&#39;</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">label_encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;diagnosis&#39;</span><span class="p">])</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">model_selection</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="n">SEED</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># Import DecisionTreeClassifier from sklearn.tree</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+
+<span class="c1"># Instantiate a DecisionTreeClassifier &#39;dt&#39; with a maximum depth of 6</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
+
+<span class="c1"># Fit dt to the training set</span>
+<span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Predict test set labels</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## DecisionTreeClassifier(max_depth=6, random_state=1)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_pred</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [0 1 0 1 0]
+</pre></div>
+</div>
+<p class>
+Awesome! You’ve just trained your first classification tree! You can see
+the first five predictions made by the fitted tree on the test set in
+the console. In the next exercise, you’ll evaluate the tree’s
+performance on the entire test set.
+</p>
+</section>
+<section id="evaluate-the-classification-tree">
+<h3>Evaluate the classification tree<a class="headerlink" href="#evaluate-the-classification-tree" title="Permalink to this headline">#</a></h3>
+<p>
+Now that you’ve fit your first classification tree, it’s time to
+evaluate its performance on the test set. You’ll do so using the
+accuracy metric which corresponds to the fraction of correct predictions
+made on the test set.
+</p>
+<p>
+The trained model <code>dt</code> from the previous exercise is loaded
+in your workspace along with the test set features matrix
+<code>X_test</code> and the array of labels <code>y_test</code>.
+</p>
+<li>
+Import the function <code>accuracy_score</code> from
+<code>sklearn.metrics</code>.
+</li>
+<li>
+Predict the test set labels and assign the obtained array to
+<code>y_pred</code>.
+</li>
+<li>
+Evaluate the test set accuracy score of <code>dt</code> by calling
+<code>accuracy_score()</code> and assign the value to <code>acc</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># Predict test set labels</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Compute test set accuracy  </span>
+<span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test set accuracy: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">acc</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Test set accuracy: 0.92
+</pre></div>
+</div>
+<p class>
+Not bad! Using only two features, your tree was able to achieve an
+accuracy of 89%!
+</p>
+</section>
+<section id="logistic-regression-vs-classification-tree">
+<h3>Logistic regression vs classification tree<a class="headerlink" href="#logistic-regression-vs-classification-tree" title="Permalink to this headline">#</a></h3>
+<p>
+A classification tree divides the feature space into <strong>rectangular
+regions</strong>. In contrast, a linear model such as logistic
+regression produces only a single linear decision boundary dividing the
+feature space into two decision regions.
+</p>
+<p>
+We have written a custom function called
+<code>plot_labeled_decision_regions()</code> that you can use to plot
+the decision regions of a list containing two trained classifiers. You
+can type <code>help(plot_labeled_decision_regions)</code> in the IPython
+shell to learn more about this function.
+</p>
+<p>
+<code>X_train</code>, <code>X_test</code>, <code>y_train</code>,
+<code>y_test</code>, the model <code>dt</code> that you’ve trained in an
+earlier
+<a href="https://campus.datacamp.com/courses/machine-learning-with-tree-based-models-in-python/classification-and-regression-trees?ex=2">exercise</a>
+, as well as the function <code>plot_labeled_decision_regions()</code>
+are available in your workspace.
+</p>
+<li>
+Import <code>LogisticRegression</code> from
+<code>sklearn.linear_model</code>.
+</li>
+<li>
+Instantiate a <code>LogisticRegression</code> model and assign it to
+<code>logreg</code>.
+</li>
+<li>
+Fit <code>logreg</code> to the training set.
+</li>
+<li>
+Review the plot generated by
+<code>plot_labeled_decision_regions()</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">import</span> <span class="nn">mlxtend.plotting</span>
+
+<span class="k">def</span> <span class="nf">plot_labeled_decision_regions</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">clfs</span><span class="p">):</span>
+    
+    <span class="k">for</span> <span class="n">clf</span> <span class="ow">in</span> <span class="n">clfs</span><span class="p">:</span>
+
+        <span class="n">mlxtend</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">plot_decision_regions</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X_test</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_test</span><span class="p">),</span> <span class="n">clf</span><span class="o">=</span><span class="n">clf</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.2</span><span class="p">))</span>
+
+        <span class="c1"># Adding axes annotations</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">X_cols</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">X_cols</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">clf</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        
+<span class="n">X_cols</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;radius_mean&#39;</span><span class="p">,</span><span class="s1">&#39;concave points_mean&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">columns</span>
+
+<span class="c1"># Import LogisticRegression from sklearn.linear_model</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+
+<span class="c1"># Instatiate logreg</span>
+<span class="n">logreg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Fit logreg to the training set</span>
+<span class="n">logreg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## LogisticRegression(random_state=1)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1"># Define a list called clfs containing the two classifiers logreg and dt</span>
+<span class="n">clfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">logreg</span><span class="p">,</span> <span class="n">dt</span><span class="p">]</span>
+
+<span class="c1"># Review the decision regions of the two classifiers</span>
+<span class="n">plot_labeled_decision_regions</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">clfs</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/base.py:441: UserWarning: X does not have valid feature names, but LogisticRegression was fitted with feature names
+##   warnings.warn(
+## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/base.py:441: UserWarning: X does not have valid feature names, but DecisionTreeClassifier was fitted with feature names
+##   warnings.warn(
+</pre></div>
+</div>
+<p><img src="Machine-Learning-with-Tree-Based-Models-in-Python_files/figure-markdown_github/unnamed-chunk-3-1.png" width="672" /><img src="Machine-Learning-with-Tree-Based-Models-in-Python_files/figure-markdown_github/unnamed-chunk-3-2.png" width="672" /></p>
+<p class>
+Great work! Notice how the decision boundary produced by logistic
+regression is linear while the boundaries produced by the classification
+tree divide the feature space into rectangular regions.
+</p>
+</section>
+</section>
+<section id="classification-tree-learning">
+<h2>Classification tree Learning<a class="headerlink" href="#classification-tree-learning" title="Permalink to this headline">#</a></h2>
+<section id="growing-a-classification-tree">
+<h3>Growing a classification tree<a class="headerlink" href="#growing-a-classification-tree" title="Permalink to this headline">#</a></h3>
+<p>
+In the video, you saw that the growth of an unconstrained classification
+tree followed a few simple rules. Which of the following is
+<strong>not</strong> one of these rules?
+</p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> The existence of a node depends on the state of its
+predecessors.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> The impurity of a node can be determined using different
+criteria such as entropy and the gini-index.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> When the information gain resulting from splitting a node is
+null, the node is declared as a leaf.</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> When an internal node is split, the split is performed in such a
+way so that information gain is minimized.</p></li>
+</ul>
+<p class="dc-completion-pane__message dc-u-maxw-100pc">
+Absolutely so! It’s quite the contrary! Actually, splitting an internal
+node always involves maximizing information gain!
+</p>
+</section>
+<section id="using-entropy-as-a-criterion">
+<h3>Using entropy as a criterion<a class="headerlink" href="#using-entropy-as-a-criterion" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you’ll train a classification tree on the Wisconsin
+Breast Cancer dataset using entropy as an information criterion. You’ll
+do so using all the 30 features in the dataset, which is split into 80%
+train and 20% test.
+</p>
+<p>
+<code>X_train</code> as well as the array of labels <code>y_train</code>
+are available in your workspace.
+</p>
+<li>
+Import <code>DecisionTreeClassifier</code> from
+<code>sklearn.tree</code>.
+</li>
+<li>
+Instantiate a <code>DecisionTreeClassifier</code>
+<code>dt_entropy</code> with a maximum depth of 8.
+</li>
+<li>
+Set the information criterion to <code>‘entropy’</code>.
+</li>
+<li>
+Fit <code>dt_entropy</code> on the training set.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import DecisionTreeClassifier from sklearn.tree</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+
+<span class="c1"># Instantiate dt_entropy, set &#39;entropy&#39; as the information criterion</span>
+<span class="n">dt_entropy</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;entropy&#39;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dt_gini</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;gini&#39;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Fit dt_entropy to the training set</span>
+<span class="n">dt_entropy</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## DecisionTreeClassifier(criterion=&#39;entropy&#39;, max_depth=8, random_state=1)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dt_gini</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## DecisionTreeClassifier(max_depth=8, random_state=1)
+</pre></div>
+</div>
+<p class>
+Wonderful! In the next exercise, you’ll compare the accuracy of
+<code>dt_entropy</code> to the accuracy of a another tree trained using
+the gini-index as the information criterion.
+</p>
+</section>
+<section id="entropy-vs-gini-index">
+<h3>Entropy vs Gini index<a class="headerlink" href="#entropy-vs-gini-index" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise you’ll compare the test set accuracy of
+<code>dt_entropy</code> to the accuracy of another tree named
+<code>dt_gini</code>. The tree <code>dt_gini</code> was trained on the
+same dataset using the same parameters except for the information
+criterion which was set to the gini index using the keyword
+<code>‘gini’</code>.
+</p>
+<p>
+<code>X_test</code>, <code>y_test</code>, <code>dt_entropy</code>, as
+well as <code>accuracy_gini</code> which corresponds to the test set
+accuracy achieved by <code>dt_gini</code> are available in your
+workspace.
+</p>
+<li>
+Import <code>accuracy_score</code> from <code>sklearn.metrics</code>.
+</li>
+<li>
+Predict the test set labels of <code>dt_entropy</code> and assign the
+result to <code>y_pred</code>.
+</li>
+<li>
+Evaluate the test set accuracy of <code>dt_entropy</code> and assign the
+result to <code>accuracy_entropy</code>.
+</li>
+<li>
+Review <code>accuracy_entropy</code> and <code>accuracy_gini</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import accuracy_score from sklearn.metrics</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># Use dt_entropy to predict test set labels</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">dt_entropy</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Evaluate accuracy_entropy</span>
+<span class="n">accuracy_entropy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">accuracy_gini</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="c1"># Print accuracy_entropy</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Accuracy achieved by using entropy: &#39;</span><span class="p">,</span> <span class="n">accuracy_entropy</span><span class="p">)</span>
+<span class="c1"># Print accuracy_gini</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Accuracy achieved by using entropy:  0.8601398601398601
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Accuracy achieved by using the gini index: &#39;</span><span class="p">,</span> <span class="n">accuracy_gini</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Accuracy achieved by using the gini index:  0.8601398601398601
+</pre></div>
+</div>
+<p class>
+Nice work! Notice how the two models achieve almost the same accuracy.
+Most of the time, the gini index and entropy lead to the same results.
+The gini index is slightly faster to compute and is the default
+criterion used in the <code>DecisionTreeClassifier</code> model of
+scikit-learn.
+</p>
+</section>
+</section>
+<section id="decision-tree-for-regression">
+<h2>Decision tree for regression<a class="headerlink" href="#decision-tree-for-regression" title="Permalink to this headline">#</a></h2>
+<section id="train-your-first-regression-tree">
+<h3>Train your first regression tree<a class="headerlink" href="#train-your-first-regression-tree" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you’ll train a regression tree to predict the
+<code>mpg</code> (miles per gallon) consumption of cars in the
+<a href="https://www.kaggle.com/uciml/autompg-dataset">auto-mpg
+dataset</a> using all the six available features.
+</p>
+<p>
+The dataset is processed for you and is split to 80% train and 20% test.
+The features matrix <code>X_train</code> and the array
+<code>y_train</code> are available in your workspace.
+</p>
+<li>
+Import <code>DecisionTreeRegressor</code> from
+<code>sklearn.tree</code>.
+</li>
+<li>
+Instantiate a <code>DecisionTreeRegressor</code> <code>dt</code> with
+maximum depth 8 and <code>min_samples_leaf</code> set to 0.13.
+</li>
+<li>
+Fit <code>dt</code> to the training set.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;archive/Machine-Learning-with-Tree-Based-Models-in-Python/datasets/auto.csv&#39;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;displ&#39;</span><span class="p">,</span> <span class="s1">&#39;hp&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">,</span> <span class="s1">&#39;accel&#39;</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span><span class="p">,</span> <span class="s1">&#39;origin&#39;</span><span class="p">]]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="s1">&#39;origin&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">OneHotEncoder</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">()</span>
+<span class="n">OneHotEncodings</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;origin&#39;</span><span class="p">]])</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="n">OneHotEncodings</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">OneHotEncodings</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;origin_&#39;</span><span class="o">+</span><span class="n">header</span> <span class="k">for</span> <span class="n">header</span> <span class="ow">in</span> <span class="n">OneHotEncoder</span><span class="o">.</span><span class="n">categories_</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">((</span><span class="n">X</span><span class="p">,</span><span class="n">OneHotEncodings</span><span class="p">),</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;mpg&#39;</span><span class="p">]</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Import DecisionTreeRegressor from sklearn.tree</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+
+<span class="c1"># Instantiate dt</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+             <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mf">0.13</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            
+<span class="c1"># Fit dt to the training set</span>
+<span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## DecisionTreeRegressor(max_depth=8, min_samples_leaf=0.13, random_state=3)
+</pre></div>
+</div>
+<p class>
+Great work! In the next exercise, you’ll evaluate <code>dt</code>’s
+performance on the test set.
+</p>
+</section>
+<section id="evaluate-the-regression-tree">
+<h3>Evaluate the regression tree<a class="headerlink" href="#evaluate-the-regression-tree" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you will evaluate the test set performance of
+<code>dt</code> using the Root Mean Squared Error (RMSE) metric. The
+RMSE of a model measures, on average, how much the model’s predictions
+differ from the actual labels. The RMSE of a model can be obtained by
+computing the square root of the model’s Mean Squared Error (MSE).
+</p>
+<p>
+The features matrix <code>X_test</code>, the array <code>y_test</code>,
+as well as the decision tree regressor <code>dt</code> that you trained
+in the previous exercise are available in your workspace.
+</p>
+<li>
+Import the function <code>mean_squared_error</code> as <code>MSE</code>
+from <code>sklearn.metrics</code>.
+</li>
+<li>
+Predict the test set labels and assign the output to
+<code>y_pred</code>.
+</li>
+<li>
+Compute the test set MSE by calling <code>MSE</code> and assign the
+result to <code>mse_dt</code>.
+</li>
+<li>
+Compute the test set RMSE and assign it to <code>rmse_dt</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import mean_squared_error from sklearn.metrics as MSE</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span> <span class="k">as</span> <span class="n">MSE</span>
+
+<span class="c1"># Compute y_pred</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Compute mse_dt</span>
+<span class="n">mse_dt</span> <span class="o">=</span> <span class="n">MSE</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="c1"># Compute rmse_dt</span>
+<span class="n">rmse_dt</span> <span class="o">=</span> <span class="n">mse_dt</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Print rmse_dt</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test set RMSE of dt: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rmse_dt</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Test set RMSE of dt: 4.27
+</pre></div>
+</div>
+<p class>
+Great work! In the next exercise, you’ll compare the test-set RMSE of
+<code>dt</code> to that of a linear regression model trained on the same
+dataset.
+</p>
+</section>
+<section id="linear-regression-vs-regression-tree">
+<h3>Linear regression vs regression tree<a class="headerlink" href="#linear-regression-vs-regression-tree" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you’ll compare the test set RMSE of <code>dt</code> to
+that achieved by a linear regression model. We have already instantiated
+a linear regression model <code>lr</code> and trained it on the same
+dataset as <code>dt</code>.
+</p>
+<p>
+The features matrix <code>X_test</code>, the array of labels
+<code>y_test</code>, the trained linear regression model
+<code>lr</code>, <code>mean_squared_error</code> function which was
+imported under the alias <code>MSE</code> and <code>rmse_dt</code> from
+the previous exercise are available in your workspace.
+</p>
+<li>
+Predict test set labels using the linear regression model
+(<code>lr</code>) and assign the result to <code>y_pred_lr</code>.
+</li>
+<li>
+Compute the test set MSE and assign the result to <code>mse_lr</code>.
+</li>
+<li>
+Compute the test set RMSE and assign the result to <code>rmse_lr</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import necessary modules</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="c1"># Create training and test sets</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Create the regressor: reg_all</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="c1"># Fit the regressor to the training data</span>
+<span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Predict test set labels </span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## LinearRegression()
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred_lr</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Compute mse_lr</span>
+<span class="n">mse_lr</span> <span class="o">=</span> <span class="n">MSE</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_lr</span><span class="p">)</span>
+
+<span class="c1"># Compute rmse_lr</span>
+<span class="n">rmse_lr</span> <span class="o">=</span> <span class="n">mse_lr</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Print rmse_lr</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Linear Regression test set RMSE: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rmse_lr</span><span class="p">))</span>
+
+<span class="c1"># Print rmse_dt</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Linear Regression test set RMSE: 3.98
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Regression Tree test set RMSE: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rmse_dt</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Regression Tree test set RMSE: 4.27
+</pre></div>
+</div>
+<p class>
+Awesome! You’re on your way to master decision trees.
+</p></section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Machine-Learning-with-Tree-Based-Models-in-Python-0.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Machine Learning with Tree-Based Models in Python</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Machine-Learning-with-Tree-Based-Models-in-Python-2.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">The Bias-Variance Tradeoff</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

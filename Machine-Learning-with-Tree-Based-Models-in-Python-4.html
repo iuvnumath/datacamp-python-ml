@@ -1,0 +1,1087 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Boosting &#8212; Machine Learning Scientist with Python</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Model Tuning" href="Machine-Learning-with-Tree-Based-Models-in-Python-5.html" />
+    <link rel="prev" title="Bagging and Random Forests" href="Machine-Learning-with-Tree-Based-Models-in-Python-3.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning Scientist with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Supervised-Learning-with-scikit-learn-0.html">
+   Supervised Learning with scikit-learn
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-1.html">
+     Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-2.html">
+     Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-3.html">
+     Fine-Tuning Your Model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-4.html">
+     Preprocessing and Pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Unsupervised-Learning-in-Python-0.html">
+   Unsupervised Learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-1.html">
+     Clustering for dataset exploration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-2.html">
+     Visualization with hierarchical clustering and t-SNE
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-3.html">
+     Decorrelating your data and dimension reduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Unsupervised-Learning-in-Python-4.html">
+     Discovering interpretable features
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Linear-Classifiers-in-Python-0.html">
+   Linear-Classifiers-in-Python
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-1.html">
+     Applying logistic regression and SVM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-2.html">
+     Loss functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-3.html">
+     Logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Linear-Classifiers-in-Python-4.html">
+     Support Vector Machines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-0.html">
+   Machine Learning with Tree-Based Models in Python
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-1.html">
+     Classification and Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-2.html">
+     The Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-3.html">
+     Bagging and Random Forests
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Boosting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Machine-Learning-with-Tree-Based-Models-in-Python-5.html">
+     Model Tuning
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-0.html">
+   Extreme Gradient Boosting with XGBoost
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-1.html">
+     Classification with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-2.html">
+     Regression with XGBoost
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-3.html">
+     Fine-tuning your XGBoost model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Extreme-Gradient-Boosting-with-XGBoost-4.html">
+     Using XGBoost in pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml/issues/new?title=Issue%20on%20page%20%2FMachine-Learning-with-Tree-Based-Models-in-Python-4.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Machine-Learning-with-Tree-Based-Models-in-Python-4.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#adaboost">
+   Adaboost
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#define-the-adaboost-classifier">
+     Define the AdaBoost classifier
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#train-the-adaboost-classifier">
+     Train the AdaBoost classifier
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-adaboost-classifier">
+     Evaluate the AdaBoost classifier
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gradient-boosting-gb">
+   Gradient Boosting (GB)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#define-the-gb-regressor">
+     Define the GB regressor
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#train-the-gb-regressor">
+     Train the GB regressor
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-gb-regressor">
+     Evaluate the GB regressor
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#stochastic-gradient-boosting">
+   Stochastic Gradient Boosting
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#regression-with-sgb">
+     Regression with SGB
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#train-the-sgb-regressor">
+     Train the SGB regressor
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-sgb-regressor">
+     Evaluate the SGB regressor
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Boosting</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#adaboost">
+   Adaboost
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#define-the-adaboost-classifier">
+     Define the AdaBoost classifier
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#train-the-adaboost-classifier">
+     Train the AdaBoost classifier
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-adaboost-classifier">
+     Evaluate the AdaBoost classifier
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gradient-boosting-gb">
+   Gradient Boosting (GB)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#define-the-gb-regressor">
+     Define the GB regressor
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#train-the-gb-regressor">
+     Train the GB regressor
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-gb-regressor">
+     Evaluate the GB regressor
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#stochastic-gradient-boosting">
+   Stochastic Gradient Boosting
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#regression-with-sgb">
+     Regression with SGB
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#train-the-sgb-regressor">
+     Train the SGB regressor
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluate-the-sgb-regressor">
+     Evaluate the SGB regressor
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="boosting">
+<h1>Boosting<a class="headerlink" href="#boosting" title="Permalink to this headline">#</a></h1>
+<p class="chapter__description">
+Boosting refers to an ensemble method in which several models are
+trained sequentially with each model learning from the errors of its
+predecessors. In this chapter, you’ll be introduced to the two boosting
+methods of AdaBoost and Gradient Boosting.
+</p>
+<section id="adaboost">
+<h2>Adaboost<a class="headerlink" href="#adaboost" title="Permalink to this headline">#</a></h2>
+<section id="define-the-adaboost-classifier">
+<h3>Define the AdaBoost classifier<a class="headerlink" href="#define-the-adaboost-classifier" title="Permalink to this headline">#</a></h3>
+<p>
+In the following exercises you’ll revisit the
+<a href="https://www.kaggle.com/uciml/indian-liver-patient-records">Indian
+Liver Patient</a> dataset which was introduced in a previous chapter.
+Your task is to predict whether a patient suffers from a liver disease
+using 10 features including Albumin, age and gender. However, this time,
+you’ll be training an AdaBoost ensemble to perform the classification
+task. In addition, given that this dataset is imbalanced, you’ll be
+using the ROC AUC score as a metric instead of accuracy.
+</p>
+<p>
+As a first step, you’ll start by instantiating an AdaBoost classifier.
+</p>
+<li>
+Import <code>AdaBoostClassifier</code> from
+<code>sklearn.ensemble</code>.
+</li>
+<li>
+Instantiate a <code>DecisionTreeClassifier</code> with
+<code>max_depth</code> set to 2.
+</li>
+<li>
+Instantiate an <code>AdaBoostClassifier</code> consisting of 180 trees
+and setting the <code>base_estimator</code> to <code>dt</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">indian_liver_patient</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;archive/Machine-Learning-with-Tree-Based-Models-in-Python/datasets/indian_liver_patient.csv&quot;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">indian_liver_patient</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Dataset&#39;</span><span class="p">:</span><span class="s1">&#39;Liver_disease&#39;</span><span class="p">})</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="s1">&#39;Total_Bilirubin&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;Direct_Bilirubin&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Alkaline_Phosphotase&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Alamine_Aminotransferase&#39;</span><span class="p">,</span> <span class="s1">&#39;Aspartate_Aminotransferase&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;Total_Protiens&#39;</span><span class="p">,</span> <span class="s1">&#39;Albumin&#39;</span><span class="p">,</span> <span class="s1">&#39;Albumin_and_Globulin_Ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;Gender&#39;</span><span class="p">]]</span>
+<span class="n">LabelEncoder</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">preprocessing</span><span class="o">.</span><span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">X</span><span class="p">[</span><span class="s1">&#39;Is_male&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;Gender&#39;</span><span class="p">])</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;Gender&#39;</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Liver_disease&#39;</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">model_selection</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Import DecisionTreeClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+
+<span class="c1"># Import AdaBoostClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">AdaBoostClassifier</span>
+
+<span class="c1"># Instantiate dt</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Instantiate ada</span>
+<span class="n">ada</span> <span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">(</span><span class="n">base_estimator</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> 
+<span class="n">n_estimators</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class>
+Well done! Next comes training <code>ada</code> and evaluating the
+probability of obtaining the positive class in the test set.
+</p>
+</section>
+<section id="train-the-adaboost-classifier">
+<h3>Train the AdaBoost classifier<a class="headerlink" href="#train-the-adaboost-classifier" title="Permalink to this headline">#</a></h3>
+<p>
+Now that you’ve instantiated the AdaBoost classifier <code>ada</code>,
+it’s time train it. You will also predict the probabilities of obtaining
+the positive class in the test set. This can be done as follows:
+</p>
+<p>
+Once the classifier <code>ada</code> is trained, call the
+<code>.predict_proba()</code> method by passing <code>X_test</code> as a
+parameter and extract these probabilities by slicing all the values in
+the second column as follows:
+</p>
+<pre><code>ada.predict_proba(X_test)[:,1]
+</code></pre>
+<p>
+The Indian Liver dataset is processed for you and split into 80% train
+and 20% test. Feature matrices <code>X_train</code> and
+<code>X_test</code>, as well as the arrays of labels
+<code>y_train</code> and <code>y_test</code> are available in your
+workspace. In addition, we have also loaded the instantiated model
+<code>ada</code> from the previous exercise.
+</p>
+<li>
+Fit <code>ada</code> to the training set.
+</li>
+<li>
+Evaluate the probabilities of obtaining the positive class in the test
+set.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fit ada to the training set</span>
+<span class="n">ada</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Compute the probabilities of obtaining the positive class</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## AdaBoostClassifier(base_estimator=DecisionTreeClassifier(max_depth=2,
+##                                                          random_state=1),
+##                    n_estimators=180, random_state=1)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred_proba</span> <span class="o">=</span> <span class="n">ada</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## /Users/macos/Library/r-miniconda/envs/r-reticulate/lib/python3.8/site-packages/sklearn/base.py:441: UserWarning: X does not have valid feature names, but AdaBoostClassifier was fitted with feature names
+##   warnings.warn(
+</pre></div>
+</div>
+<p class>
+Great work! Next, you’ll evaluate <code>ada</code>’s ROC AUC score.
+</p>
+</section>
+<section id="evaluate-the-adaboost-classifier">
+<h3>Evaluate the AdaBoost classifier<a class="headerlink" href="#evaluate-the-adaboost-classifier" title="Permalink to this headline">#</a></h3>
+<p>
+Now that you’re done training <code>ada</code> and predicting the
+probabilities of obtaining the positive class in the test set, it’s time
+to evaluate <code>ada</code>’s ROC AUC score. Recall that the ROC AUC
+score of a binary classifier can be determined using the
+<code>roc_auc_score()</code> function from <code>sklearn.metrics</code>.
+</p>
+<p>
+The arrays <code>y_test</code> and <code>y_pred_proba</code> that you
+computed in the previous exercise are available in your workspace.
+</p>
+<li>
+Import <code>roc_auc_score</code> from <code>sklearn.metrics</code>.
+</li>
+<li>
+Compute <code>ada</code>’s test set ROC AUC score, assign it to
+<code>ada_roc_auc</code>, and print it out.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import roc_auc_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_auc_score</span>
+
+<span class="c1"># Evaluate test-set roc_auc_score</span>
+<span class="n">ada_roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_proba</span><span class="p">)</span>
+
+<span class="c1"># Print roc_auc_score</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ROC AUC score: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ada_roc_auc</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## ROC AUC score: 0.72
+</pre></div>
+</div>
+<p class>
+Not bad! This untuned AdaBoost classifier achieved a ROC AUC score of
+0.70!
+</p>
+</section>
+</section>
+<section id="gradient-boosting-gb">
+<h2>Gradient Boosting (GB)<a class="headerlink" href="#gradient-boosting-gb" title="Permalink to this headline">#</a></h2>
+<section id="define-the-gb-regressor">
+<h3>Define the GB regressor<a class="headerlink" href="#define-the-gb-regressor" title="Permalink to this headline">#</a></h3>
+<p>
+You’ll now revisit the
+<a href="https://www.kaggle.com/c/bike-sharing-demand">Bike Sharing
+Demand</a> dataset that was introduced in the previous chapter. Recall
+that your task is to predict the bike rental demand using historical
+weather data from the Capital Bikeshare program in Washington, D.C.. For
+this purpose, you’ll be using a gradient boosting regressor.
+</p>
+<p>
+As a first step, you’ll start by instantiating a gradient boosting
+regressor which you will train in the next exercise.
+</p>
+<li>
+Import <code>GradientBoostingRegressor</code> from
+<code>sklearn.ensemble</code>.
+</li>
+<li>
+<p>Instantiate a gradient boosting regressor by setting the parameters:</p>
+<li>
+<code>max_depth</code> to 4
+</li>
+<li>
+<code>n_estimators</code> to 200
+</li>
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import GradientBoostingRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingRegressor</span>
+
+<span class="c1"># Instantiate gb</span>
+<span class="n">gb</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> 
+            <span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class>
+Awesome! Time to train the regressor and predict test set labels.
+</p>
+</section>
+<section id="train-the-gb-regressor">
+<h3>Train the GB regressor<a class="headerlink" href="#train-the-gb-regressor" title="Permalink to this headline">#</a></h3>
+<p>
+You’ll now train the gradient boosting regressor <code>gb</code> that
+you instantiated in the previous exercise and predict test set labels.
+</p>
+<p>
+The dataset is split into 80% train and 20% test. Feature matrices
+<code>X_train</code> and <code>X_test</code>, as well as the arrays
+<code>y_train</code> and <code>y_test</code> are available in your
+workspace. In addition, we have also loaded the model instance
+<code>gb</code> that you defined in the previous exercise.
+</p>
+<li>
+Fit <code>gb</code> to the training set.
+</li>
+<li>
+Predict the test set labels and assign the result to
+<code>y_pred</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fit gb to the training set</span>
+<span class="n">gb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Predict test set labels</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## GradientBoostingRegressor(max_depth=4, n_estimators=200, random_state=2)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">gb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class>
+Great work! Time to evaluate the test set RMSE!
+</p>
+</section>
+<section id="evaluate-the-gb-regressor">
+<h3>Evaluate the GB regressor<a class="headerlink" href="#evaluate-the-gb-regressor" title="Permalink to this headline">#</a></h3>
+<p>
+Now that the test set predictions are available, you can use them to
+evaluate the test set Root Mean Squared Error (RMSE) of <code>gb</code>.
+</p>
+<p>
+<code>y_test</code> and predictions <code>y_pred</code> are available in
+your workspace.
+</p>
+<li>
+Import <code>mean_squared_error</code> from <code>sklearn.metrics</code>
+as <code>MSE</code>.
+</li>
+<li>
+Compute the test set MSE and assign it to <code>mse_test</code>.
+</li>
+<li>
+Compute the test set RMSE and assign it to <code>rmse_test</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import mean_squared_error as MSE</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span> <span class="k">as</span> <span class="n">MSE</span>
+
+<span class="c1"># Compute MSE</span>
+<span class="n">mse_test</span> <span class="o">=</span> <span class="n">MSE</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="c1"># Compute RMSE</span>
+<span class="n">rmse_test</span> <span class="o">=</span> <span class="n">mse_test</span><span class="o">**</span><span class="mf">0.5</span>
+
+<span class="c1"># Print RMSE</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test set RMSE of gb: </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rmse_test</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Test set RMSE of gb: 0.452
+</pre></div>
+</div>
+<p class>
+Great work!
+</p>
+</section>
+</section>
+<section id="stochastic-gradient-boosting">
+<h2>Stochastic Gradient Boosting<a class="headerlink" href="#stochastic-gradient-boosting" title="Permalink to this headline">#</a></h2>
+<section id="regression-with-sgb">
+<h3>Regression with SGB<a class="headerlink" href="#regression-with-sgb" title="Permalink to this headline">#</a></h3>
+<p>
+As in the exercises from the previous lesson, you’ll be working with the
+<a href="https://www.kaggle.com/c/bike-sharing-demand">Bike Sharing
+Demand</a> dataset. In the following set of exercises, you’ll solve this
+bike count regression problem using stochastic gradient boosting.
+</p>
+<li>
+<p>Instantiate a Stochastic Gradient Boosting Regressor (SGBR) and set:</p>
+<li>
+<code>max_depth</code> to 4 and <code>n_estimators</code> to 200,
+</li>
+<li>
+<code>subsample</code> to 0.9, and
+</li>
+<li>
+<code>max_features</code> to 0.75.
+</li>
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import GradientBoostingRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingRegressor</span>
+
+<span class="c1"># Instantiate sgbr</span>
+<span class="n">sgbr</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span>
+            <span class="n">max_depth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> 
+            <span class="n">subsample</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+            <span class="n">max_features</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+            <span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>                                
+            <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class>
+Well done!
+</p>
+</section>
+<section id="train-the-sgb-regressor">
+<h3>Train the SGB regressor<a class="headerlink" href="#train-the-sgb-regressor" title="Permalink to this headline">#</a></h3>
+<p>
+In this exercise, you’ll train the SGBR <code>sgbr</code> instantiated
+in the previous exercise and predict the test set labels.
+</p>
+<p>
+The bike sharing demand dataset is already loaded processed for you; it
+is split into 80% train and 20% test. The feature matrices
+<code>X_train</code> and <code>X_test</code>, the arrays of labels
+<code>y_train</code> and <code>y_test</code>, and the model instance
+<code>sgbr</code> that you defined in the previous exercise are
+available in your workspace.
+</p>
+<li>
+Fit <code>sgbr</code> to the training set.
+</li>
+<li>
+Predict the test set labels and assign the results to
+<code>y_pred</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fit sgbr to the training set</span>
+<span class="n">sgbr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Predict test set labels</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## GradientBoostingRegressor(max_depth=4, max_features=0.75, n_estimators=200,
+##                           random_state=2, subsample=0.9)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">sgbr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class>
+Great! Next comes test set evaluation!
+</p>
+</section>
+<section id="evaluate-the-sgb-regressor">
+<h3>Evaluate the SGB regressor<a class="headerlink" href="#evaluate-the-sgb-regressor" title="Permalink to this headline">#</a></h3>
+<p>
+You have prepared the ground to determine the test set RMSE of
+<code>sgbr</code> which you shall evaluate in this exercise.
+</p>
+<p>
+<code>y_pred</code> and <code>y_test</code> are available in your
+workspace.
+</p>
+<li>
+Import <code>mean_squared_error</code> as <code>MSE</code> from
+<code>sklearn.metrics</code>.
+</li>
+<li>
+Compute test set MSE and assign the result to <code>mse_test</code>.
+</li>
+<li>
+Compute test set RMSE and assign the result to <code>rmse_test</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import mean_squared_error as MSE</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span> <span class="k">as</span> <span class="n">MSE</span>
+
+<span class="c1"># Compute test set MSE</span>
+<span class="n">mse_test</span> <span class="o">=</span> <span class="n">MSE</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">)</span>
+
+<span class="c1"># Compute test set RMSE</span>
+<span class="n">rmse_test</span> <span class="o">=</span> <span class="n">mse_test</span><span class="o">**</span><span class="mf">0.5</span>
+
+<span class="c1"># Print rmse_test</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test set RMSE of sgbr: </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rmse_test</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Test set RMSE of sgbr: 0.445
+</pre></div>
+</div>
+<p class>
+The stochastic gradient boosting regressor achieves a lower test set
+RMSE than the gradient boosting regressor (which was
+<code>52.071</code>)!
+</p></section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Machine-Learning-with-Tree-Based-Models-in-Python-3.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Bagging and Random Forests</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Machine-Learning-with-Tree-Based-Models-in-Python-5.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Model Tuning</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
