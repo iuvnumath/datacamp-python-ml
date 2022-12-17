@@ -1,4 +1,4 @@
-# Unsupervised Learning
+# Unsupervised Learning in Python
 
 **Benjamin Wilson**
 <p class="course__instructor-description display-none-mobile-course-page-experiment">
