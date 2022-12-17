@@ -1,0 +1,1140 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Regression &#8212; Machine Learning Scientist with Python</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Fine-Tuning Your Model" href="Supervised-Learning-with-scikit-learn-3.html" />
+    <link rel="prev" title="Classification" href="Supervised-Learning-with-scikit-learn-1.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning Scientist with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Machine Learning Scientist with Python
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="Supervised-Learning-with-scikit-learn-0.html">
+   Supervised Learning with scikit-learn
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-1.html">
+     Classification
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-3.html">
+     Fine-Tuning Your Model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Supervised-Learning-with-scikit-learn-4.html">
+     Preprocessing and Pipelines
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/iuvnumath/datacamp-python-ml/issues/new?title=Issue%20on%20page%20%2FSupervised-Learning-with-scikit-learn-2.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Supervised-Learning-with-scikit-learn-2.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction-to-regression">
+   Introduction to regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-features">
+     Creating features
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#building-a-linear-regression-model">
+     Building a linear regression model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualizing-a-linear-regression-model">
+     Visualizing a linear regression model
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-basics-of-linear-regression">
+   The basics of linear regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fit-and-predict-for-regression">
+     Fit and predict for regression
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#regression-performance">
+     Regression performance
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cross-validation">
+   Cross-validation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cross-validation-for-r-squared">
+     Cross-validation for R-squared
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#analyzing-cross-validation-metrics">
+     Analyzing cross-validation metrics
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#regularized-regression">
+   Regularized regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#regularized-regression-ridge">
+     Regularized regression: Ridge
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lasso-regression-for-feature-importance">
+     Lasso regression for feature importance
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Regression</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction-to-regression">
+   Introduction to regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-features">
+     Creating features
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#building-a-linear-regression-model">
+     Building a linear regression model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualizing-a-linear-regression-model">
+     Visualizing a linear regression model
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-basics-of-linear-regression">
+   The basics of linear regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fit-and-predict-for-regression">
+     Fit and predict for regression
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#regression-performance">
+     Regression performance
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cross-validation">
+   Cross-validation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cross-validation-for-r-squared">
+     Cross-validation for R-squared
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#analyzing-cross-validation-metrics">
+     Analyzing cross-validation metrics
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#regularized-regression">
+   Regularized regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#regularized-regression-ridge">
+     Regularized regression: Ridge
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lasso-regression-for-feature-importance">
+     Lasso regression for feature importance
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="regression">
+<h1>Regression<a class="headerlink" href="#regression" title="Permalink to this headline">#</a></h1>
+<p>In this chapter, you will be introduced to regression, and build models
+to predict sales values using a dataset on advertising expenditure. You
+will learn about the mechanics of linear regression and common
+performance metrics such as R-squared and root mean squared error. You
+will perform k-fold cross-validation, and apply regularization to
+regression models to reduce the risk of overfitting.</p>
+<section id="introduction-to-regression">
+<h2>Introduction to regression<a class="headerlink" href="#introduction-to-regression" title="Permalink to this headline">#</a></h2>
+<section id="creating-features">
+<h3>Creating features<a class="headerlink" href="#creating-features" title="Permalink to this headline">#</a></h3>
+<p>
+In this chapter, you will work with a dataset called
+<code>sales_df</code>, which contains information on advertising
+campaign expenditure across different media types, and the number of
+dollars generated in sales for the respective campaign. The dataset has
+been preloaded for you. Here are the first two rows:
+</p>
+<pre><code>     tv        radio      social_media    sales
+1    13000.0   9237.76    2409.57         46677.90
+2    41000.0   15886.45   2913.41         150177.83
+</code></pre>
+<p>
+You will use the advertising expenditure as features to predict sales
+values, initially working with the <code>“radio”</code> column. However,
+before you make any predictions you will need to create the feature and
+target arrays, reshaping them to the correct format for scikit-learn.
+</p>
+<li>
+Create <code>X</code>, an array of the values from the
+<code>sales_df</code> DataFrame’s <code>“radio”</code> column.
+</li>
+<li>
+Create <code>y</code>, an array of the values from the
+<code>sales_df</code> DataFrame’s <code>“sales”</code> column.
+</li>
+<li>
+Reshape <code>X</code> into a two-dimensional NumPy array.
+</li>
+<li>
+Print the shape of <code>X</code> and <code>y</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">sales_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;archive/Supervised-Learning-with-scikit-learn/datasets/advertising_and_sales_clean.csv&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;influencer&#39;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Create X from the radio column&#39;s values</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">sales_df</span><span class="p">[</span><span class="s2">&quot;radio&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="c1"># Create y from the sales column&#39;s values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">sales_df</span><span class="p">[</span><span class="s2">&quot;sales&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="c1"># Reshape X</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Check the shape of the features and targets</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## (4546, 1) (4546,)
+</pre></div>
+</div>
+<p class>
+Excellent! See that there are 4546 values in both arrays? Now let’s
+build a linear regression model!
+</p>
+</section>
+<section id="building-a-linear-regression-model">
+<h3>Building a linear regression model<a class="headerlink" href="#building-a-linear-regression-model" title="Permalink to this headline">#</a></h3>
+<p>
+Now you have created your feature and target arrays, you will train a
+linear regression model on all feature and target values.
+</p>
+<p>
+As the goal is to assess the relationship between the feature and target
+values there is no need to split the data into training and test sets.
+</p>
+<p>
+<code>X</code> and <code>y</code> have been preloaded for you as
+follows:
+</p>
+<pre><code>y = sales_df["sales"].values
+X = sales_df["radio"].values.reshape(-1, 1)
+</code></pre>
+<li>
+Import <code>LinearRegression</code>.
+</li>
+<li>
+Instantiate a linear regression model.
+</li>
+<li>
+Predict sales values using <code>X</code>, storing as
+<code>predictions</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="c1"># Create the model</span>
+<span class="n">reg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="c1"># Fit the model to the data</span>
+<span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Make predictions</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## LinearRegression()
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">predictions</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [ 95491.17119147 117829.51038393 173423.38071499 291603.11444202
+##  111137.28167129]
+</pre></div>
+</div>
+<p class>
+Great model building! See how sales values for the first five
+predictions range from $95,000 to over $290,000. Let’s visualize the
+model’s fit.
+</p>
+</section>
+<section id="visualizing-a-linear-regression-model">
+<h3>Visualizing a linear regression model<a class="headerlink" href="#visualizing-a-linear-regression-model" title="Permalink to this headline">#</a></h3>
+<p>
+Now you have built your linear regression model and trained it using all
+available observations, you can visualize how well the model fits the
+data. This allows you to interpret the relationship between
+<code>radio</code> advertising expenditure and <code>sales</code>
+values.
+</p>
+<p>
+The variables <code>X</code>, an array of <code>radio</code> values,
+<code>y</code>, an array of <code>sales</code> values, and
+<code>predictions</code>, an array of the model’s predicted values for
+<code>y</code> given <code>X</code>, have all been preloaded for you
+from the previous exercise.
+</p>
+<li>
+Import <code>matplotlib.pyplot</code> as <code>plt</code>.
+</li>
+<li>
+Create a scatter plot visualizing <code>y</code> against <code>X</code>,
+with observations in blue.
+</li>
+<li>
+Draw a red line plot displaying the predictions against <code>X</code>.
+</li>
+<li>
+Display the plot.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import matplotlib.pyplot</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Create scatter plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create line plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Radio Expenditure ($)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Sales ($)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Display the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="Supervised-Learning-with-scikit-learn_files/figure-markdown_github/unnamed-chunk-10-3.png" width="672" />
+<p class>
+The model nicely captures a near-perfect linear correlation between
+radio advertising expenditure and sales! Now let’s take a look at what
+is going on under the hood to calculate this relationship.
+</p>
+</section>
+</section>
+<section id="the-basics-of-linear-regression">
+<h2>The basics of linear regression<a class="headerlink" href="#the-basics-of-linear-regression" title="Permalink to this headline">#</a></h2>
+<section id="fit-and-predict-for-regression">
+<h3>Fit and predict for regression<a class="headerlink" href="#fit-and-predict-for-regression" title="Permalink to this headline">#</a></h3>
+<p>
+Now you have seen how linear regression works, your task is to create a
+multiple linear regression model using all of the features in the
+<code>sales_df</code> dataset, which has been preloaded for you. As a
+reminder, here are the first two rows:
+</p>
+<pre><code>     tv        radio      social_media    sales
+1    13000.0   9237.76    2409.57         46677.90
+2    41000.0   15886.45   2913.41         150177.83
+</code></pre>
+<p>
+You will then use this model to predict sales based on the values of the
+test features.
+</p>
+<p>
+<code>LinearRegression</code> and <code>train_test_split</code> have
+been preloaded for you from their respective modules.
+</p>
+<li>
+Create <code>X</code>, an array containing values of all features in
+<code>sales_df</code>, and <code>y</code>, containing all values from
+the <code>“sales”</code> column.
+</li>
+<li>
+Instantiate a linear regression model.
+</li>
+<li>
+Fit the model to the training data.
+</li>
+<li>
+Create <code>y_pred</code>, making predictions for <code>sales</code>
+using the test features.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create X and y arrays</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">sales_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;sales&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">sales_df</span><span class="p">[</span><span class="s2">&quot;sales&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Instantiate the model</span>
+<span class="n">reg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="c1"># Fit the model to the data</span>
+<span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Make predictions</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## LinearRegression()
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predictions: </span><span class="si">{}</span><span class="s2">, Actual Values: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y_pred</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">y_test</span><span class="p">[:</span><span class="mi">2</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Predictions: [53176.66154234 70996.19873235], Actual Values: [55261.28 67574.9 ]
+</pre></div>
+</div>
+<p class>
+Great work! The first two predictions appear to be within around 5% of
+the actual values from the test set!
+</p>
+</section>
+<section id="regression-performance">
+<h3>Regression performance<a class="headerlink" href="#regression-performance" title="Permalink to this headline">#</a></h3>
+<p>
+Now you have fit a model, <code>reg</code>, using all features from
+<code>sales_df</code>, and made predictions of sales values, you can
+evaluate performance using some common regression metrics.
+</p>
+<p>
+The variables <code>X_train</code>, <code>X_test</code>,
+<code>y_train</code>, <code>y_test</code>, and <code>y_pred</code>,
+along with the fitted model, <code>reg</code>, all from the last
+exercise, have been preloaded for you.
+</p>
+<p>
+Your task is to find out how well the features can explain the variance
+in the target values, along with assessing the model’s ability to make
+predictions on unseen data.
+</p>
+<li>
+Import <code>mean_squared_error</code>.
+</li>
+<li>
+Calculate the model’s R-squared score by passing the test feature values
+and the test target values to an appropriate method.
+</li>
+<li>
+Calculate the model’s root mean squared error using <code>y_test</code>
+and <code>y_pred</code>.
+</li>
+<li>
+Print <code>r_squared</code> and <code>rmse</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import mean_squared_error</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="c1"># Compute R-squared</span>
+<span class="n">r_squared</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+
+<span class="c1"># Compute RMSE</span>
+<span class="n">rmse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Print the metrics</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;R^2: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r_squared</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## R^2: 0.9990152104759368
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RMSE: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rmse</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RMSE: 2944.4331996001
+</pre></div>
+</div>
+<p class>
+Wow, the features explain 99.9% of the variance in sales values! Looks
+like this company’s advertising strategy is working well!
+</p>
+</section>
+</section>
+<section id="cross-validation">
+<h2>Cross-validation<a class="headerlink" href="#cross-validation" title="Permalink to this headline">#</a></h2>
+<section id="cross-validation-for-r-squared">
+<h3>Cross-validation for R-squared<a class="headerlink" href="#cross-validation-for-r-squared" title="Permalink to this headline">#</a></h3>
+<p>
+Cross-validation is a vital approach to evaluating a model. It maximizes
+the amount of data that is available to the model, as the model is not
+only trained but also tested on all of the available data.
+</p>
+<p>
+In this exercise, you will build a linear regression model, then use
+6-fold cross-validation to assess its accuracy for predicting sales
+using social media advertising expenditure. You will display the
+individual score for each of the six-folds.
+</p>
+<p>
+The <code>sales_df</code> dataset has been split into <code>y</code> for
+the target variable, and <code>X</code> for the features, and preloaded
+for you. <code>LinearRegression</code> has been imported from
+<code>sklearn.linear_model</code>.
+</p>
+<li>
+Import <code>KFold</code> and <code>cross_val_score</code>.
+</li>
+<li>
+Create <code>kf</code> by calling <code>KFold()</code>, setting the
+number of splits to six, <code>shuffle</code> to <code>True</code>, and
+setting a seed of <code>5</code>.
+</li>
+<li>
+Perform cross-validation using <code>reg</code> on <code>X</code> and
+<code>y</code>, passing <code>kf</code> to <code>cv</code>.
+</li>
+<li>
+Print the <code>cv_scores</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the necessary modules</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">KFold</span><span class="p">,</span> <span class="n">cross_val_score</span>
+
+<span class="c1"># Create a KFold object</span>
+<span class="n">kf</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">reg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="c1"># Compute 6-fold cross-validation scores</span>
+<span class="n">cv_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">reg</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kf</span><span class="p">)</span>
+
+<span class="c1"># Print scores</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cv_scores</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [0.99894062 0.99909245 0.9990103  0.99896344 0.99889153 0.99903953]
+</pre></div>
+</div>
+<p class>
+Notice how R-squared for each fold ranged between <code>0.74</code> and
+<code>0.77</code>? By using cross-validation, we can see how performance
+varies depending on how the data is split!
+</p>
+</section>
+<section id="analyzing-cross-validation-metrics">
+<h3>Analyzing cross-validation metrics<a class="headerlink" href="#analyzing-cross-validation-metrics" title="Permalink to this headline">#</a></h3>
+<p>
+Now you have performed cross-validation, it’s time to analyze the
+results.
+</p>
+<p>
+You will display the mean, standard deviation, and 95% confidence
+interval for <code>cv_results</code>, which has been preloaded for you
+from the previous exercise.
+</p>
+<p>
+<code>numpy</code> has been imported for you as <code>np</code>.
+</p>
+<li>
+Calculate and print the mean of the results.
+</li>
+<li>
+Calculate and print the standard deviation of <code>cv_results</code>.
+</li>
+<li>
+Display the 95% confidence interval for your results using
+<code>np.quantile()</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">cv_results</span> <span class="o">=</span> <span class="n">cv_scores</span>
+
+<span class="c1"># Print the mean</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cv_results</span><span class="p">))</span>
+
+<span class="c1"># Print the standard deviation</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 0.9989896443678249
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">cv_results</span><span class="p">))</span>
+
+<span class="c1"># Print the 95% confidence interval</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 6.608118371529651e-05
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">cv_results</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.975</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [0.99889767 0.99908583]
+</pre></div>
+</div>
+<p class>
+An average score of <code>0.75</code> with a low standard deviation is
+pretty good for a model out of the box! Now let’s learn how to apply
+regularization to our regression models.
+</p>
+</section>
+</section>
+<section id="regularized-regression">
+<h2>Regularized regression<a class="headerlink" href="#regularized-regression" title="Permalink to this headline">#</a></h2>
+<section id="regularized-regression-ridge">
+<h3>Regularized regression: Ridge<a class="headerlink" href="#regularized-regression-ridge" title="Permalink to this headline">#</a></h3>
+<p>
+Ridge regression performs regularization by computing the
+<em>squared</em> values of the model parameters multiplied by alpha and
+adding them to the loss function.
+</p>
+<p>
+In this exercise, you will fit ridge regression models over a range of
+different alpha values, and print their $\\(R^2\\)$ scores. You will use
+all of the features in the <code>sales_df</code> dataset to predict
+<code>“sales”</code>. The data has been split into <code>X_train</code>,
+<code>X_test</code>, <code>y_train</code>, <code>y_test</code> for you.
+</p>
+<p>
+A variable called <code>alphas</code> has been provided as a list
+containing different alpha values, which you will loop through to
+generate scores.
+</p>
+<li>
+Import <code>Ridge</code>.
+</li>
+<li>
+Instantiate <code>Ridge</code>, setting alpha equal to
+<code>alpha</code>.
+</li>
+<li>
+Fit the model to the training data.
+</li>
+<li>
+Calculate the (*R*<sup>2</sup>) score for each iteration of
+<code>ridge</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import Ridge</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
+<span class="n">alphas</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">10000.0</span><span class="p">]</span>
+<span class="n">ridge_scores</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="n">alphas</span><span class="p">:</span>
+  
+  <span class="c1"># Create a Ridge regression model</span>
+  <span class="n">ridge</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+  
+  <span class="c1"># Fit the data</span>
+  <span class="n">ridge</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+  
+  <span class="c1"># Obtain R-squared</span>
+  <span class="n">score</span> <span class="o">=</span> <span class="n">ridge</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+  <span class="n">ridge_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Ridge(alpha=0.1)
+## Ridge()
+## Ridge(alpha=10.0)
+## Ridge(alpha=100.0)
+## Ridge(alpha=1000.0)
+## Ridge(alpha=10000.0)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ridge_scores</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [0.9990152104759369, 0.9990152104759373, 0.9990152104759419, 0.999015210475987, 0.9990152104764387, 0.9990152104809561]
+</pre></div>
+</div>
+<p class>
+Well done! The scores don’t appear to change much as <code>alpha</code>
+increases, which is indicative of how well the features explain the
+variance in the target—even by heavily penalizing large coefficients,
+underfitting does not occur!
+</p>
+</section>
+<section id="lasso-regression-for-feature-importance">
+<h3>Lasso regression for feature importance<a class="headerlink" href="#lasso-regression-for-feature-importance" title="Permalink to this headline">#</a></h3>
+<p>
+In the video, you saw how lasso regression can be used to identify
+important features in a dataset.
+</p>
+<p>
+In this exercise, you will fit a lasso regression model to the
+<code>sales_df</code> data and plot the model’s coefficients.
+</p>
+<p>
+The feature and target variable arrays have been pre-loaded as
+<code>X</code> and <code>y</code>, along with
+<code>sales_columns</code>, which contains the dataset’s feature names.
+</p>
+<li>
+Import <code>Lasso</code> from <code>sklearn.linear_model</code>.
+</li>
+<li>
+Instantiate a Lasso regressor with an alpha of <code>0.3</code>.
+</li>
+<li>
+Fit the model to the data.
+</li>
+<li>
+Compute the model’s coefficients, storing as <code>lasso_coef</code>.
+</li>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># edited/added</span>
+<span class="n">sales_columns</span> <span class="o">=</span> <span class="n">sales_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;sales&#39;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span>
+
+<span class="c1"># Import Lasso</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span>
+
+<span class="c1"># Instantiate a lasso regression model</span>
+<span class="n">lasso</span> <span class="o">=</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># Fit the model to the data</span>
+<span class="n">lasso</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Compute and print the coefficients</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Lasso(alpha=0.3)
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lasso_coef</span> <span class="o">=</span> <span class="n">lasso</span><span class="o">.</span><span class="n">coef_</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lasso_coef</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [ 3.56256962 -0.00397035  0.00496385]
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">sales_columns</span><span class="p">,</span> <span class="n">lasso_coef</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## &lt;BarContainer object of 3 artists&gt;
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## ([0, 1, 2], [Text(0, 0, &#39;&#39;), Text(0, 0, &#39;&#39;), Text(0, 0, &#39;&#39;)])
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="Supervised-Learning-with-scikit-learn_files/figure-markdown_github/unnamed-chunk-16-5.png" width="672" />
+<p class>
+See how the figure makes it clear that expenditure on TV advertising is
+the most important feature in the dataset to predict sales values! In
+the next chapter, we will learn how to further assess and improve our
+model’s performance!
+</p></section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Supervised-Learning-with-scikit-learn-1.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Classification</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Supervised-Learning-with-scikit-learn-3.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Fine-Tuning Your Model</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
