@@ -1,4 +1,4 @@
-# Linear-Classifiers-in-Python
+# Linear Classifiers in Python
 
 **Mike Gelbart**
 <p class="course__instructor-description display-none-mobile-course-page-experiment">
