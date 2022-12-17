@@ -1,4 +1,4 @@
-# Machine Learning Scientist with Python
+# Introduction
 
 Master the essential Python skills to land a job as a machine learning scientist!
 
